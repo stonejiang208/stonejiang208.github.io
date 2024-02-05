@@ -34,7 +34,11 @@
 
   
   
-<meta name="generator" content="Hexo 7.1.1"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"></head>
 
 <body>
   <div id="container">
@@ -118,7 +122,7 @@ class="math inline">\(E=mc^2\)</span>。</p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.tao-studio.net/2024/02/05/My-New-Post/" data-id="cls8nppua0000gcvm8sxr06gi" data-title="LaTeX 示例文章" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.tao-studio.net/2024/02/05/My-New-Post/" data-id="cls8pmw3y0000r7vm64r9evrn" data-title="LaTeX 示例文章" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -209,5 +213,20 @@ class="math inline">\(E=mc^2\)</span>。</p>
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
