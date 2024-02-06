@@ -488,48 +488,12 @@ mjx-container[display="true"] + br {
 
 
           </div>
-          
-      <div class="tabs tabs-comment">
-        <ul class="nav-tabs">
-            <li class="tab"><a href="#comment-utteranc">utteranc</a></li>
-            <li class="tab"><a href="#comment-utterances">utterances</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane utteranc" id="comment-utteranc">
-              
-  
-  <div class="comments">
-  <script src="https://utteranc.es/client.js" repo="stonejiang208/blog" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script>
-  </div>
-  
-  
-            </div>
-            <div class="tab-pane utterances" id="comment-utterances">
-              <div class="comments" id="utterances-container"></div>
-            </div>
-        </div>
-      </div>
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
+          <script src="https://utteranc.es/client.js"
+        repo="stonejiang208/blog"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
 </script>
 
         </div>
@@ -671,20 +635,13 @@ mjx-container[display="true"] + br {
 
   
 
-<script>
-NexT.utils.loadComments(document.querySelector('#utterances-container'), () => {
-    // if (typeof parcelRequire === 'function') { return; }
-    var js = document.createElement('script');
-    js.type = 'text/javascript';
-    js.src = 'https://utteranc.es/client.js';
-    js.async = true;
-    js.crossorigin = 'anonymous';
-    js.setAttribute('repo', 'stonejiang208/blog');
-    js.setAttribute('issue-term', '');
-    js.setAttribute('theme', 'github-light');
-    document.getElementById('utterances-container').appendChild(js);
-});
-</script>
+  <script src="https://utteranc.es/client.js"
+    repo="stonejiang208/blog"
+    issue-term=""
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
 
 
 </body>

@@ -200,28 +200,12 @@
 
 
           </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
+          <script src="https://utteranc.es/client.js"
+        repo="stonejiang208/blog"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
 </script>
 
         </div>
@@ -363,6 +347,13 @@
 
   
 
+  <script src="https://utteranc.es/client.js"
+    repo="stonejiang208/blog"
+    issue-term=""
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
 
 
 </body>
