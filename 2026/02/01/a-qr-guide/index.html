@@ -28,7 +28,7 @@
 <meta property="og:description" content="引言：从一个问题说起 假设你是一个机器人工程师。你刚刚通过传感器测量，得到了物体在三维空间中的位置数据，但这些数据是在机器人自己的坐标系下测量的。你需要把这些数据转换到世界坐标系中。 或者，你是一个计算机视觉工程师。你从摄像机标定中得到了一个 \(3 \times 4\) 的投影矩阵 \(P\)，你想知道摄像机的内参（焦距、主点位置）和外参（旋转、平移）。 这些问题看似不同，却有一个共同的数学内核">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-02-01T11:44:58.000Z">
-<meta property="article:modified_time" content="2026-02-02T05:27:14.941Z">
+<meta property="article:modified_time" content="2026-02-02T05:29:40.220Z">
 <meta property="article:author" content="Stone">
 <meta property="article:tag" content="RQ分解">
 <meta property="article:tag" content="QR分解">
@@ -338,7 +338,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-02-02 13:27:14" itemprop="dateModified" datetime="2026-02-02T13:27:14+08:00">2026-02-02</time>
+                <time title="修改时间：2026-02-02 13:29:40" itemprop="dateModified" datetime="2026-02-02T13:29:40+08:00">2026-02-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -421,8 +421,8 @@ k \cdot \mathbf{v} = k \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} =
 <h3 id="线性相关与线性无关">1.3 线性相关与线性无关</h3>
 <p>现在考虑一个核心问题：<strong>给定一组向量，它们是否「独立」？</strong></p>
 <p>假设你有三个向量 <span class="math inline">\(\vec{v}_1, \vec{v}_2,
-\vec{v}_3\)</span>。如果存在不全为零的系数 <span
-class="math inline">\(c_1, c_2, c_3\)</span> 使得：</p>
+\vec{v\_3\)</span>。如果存在不全为零的系数 <span
+class="math inline">\(c_1, c_2, \_3\)</span> 使得：</p>
 <p><span class="math display">\[
 c_1 \mathbf{v}_1 + c_2 \mathbf{v}_2 + c_3 \mathbf{v}_3 = \mathbf{0}
 \]</span></p>
@@ -438,7 +438,7 @@ c_1 \mathbf{v}_1 + c_2 \mathbf{v}_2 + c_3 \mathbf{v}_3 = \mathbf{0}
 <p>有了线性无关的概念，我们就可以定义<strong>基</strong>和<strong>维数</strong>。</p>
 <p><strong>基的定义</strong>：一个向量空间 <span
 class="math inline">\(V\)</span> 的一组基 <span class="math inline">\(\{
-\vec{v}_1, \vec{v}_2, \dots, \vec{v}_n \}\)</span> 满足：</p>
+\vec{v}_1, \vec{v}_2, \dots, \vec{v\_n \}\)</span> 满足：</p>
 <ol type="1">
 <li>这组向量线性无关；</li>
 <li>它们张成整个空间 <span
@@ -476,7 +476,7 @@ a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn}
 \end{pmatrix}
 \]</span></p>
 <p>其中 <span class="math inline">\(\mathbf{a}_j = \begin{pmatrix}
-a_{1j} \\ a_{2j} \\ \vdots \\ a_{mj} \end{pmatrix}\)</span> 是第 <span
+a_{1j} \\ a_{2j} \\ \vdots \\ \_{mj} \end{pmatrix}\)</span> 是第 <span
 class="math inline">\(j\)</span> 个列向量。</p>
 <p>矩阵也代表<strong>线性变换</strong>。给定一个矩阵 <span
 class="math inline">\(A\)</span> 和向量 <span
@@ -492,7 +492,7 @@ C\mathbf{x} = A(B\mathbf{x})
 \]</span></p>
 <p>即先做 <span class="math inline">\(B\)</span> 变换，再做 <span
 class="math inline">\(A\)</span> 变换。</p>
-<p>例如，旋转矩阵 <span class="math inline">\(R_\theta\)</span>
+<p>例如，旋转矩阵 <span class="math inline">\(\_\theta\)</span>
 和缩放矩阵 <span class="math inline">\(S\)</span>
 相乘，先缩放再旋转：</p>
 <p><span class="math display">\[
@@ -544,8 +544,8 @@ v_2^2 + \cdots + v_n^2}
 \]</span></p>
 <p><strong>正交向量组的性质</strong>：如果一组向量两两正交且非零，那么它们一定是线性无关的。</p>
 <p><strong>证明</strong>：设 <span class="math inline">\(c_1 \vec{v}_1 +
-c_2 \vec{v}_2 + \cdots + c_k \vec{v}_k = \vec{0}\)</span>，两边与 <span
-class="math inline">\(\vec{v}_i\)</span> 做点积：</p>
+c_2 \vec{v}_2 + \cdots + c_k \vec{v\_k = \vec{0}\)</span>，两边与 <span
+class="math inline">\(\vec{v\_i\)</span> 做点积：</p>
 <p><span class="math display">\[
 c_i (\mathbf{v}_i \cdot \mathbf{v}_i) = 0 \implies c_i = 0
 \]</span></p>
@@ -569,27 +569,27 @@ c_i (\mathbf{v}_i \cdot \mathbf{v}_i) = 0 \implies c_i = 0
 id="第四章格拉姆-施密特正交化如何构造标准正交基">第四章：格拉姆-施密特正交化——如何构造标准正交基</h2>
 <h3 id="问题的提出">4.1 问题的提出</h3>
 <p>给定一组线性无关的向量 <span class="math inline">\(\{\vec{v}_1,
-\vec{v}_2, \dots, \vec{v}_n\}\)</span>，如何构造它们张成空间的标准正交基
+\vec{v}_2, \dots, \vec{v\_n\}\)</span>，如何构造它们张成空间的标准正交基
 <span class="math inline">\(\{\vec{q}_1, \vec{q}_2, \dots,
-\vec{q}_n\}\)</span>？</p>
+\vec{q\_n\}\)</span>？</p>
 <p>1907 年，Jørgen Gram 和 Erhard Schmidt
 独立提出了解决方法，这就是<strong>格拉姆-施密特正交化过程</strong>。</p>
 <h3 id="过程的直觉解释">4.2 过程的直觉解释</h3>
 <p>想象你在建房子。你有 <span class="math inline">\(\{\vec{v}_1,
-\vec{v}_2, \vec{v}_3\}\)</span>
+\vec{v}_2, \vec{v\_3\}\)</span>
 三根柱子，你想让它们两两垂直（正交），并且长度都是 1（单位化）。</p>
 <p><strong>第一步</strong>：取第一根柱子 <span
-class="math inline">\(\vec{v}_1\)</span>，把它弄短到长度 1：</p>
+class="math inline">\(\vec{v\_1\)</span>，把它弄短到长度 1：</p>
 <p><span class="math display">\[
 \mathbf{q}_1 = \frac{\mathbf{v}_1}{\|\mathbf{v}_1\|}
 \]</span></p>
 <p><strong>第二步</strong>：第二根柱子 <span
-class="math inline">\(\vec{v}_2\)</span> 肯定和 <span
-class="math inline">\(\vec{q}_1\)</span> 不垂直。从 <span
-class="math inline">\(\vec{v}_2\)</span> 中减去它在 <span
-class="math inline">\(\vec{q}_1\)</span>
+class="math inline">\(\vec{v\_2\)</span> 肯定和 <span
+class="math inline">\(\vec{q\_1\)</span> 不垂直。从 <span
+class="math inline">\(\vec{v\_2\)</span> 中减去它在 <span
+class="math inline">\(\vec{q\_1\)</span>
 方向上的分量，剩下的部分就垂直于 <span
-class="math inline">\(\vec{q}_1\)</span>：</p>
+class="math inline">\(\vec{q\_1\)</span>：</p>
 <p><span class="math display">\[
 \mathbf{u}_2 = \mathbf{v}_2 - (\mathbf{v}_2 \cdot \mathbf{q}_1)
 \mathbf{q}_1
@@ -599,15 +599,15 @@ class="math inline">\(\vec{q}_1\)</span>：</p>
 \mathbf{q}_2 = \frac{\mathbf{u}_2}{\|\mathbf{u}_2\|}
 \]</span></p>
 <p><strong>第三步</strong>：第三根柱子 <span
-class="math inline">\(\vec{v}_3\)</span> 既有 <span
-class="math inline">\(\vec{q}_1\)</span> 方向的分量，也有 <span
-class="math inline">\(\vec{q}_2\)</span>
+class="math inline">\(\vec{v\_3\)</span> 既有 <span
+class="math inline">\(\vec{q\_1\)</span> 方向的分量，也有 <span
+class="math inline">\(\vec{q\_2\)</span>
 方向的分量。把这两部分都减掉：</p>
 <p><span class="math display">\[
 \mathbf{u}_3 = \mathbf{v}_3 - (\mathbf{v}_3 \cdot \mathbf{q}_1)
 \mathbf{q}_1 - (\mathbf{v}_3 \cdot \mathbf{q}_2) \mathbf{q}_2
 \]</span></p>
-<p>单位化得到 <span class="math inline">\(\vec{q}_3\)</span>。</p>
+<p>单位化得到 <span class="math inline">\(\vec{q\_3\)</span>。</p>
 <h3 id="一般公式">4.3 一般公式</h3>
 <p><strong>正交化步骤</strong>：</p>
 <p><span class="math display">\[
@@ -632,7 +632,7 @@ class="math inline">\(\vec{q}_2\)</span>
 <h3 id="正交化的矩阵表示">4.4 正交化的矩阵表示</h3>
 <p>将上述过程用矩阵表示，我们得到一个惊人的结果。</p>
 <p>设矩阵 <span class="math inline">\(A = [\vec{v}_1 \ \vec{v}_2 \
-\cdots \ \vec{v}_n]\)</span>，经过格拉姆-施密特正交化后：</p>
+\cdots \ \vec{v\_n]\)</span>，经过格拉姆-施密特正交化后：</p>
 <p><span class="math display">\[
 \begin{aligned}
 \mathbf{v}_1 &amp;= r_{11} \mathbf{q}_1 \\
@@ -647,7 +647,7 @@ class="math inline">\(\vec{q}_2\)</span>
 A = QR
 \]</span></p>
 <p>其中： - <span class="math inline">\(Q = [\vec{q}_1 \ \vec{q}_2 \
-\cdots \ \vec{q}_n]\)</span> 是<strong>正交矩阵</strong>（列标准正交）；
+\cdots \ \vec{q\_n]\)</span> 是<strong>正交矩阵</strong>（列标准正交）；
 - <span class="math inline">\(R\)</span>
 是<strong>上三角矩阵</strong>。</p>
 <p>这就是著名的 <strong>QR 分解</strong>！格拉姆-施密特过程给出了 QR
@@ -663,9 +663,9 @@ id="第五章正交矩阵保持长度和角度的变换">第五章：正交矩�
 = Q^T\)</span>。</p>
 <p>由于 <span class="math inline">\(Q\)</span>
 的列是标准正交的（根据定义），我们有： - 列向量两两正交：<span
-class="math inline">\(Q_i^T Q_j = 0\)</span>（当 <span
+class="math inline">\(Q_i^T \_j = 0\)</span>（当 <span
 class="math inline">\(i \neq j\)</span>）； - 列向量长度都是 1：<span
-class="math inline">\(Q_i^T Q_i = 1\)</span>。</p>
+class="math inline">\(Q_i^T \_i = 1\)</span>。</p>
 <h3 id="正交矩阵的性质">5.2 正交矩阵的性质</h3>
 <p><strong>保范性</strong>：</p>
 <p>$　|Q| = ||　$</p>
@@ -679,7 +679,7 @@ class="math inline">\(Q_i^T Q_i = 1\)</span>。</p>
 <p>这意味着正交变换不改变向量的长度和夹角。</p>
 <h3 id="正交变换的几何意义">5.3 正交变换的几何意义</h3>
 <p>在二维平面中，正交矩阵只可能是： - <strong>旋转</strong>：<span
-class="math inline">\(R_\theta = \begin{pmatrix} \cos\theta &amp;
+class="math inline">\(\_\theta = \begin{pmatrix} \cos\theta &amp;
 -\sin\theta \\ \sin\theta &amp; \cos\theta
 \end{pmatrix}\)</span>（行列式为 +1）； - <strong>反射</strong>：<span
 class="math inline">\(F = \begin{pmatrix} \cos 2\theta &amp; \sin
@@ -708,7 +708,7 @@ LU\)</span>，其中 <span class="math inline">\(L\)</span>
 <p>这怎么可能？让我们看看几何意义。</p>
 <p><strong>几何视角</strong>：QR 分解将 <span
 class="math inline">\(A\)</span> 的列向量表示为标准正交基 <span
-class="math inline">\(\{ \vec{q}_1, \dots, \vec{q}_n \}\)</span>
+class="math inline">\(\{ \vec{q}_1, \dots, \vec{q\_n \}\)</span>
 的线性组合，系数矩阵 <span class="math inline">\(R\)</span>
 记录了这些坐标。</p>
 <p><span class="math display">\[
@@ -810,9 +810,9 @@ K = \begin{pmatrix} f_x &amp; s &amp; c_x \\ 0 &amp; f_y &amp; c_y \\ 0
 \]</span></p>
 <ul>
 <li><span class="math inline">\(f_x,
-f_y\)</span>：焦距（像素单位）；</li>
+\_y\)</span>：焦距（像素单位）；</li>
 <li><span class="math inline">\(c_x,
-c_y\)</span>：主点坐标（图像中心）；</li>
+\_y\)</span>：主点坐标（图像中心）；</li>
 <li><span class="math inline">\(s\)</span>：倾斜因子（通常为 0）。</li>
 </ul>
 <h3 id="机器人学齐次变换分解">8.2 机器人学：齐次变换分解</h3>
@@ -839,22 +839,22 @@ id="第九章高级视角从有限维到无限维">第九章：高级视角—�
 <p>对于任意向量 <span class="math inline">\(\vec{x}\)</span> 和闭子空间
 <span class="math inline">\(M\)</span>，存在唯一的分解：</p>
 <p><span class="math display">\[\mathbf{x} = \mathbf{x}_0 +
-\mathbf{x}_1\]</span></p>
-<p>其中 <span class="math inline">\(\mathbf{x}_0 \in
-M\)</span>（投影），<span class="math inline">\(\mathbf{x}_1 \in
+\mathbf{x\_1\]</span></p>
+<p>其中 <span class="math inline">\(\mathbf{x\_0 \in
+M\)</span>（投影），<span class="math inline">\(\mathbf{x\_1 \in
 M^\perp\)</span>（正交补）。</p>
 <p>这正是格拉姆-施密特过程在无限维空间的推广。</p>
 <h3 id="傅里叶级数函数空间的qr-分解">9.2 傅里叶级数——函数空间的「QR
 分解」</h3>
 <p>在函数空间 <span class="math inline">\(L^2[-\pi, \pi]\)</span>
 中，<strong>傅里叶级数</strong>将函数展开为正交基的线性组合：</p>
-<p><span class="math display">\[f(t) = \sum_{n=-\infty}^{\infty} c_n
+<p><span class="math display">\[f(t) = \sum_{n=-\infty}^{\infty} \_n
 e^{int}\]</span></p>
 <ul>
 <li><strong>正交基</strong>：<span class="math inline">\(\{ e^{int}
 \}\)</span> 在内积 <span class="math inline">\(\langle f, g \rangle =
-\int_{-\pi}^{\pi} f(t) \overline{g(t)} dt\)</span> 下正交；</li>
-<li><strong>系数</strong>：<span class="math inline">\(c_n = \langle f,
+\in\_{-\pi}^{\pi} f(t) \overline{g(t)} dt\)</span> 下正交；</li>
+<li><strong>系数</strong>：<span class="math inline">\(\_n = \langle f,
 e^{int} \rangle\)</span>。</li>
 </ul>
 <p>这与 QR 分解的结构完全一致！正交基对应 <span
@@ -863,13 +863,13 @@ class="math inline">\(R\)</span>。</p>
 <h3 id="小波变换另一种正交分解">9.3 小波变换——另一种正交分解</h3>
 <p><strong>小波变换</strong>也利用了类似的结构：用一个正交小波基将信号分解。</p>
 <p><span class="math display">\[\text{信号} = \sum_{k} c_k \phi(t-k) +
-\sum_{j,k} d_{jk} \psi_{jk}(t)\]</span></p>
+\sum_{j,k} d_{jk} \ps\_{jk}(t)\]</span></p>
 <ul>
 <li><span
 class="math inline">\(\phi\)</span>：尺度函数（低频部分）；</li>
 <li><span
 class="math inline">\(\psi\)</span>：小波函数（高频部分）；</li>
-<li>系数 <span class="math inline">\(c_k, d_{jk}\)</span> 类比于 <span
+<li>系数 <span class="math inline">\(c_k, \_{jk}\)</span> 类比于 <span
 class="math inline">\(R\)</span> 矩阵。</li>
 </ul>
 <hr />
