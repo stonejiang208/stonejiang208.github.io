@@ -1199,7 +1199,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #8a3e79;
+  background: #9ae7d4;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2896,5 +2896,318 @@ mjx-container + br {
   #MathJax_MenuFrame a {
     min-height: 44px;
     min-width: 44px;
+  }
+}
+.mathjax-lazy {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.mathjax-lazy.mathjax-loaded {
+  opacity: 1;
+}
+.mathjax-basic {
+  background: #f5f5f5;
+  padding: 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  overflow-x: auto;
+}
+@media (max-width: 767px) {
+  .mathjax-basic {
+    padding: 6px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 768px) {
+  .mjx-chtml {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+  }
+  .MJXc-display {
+    display: block;
+    margin: 1em auto;
+    text-align: center;
+  }
+}
+.mathjax-perf-monitor {
+  position: relative;
+}
+.mathjax-perf-monitor::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #4caf50, #ff9800, #f44336);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.mathjax-perf-monitor.mathjax-rendering::before {
+  opacity: 1;
+  animation: perf-monitor 2s linear infinite;
+}
+.mathjax-perf-monitor.mathjax-slow::before {
+  background: #f44336;
+  opacity: 1;
+}
+@media (max-width: 480px) {
+  .math-simplify .mjx-mtable {
+    border-spacing: 1px !important;
+  }
+  .math-simplify .mjx-frac {
+    font-size: 105% !important;
+  }
+  .math-simplify .mjx-large-op {
+    font-size: 115% !important;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  .mjx-chtml {
+    -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+    touch-action: manipulation;
+  }
+  .math-zoomable {
+    position: relative;
+  }
+  .math-zoomable:active {
+    transform: scale(1.05);
+    transition: transform 0.2s;
+  }
+}
+.mathjax-memory-optimized .mjx-chtml {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+@media (prefers-reduced-data: reduce) {
+  .mathjax-data-saver .mjx-chtml {
+    filter: grayscale(0.2);
+    opacity: 0.9;
+  }
+  .mathjax-data-saver .mathjax-perf-monitor::before {
+    display: none;
+  }
+}
+.mathjax-connection-aware.connection-slow .mjx-chtml {
+  filter: blur(0.5px);
+  transition: filter 0.5s;
+}
+.mathjax-connection-aware.connection-offline .mjx-chtml {
+  display: none;
+}
+.mathjax-connection-aware.connection-offline .mathjax-basic {
+  display: block;
+}
+@media (max-width: 320px) {
+  .mathjax-viewport-aware .mjx-chtml {
+    transform: scale(0.85);
+    transform-origin: left center;
+  }
+}
+@media (min-width: 321px) and (max-width: 480px) {
+  .mathjax-viewport-aware .mjx-chtml {
+    transform: scale(0.9);
+    transform-origin: left center;
+  }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .mathjax-viewport-aware .mjx-chtml {
+    transform: scale(0.95);
+    transform-origin: left center;
+  }
+}
+.mathjax-gpu-accelerated .mjx-chtml {
+  transform: translate3d(0, 0, 0);
+}
+.mathjax-gpu-accelerated .math-long {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+.mathjax-cached {
+  position: relative;
+}
+.mathjax-cached::after {
+  content: '✓';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 16px;
+  height: 16px;
+  background: #4caf50;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.mathjax-cached.cached-visible::after {
+  opacity: 1;
+}
+.mathjax-mobile-first .mjx-chtml {
+  max-width: 100%;
+  overflow-x: auto;
+}
+@media (min-width: 992px) {
+  .mathjax-mobile-first .mjx-chtml {
+    max-width: none;
+    overflow-x: visible;
+  }
+}
+.mathjax-perf-budget.within-budget {
+  border-left: 3px solid #4caf50;
+}
+.mathjax-perf-budget.near-limit {
+  border-left: 3px solid #ff9800;
+}
+.mathjax-perf-budget.exceeded {
+  border-left: 3px solid #f44336;
+  animation: warning-pulse 2s infinite;
+}
+.mathjax-priority.priority-critical {
+  order: -1;
+}
+.mathjax-priority.priority-high {
+  order: 0;
+}
+.mathjax-priority.priority-normal {
+  order: 1;
+}
+.mathjax-priority.priority-low {
+  order: 2;
+  opacity: 0.7;
+}
+@media (max-width: 768px) {
+  .mathjax-network-aware .mjx-chtml {
+    transition: all 0.3s ease;
+  }
+  .network-slow .mathjax-network-aware .mjx-chtml {
+    filter: blur(1px);
+    opacity: 0.8;
+  }
+  .network-fast .mathjax-network-aware .mjx-chtml {
+    filter: none;
+    opacity: 1;
+  }
+}
+.mathjax-preload.preload-near .mjx-chtml {
+  opacity: 0.5;
+}
+.mathjax-preload.preload-far .mjx-chtml {
+  opacity: 0.3;
+}
+.memory-low .mathjax-memory-pressure .mjx-chtml {
+  filter: blur(0.8px);
+  opacity: 0.7;
+}
+.memory-low .mathjax-memory-pressure .mathjax-perf-monitor::before {
+  display: none;
+}
+@media (max-width: 480px) {
+  .mathjax-compressed .mjx-mtable {
+    border-spacing: 0.5px !important;
+  }
+  .mathjax-compressed .mjx-frac {
+    line-height: 0.8;
+  }
+  .mathjax-compressed .mjx-sup,
+  .mathjax-compressed .mjx-sub {
+    font-size: 70% !important;
+  }
+}
+.mathjax-perf-checklist::before {
+  content: '📱 Mobile Optimized';
+  position: absolute;
+  top: -20px;
+  right: 0;
+  background: #4caf50;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.mathjax-perf-checklist.checklist-visible::before {
+  opacity: 1;
+}
+@-moz-keyframes perf-monitor {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@-webkit-keyframes perf-monitor {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@-o-keyframes perf-monitor {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@keyframes perf-monitor {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@-moz-keyframes warning-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes warning-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+@-o-keyframes warning-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+@keyframes warning-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
   }
 }
