@@ -1199,7 +1199,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #b6964b;
+  background: #1b3d09;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2589,4 +2589,305 @@ ul.breadcrumb li + li:last-child {
 }
 .utterances {
   max-width: unset;
+}
+.mjx-chtml {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+.MJXc-display {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+@media (max-width: 767px) {
+  .MJXc-display {
+    margin: 0.8em 0;
+    font-size: 95%;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .MJXc-display {
+    margin: 0.9em 0;
+    font-size: 97%;
+  }
+}
+.mjx-chtml.MJXc-space1 {
+  margin: 0 0.15em;
+}
+@media (max-width: 767px) {
+  .mjx-chtml.MJXc-space1 {
+    margin: 0 0.1em;
+  }
+}
+.mjx-chtml[style*="width"] {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.mjx-chtml[style*="width"]::-webkit-scrollbar {
+  height: 4px;
+}
+.mjx-chtml[style*="width"]::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+.mjx-chtml[style*="width"]::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2px;
+}
+.mjx-chtml[style*="width"]::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.mjx-mtable,
+.mjx-mtr,
+.mjx-mtd {
+  max-width: 100%;
+}
+@media (max-width: 767px) {
+  .mjx-mtable,
+  .mjx-mtr,
+  .mjx-mtd {
+    padding: 1px !important;
+  }
+}
+@media (max-width: 767px) {
+  .mjx-frac {
+    font-size: 110%;
+  }
+}
+@media (max-width: 767px) {
+  .mjx-large-op {
+    font-size: 120%;
+  }
+}
+@media (max-width: 767px) {
+  .mjx-paren,
+  .mjx-brack,
+  .mjx-brace {
+    font-size: 110%;
+  }
+}
+@media (max-width: 767px) {
+  .mjx-sup,
+  .mjx-sub {
+    font-size: 85%;
+  }
+}
+.MathJax_Error {
+  color: #d32f2f;
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+@media (max-width: 767px) {
+  .MathJax_Error {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+#MathJax_Message {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  z-index: 1000;
+}
+@media (max-width: 767px) {
+  #MathJax_Message {
+    bottom: 10px;
+    right: 10px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+.post-body .mjx-chtml {
+  line-height: 1.6;
+}
+@media (max-width: 767px) {
+  .post-body .mjx-chtml {
+    line-height: 1.5;
+  }
+}
+.post-body .MJXc-display {
+  margin: 1.2em 0;
+}
+@media (max-width: 767px) {
+  .post-body .MJXc-display {
+    margin: 1em 0;
+  }
+}
+.post-body p .mjx-chtml {
+  vertical-align: -0.3ex;
+}
+@media (max-width: 767px) {
+  .post-body p .mjx-chtml {
+    vertical-align: -0.2ex;
+  }
+}
+.highlight .mjx-chtml {
+  display: none;
+}
+@media print {
+  .mjx-chtml {
+    max-width: none;
+    overflow: visible;
+  }
+  .MJXc-display {
+    page-break-inside: avoid;
+  }
+}
+@media (prefers-contrast: high) {
+  .mjx-chtml {
+    filter: contrast(1.2);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mjx-chtml {
+    animation: none;
+    transition: none;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  .mjx-chtml[style*="width"] {
+    -webkit-overflow-scrolling: touch;
+    padding: 4px 0;
+  }
+}
+@media (max-width: 360px) {
+  .MJXc-display {
+    font-size: 90%;
+  }
+  .mjx-frac {
+    font-size: 115%;
+  }
+  .mjx-large-op {
+    font-size: 125%;
+  }
+}
+@media (min-width: 361px) and (max-width: 480px) {
+  .MJXc-display {
+    font-size: 92%;
+  }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .MJXc-display {
+    font-size: 95%;
+  }
+}
+.mathjax-optimized .mjx-chtml {
+  max-width: none;
+  overflow: visible;
+}
+.mathjax-loading {
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+.mathjax-loading.mathjax-loaded {
+  opacity: 1;
+}
+.math-matrix .mjx-mtable {
+  border-collapse: separate;
+  border-spacing: 2px;
+}
+@media (max-width: 767px) {
+  .math-matrix .mjx-mtable {
+    border-spacing: 1px;
+  }
+}
+.math-equation .mjx-mtable {
+  display: inline-table;
+  vertical-align: middle;
+}
+.math-long {
+  display: block;
+  overflow-x: auto;
+  padding: 8px 0;
+}
+@media (max-width: 767px) {
+  .math-long {
+    padding: 6px 0;
+  }
+}
+.math-long::-webkit-scrollbar {
+  height: 3px;
+}
+.mjx-chtml[aria-label] {
+  position: relative;
+}
+.mjx-chtml[aria-label]::after {
+  content: attr(aria-label);
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.mjx-chtml:focus {
+  outline: 2px solid #2196f3;
+  outline-offset: 2px;
+}
+@page {
+  .MJXc-display {
+    page-break-inside: avoid;
+    page-break-after: avoid;
+  }
+}
+.no-cssgrid .MJXc-display {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+.mathjax-perf.mathjax-slow {
+  border-left: 3px solid #ff9800;
+  padding-left: 8px;
+}
+.mathjax-perf.mathjax-error {
+  border-left: 3px solid #f44336;
+  padding-left: 8px;
+  background-color: rgba(244,67,54,0.05);
+}
+.responsive-math {
+  position: relative;
+}
+.responsive-math .mjx-chtml {
+  transform-origin: 0 0;
+}
+@media (max-width: 480px) {
+  .responsive-math .mjx-chtml {
+    transform: scale(0.95);
+  }
+}
+@media (max-width: 360px) {
+  .responsive-math .mjx-chtml {
+    transform: scale(0.9);
+  }
+}
+@media (max-width: 767px) {
+  #MathJax_MenuFrame {
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow: auto;
+  }
+  #MathJax_MenuFrame button,
+  #MathJax_MenuFrame a {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }

@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"blog.tao-studio.net","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"author":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="为什么不用笔中枢：缠论中枢识别的核心原理在缠论技术分析体系中，中枢（Center）是理解市场走势结构的核心概念。一个常见的问题是：为什么在识别中枢时要用段而不用笔？ 这个问题看似简单，实则触及了缠论体系设计的深层逻辑。本文将从缠论原文出发，详细解析这一设计选择背后的原理。">
+  <meta name="description" content="为什么不用笔中枢：缠论中枢识别的核心原理 在缠论技术分析体系中，中枢（Center）是理解市场走势结构的核心概念。一个常见的问题是：为什么在识别中枢时要用段而不用笔？ 这个问题看似简单，实则触及了缠论体系设计的深层逻辑。本文将从缠论原文出发，详细解析这一设计选择背后的原理。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="为什么不用笔中枢：缠论中枢识别的核心原理">
 <meta property="og:url" content="http://blog.tao-studio.net/2026/01/30/why-not-stroke-center/index.html">
 <meta property="og:site_name" content="Stone&#39;s Blog">
-<meta property="og:description" content="为什么不用笔中枢：缠论中枢识别的核心原理在缠论技术分析体系中，中枢（Center）是理解市场走势结构的核心概念。一个常见的问题是：为什么在识别中枢时要用段而不用笔？ 这个问题看似简单，实则触及了缠论体系设计的深层逻辑。本文将从缠论原文出发，详细解析这一设计选择背后的原理。">
+<meta property="og:description" content="为什么不用笔中枢：缠论中枢识别的核心原理 在缠论技术分析体系中，中枢（Center）是理解市场走势结构的核心概念。一个常见的问题是：为什么在识别中枢时要用段而不用笔？ 这个问题看似简单，实则触及了缠论体系设计的深层逻辑。本文将从缠论原文出发，详细解析这一设计选择背后的原理。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-30T02:22:44.000Z">
 <meta property="article:modified_time" content="2026-02-02T02:40:08.401Z">
 <meta property="article:author" content="Stone">
 <meta property="article:tag" content="缠论">
-<meta property="article:tag" content="技术分析">
 <meta property="article:tag" content="股票交易">
+<meta property="article:tag" content="技术分析">
 <meta property="article:tag" content="中枢理论">
 <meta property="article:tag" content="笔与线段">
 <meta name="twitter:card" content="summary">
@@ -233,124 +233,145 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="为什么不用笔中枢：缠论中枢识别的核心原理"><a href="#为什么不用笔中枢：缠论中枢识别的核心原理" class="headerlink" title="为什么不用笔中枢：缠论中枢识别的核心原理"></a>为什么不用笔中枢：缠论中枢识别的核心原理</h1><p>在缠论技术分析体系中，中枢（Center）是理解市场走势结构的核心概念。一个常见的问题是：<strong>为什么在识别中枢时要用段而不用笔？</strong> 这个问题看似简单，实则触及了缠论体系设计的深层逻辑。本文将从缠论原文出发，详细解析这一设计选择背后的原理。</p>
+        <h1
+id="为什么不用笔中枢缠论中枢识别的核心原理">为什么不用笔中枢：缠论中枢识别的核心原理</h1>
+<p>在缠论技术分析体系中，中枢（Center）是理解市场走势结构的核心概念。一个常见的问题是：<strong>为什么在识别中枢时要用段而不用笔？</strong>
+这个问题看似简单，实则触及了缠论体系设计的深层逻辑。本文将从缠论原文出发，详细解析这一设计选择背后的原理。</p>
 <span id="more"></span>
-
-<h2 id="一、基本概念回顾"><a href="#一、基本概念回顾" class="headerlink" title="一、基本概念回顾"></a>一、基本概念回顾</h2><h3 id="1-笔（Stroke）"><a href="#1-笔（Stroke）" class="headerlink" title="1. 笔（Stroke）"></a>1. 笔（Stroke）</h3><ul>
+<h2 id="一基本概念回顾">一、基本概念回顾</h2>
+<h3 id="笔stroke">1. 笔（Stroke）</h3>
+<ul>
 <li><strong>定义</strong>：两个相邻的顶和底之间构成一笔</li>
-<li><strong>构成</strong>：顶分型 + 上升K线 + 底分型（向上笔），或底分型 + 下降K线 + 顶分型（向下笔）</li>
+<li><strong>构成</strong>：顶分型 + 上升K线 + 底分型（向上笔），或底分型
++ 下降K线 + 顶分型（向下笔）</li>
 <li><strong>特点</strong>：三个K线的折腾就可以决定一笔的转折</li>
 </ul>
-<h3 id="2-线段（Segment）"><a href="#2-线段（Segment）" class="headerlink" title="2. 线段（Segment）"></a>2. 线段（Segment）</h3><ul>
+<h3 id="线段segment">2. 线段（Segment）</h3>
+<ul>
 <li><strong>定义</strong>：至少由三笔组成，且前三笔必须有重叠部分</li>
 <li><strong>构成</strong>：从向上一笔开始或从向下一笔开始</li>
 <li><strong>特点</strong>：线段的破坏转折需要三个特征序列分型的折腾</li>
 </ul>
-<h3 id="3-中枢（Center）"><a href="#3-中枢（Center）" class="headerlink" title="3. 中枢（Center）"></a>3. 中枢（Center）</h3><ul>
+<h3 id="中枢center">3. 中枢（Center）</h3>
+<ul>
 <li><strong>定义</strong>：至少由三个连续次级别走势类型所重叠的部分</li>
 <li><strong>构成</strong>：市场多空力量平衡的区域</li>
 <li><strong>作用</strong>：走势转折的关键位置</li>
 </ul>
-<h2 id="二、为什么不用笔构成最小中枢？"><a href="#二、为什么不用笔构成最小中枢？" class="headerlink" title="二、为什么不用笔构成最小中枢？"></a>二、为什么不用笔构成最小中枢？</h2><p>根据缠论原文《教你炒股票83：笔-线段与线段-最小中枢结构的不同心理意义1》，缠中说禅明确指出：</p>
+<h2 id="二为什么不用笔构成最小中枢">二、为什么不用笔构成最小中枢？</h2>
+<p>根据缠论原文《教你炒股票83：笔-线段与线段-最小中枢结构的不同心理意义1》，缠中说禅明确指出：</p>
 <blockquote>
 <p>“一个最简单的问题，为什么不能由笔构成最小中枢？其实，这不是一个问题。为什么？因为实质上，我们是可以设计这样的程序，也就是用笔当成构成最小中枢的零件，但这样构造出来的系统，其稳定性极差。”</p>
 </blockquote>
-<h3 id="1-稳定性差异：笔-vs-段"><a href="#1-稳定性差异：笔-vs-段" class="headerlink" title="1. 稳定性差异：笔 vs 段"></a>1. 稳定性差异：笔 vs 段</h3><h4 id="笔的稳定性问题"><a href="#笔的稳定性问题" class="headerlink" title="笔的稳定性问题"></a>笔的稳定性问题</h4><ul>
+<h3 id="稳定性差异笔-vs-段">1. 稳定性差异：笔 vs 段</h3>
+<h4 id="笔的稳定性问题">笔的稳定性问题</h4>
+<ul>
 <li><strong>易受偶然因素干扰</strong>：一笔的基础是顶和底分型，一些瞬间的交易（如打错单、老鼠仓送货）就足以影响其结构</li>
 <li><strong>过度敏感</strong>：三个K线的折腾就可以决定一笔的转折，这种快速变化不能充分过滤市场噪音</li>
 <li><strong>分析结果易变</strong>：偶然的单笔交易错误可能导致全天走势分析大变样</li>
 </ul>
-<h4 id="段的稳定性优势"><a href="#段的稳定性优势" class="headerlink" title="段的稳定性优势"></a>段的稳定性优势</h4><ul>
+<h4 id="段的稳定性优势">段的稳定性优势</h4>
+<ul>
 <li><strong>抗干扰能力强</strong>：一个线段的改变不会因为偶尔一笔的错误而改变</li>
 <li><strong>破坏条件严格</strong>：想想要破坏一个线段的麻烦程度，就知道线段受偶尔性影响比较少</li>
 <li><strong>分析结果稳定</strong>：线段结构一旦形成，不容易被偶然因素破坏</li>
 </ul>
-<h3 id="2-心理结构反映的真实性"><a href="#2-心理结构反映的真实性" class="headerlink" title="2. 心理结构反映的真实性"></a>2. 心理结构反映的真实性</h3><h4 id="笔的心理确认不足"><a href="#笔的心理确认不足" class="headerlink" title="笔的心理确认不足"></a>笔的心理确认不足</h4><ul>
+<h3 id="心理结构反映的真实性">2. 心理结构反映的真实性</h3>
+<h4 id="笔的心理确认不足">笔的心理确认不足</h4>
+<ul>
 <li><strong>反应时间短</strong>：三个K线的时间跨度不足以让市场买卖双方充分反应</li>
 <li><strong>合力体现不充分</strong>：快速的变化可能只是少数交易者的行为，不能代表市场真实合力</li>
 <li><strong>心理结构模糊</strong>：笔的转折过于迅速，不能清晰勾勒买卖双方心理结构的变化</li>
 </ul>
-<h4 id="段的心理确认充分"><a href="#段的心理确认充分" class="headerlink" title="段的心理确认充分"></a>段的心理确认充分</h4><ul>
+<h4 id="段的心理确认充分">段的心理确认充分</h4>
+<ul>
 <li><strong>反应时间充足</strong>：一个线段的破坏转折需要三个特征序列分型的折腾</li>
 <li><strong>合力体现完整</strong>：市场买卖双方都有足够的时间去反应，体现出的合力痕迹具有延续性</li>
 <li><strong>心理结构清晰</strong>：线段破坏本身反应着一种微妙的心理结构变化，特征序列分型的引入本质上就是去勾勒这种心理结构的变化</li>
 </ul>
-<h3 id="3-偶然因素过滤机制"><a href="#3-偶然因素过滤机制" class="headerlink" title="3. 偶然因素过滤机制"></a>3. 偶然因素过滤机制</h3><h4 id="笔的过滤能力弱"><a href="#笔的过滤能力弱" class="headerlink" title="笔的过滤能力弱"></a>笔的过滤能力弱</h4><ul>
+<h3 id="偶然因素过滤机制">3. 偶然因素过滤机制</h3>
+<h4 id="笔的过滤能力弱">笔的过滤能力弱</h4>
+<ul>
 <li><strong>确认次数少</strong>：一笔的确认只需要顶底分型的形成</li>
 <li><strong>容错性差</strong>：偶然的错误交易可能直接改变笔的结构</li>
 <li><strong>可靠性低</strong>：不能有效区分真实趋势和偶然波动</li>
 </ul>
-<h4 id="段的过滤能力强"><a href="#段的过滤能力强" class="headerlink" title="段的过滤能力强"></a>段的过滤能力强</h4><ul>
+<h4 id="段的过滤能力强">段的过滤能力强</h4>
+<ul>
 <li><strong>多重确认</strong>：特征序列分型需要三次确认才能构成</li>
 <li><strong>容错性好</strong>：偶然的一笔错误不会破坏整个线段结构</li>
 <li><strong>可靠性高</strong>：能够有效过滤市场噪音，反映真实趋势</li>
 </ul>
-<h3 id="4-操作实践考量"><a href="#4-操作实践考量" class="headerlink" title="4. 操作实践考量"></a>4. 操作实践考量</h3><h4 id="用笔构成中枢的问题"><a href="#用笔构成中枢的问题" class="headerlink" title="用笔构成中枢的问题"></a>用笔构成中枢的问题</h4><ul>
+<h3 id="操作实践考量">4. 操作实践考量</h3>
+<h4 id="用笔构成中枢的问题">用笔构成中枢的问题</h4>
+<ul>
 <li><strong>系统过于敏感</strong>：对市场噪音反应过度，频繁产生虚假信号</li>
 <li><strong>操作难度大</strong>：需要频繁调整分析结果，实际操作中难以执行</li>
 <li><strong>稳定性差</strong>：构建的交易系统容易崩溃，不适合长期稳定操作</li>
 </ul>
-<h4 id="用段构成中枢的优势"><a href="#用段构成中枢的优势" class="headerlink" title="用段构成中枢的优势"></a>用段构成中枢的优势</h4><ul>
+<h4 id="用段构成中枢的优势">用段构成中枢的优势</h4>
+<ul>
 <li><strong>系统稳健</strong>：对偶然波动有良好的过滤能力</li>
 <li><strong>操作可行</strong>：分析结果相对稳定，便于制定和执行交易策略</li>
 <li><strong>适合实战</strong>：构建的交易系统更加可靠，适合实际投资操作</li>
 </ul>
-<h2 id="三、缠论体系的设计逻辑"><a href="#三、缠论体系的设计逻辑" class="headerlink" title="三、缠论体系的设计逻辑"></a>三、缠论体系的设计逻辑</h2><h3 id="1-递归体系的完整性"><a href="#1-递归体系的完整性" class="headerlink" title="1. 递归体系的完整性"></a>1. 递归体系的完整性</h3><p>缠论建立了一个完整的递归分析体系：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">分型 → 笔 → 线段 → 最小级别中枢 → 各级别中枢</span><br></pre></td></tr></table></figure>
-
-<p>在这个体系中，<strong>线段是构成最小级别中枢的基础构件</strong>。这种设计保证了：</p>
-<ul>
-<li><strong>级别关系明确</strong>：中枢的级别由其构成走势的次级别决定</li>
-<li><strong>分析逻辑清晰</strong>：从微观到宏观的递进关系明确</li>
-<li><strong>操作指导性强</strong>：每个级别都有对应的操作策略</li>
-</ul>
-<h3 id="2-心理博弈的体现"><a href="#2-心理博弈的体现" class="headerlink" title="2. 心理博弈的体现"></a>2. 心理博弈的体现</h3><p>缠论的核心是分析市场参与者的心理博弈：</p>
-<ul>
-<li><strong>笔</strong>：反映短期、局部的心理变化</li>
-<li><strong>线段</strong>：反映中期、相对完整的心理结构</li>
-<li><strong>中枢</strong>：反映长期、多空力量平衡的心理状态</li>
-</ul>
+<h2 id="三缠论体系的设计逻辑">三、缠论体系的设计逻辑</h2>
+<h3 id="递归体系的完整性">1. 递归体系的完整性</h3>
+<p>缠论建立了一个完整的递归分析体系： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">分型 → 笔 → 线段 → 最小级别中枢 → 各级别中枢</span><br></pre></td></tr></table></figure></p>
+<p>在这个体系中，<strong>线段是构成最小级别中枢的基础构件</strong>。这种设计保证了：
+- <strong>级别关系明确</strong>：中枢的级别由其构成走势的次级别决定 -
+<strong>分析逻辑清晰</strong>：从微观到宏观的递进关系明确 -
+<strong>操作指导性强</strong>：每个级别都有对应的操作策略</p>
+<h3 id="心理博弈的体现">2. 心理博弈的体现</h3>
+<p>缠论的核心是分析市场参与者的心理博弈： -
+<strong>笔</strong>：反映短期、局部的心理变化 -
+<strong>线段</strong>：反映中期、相对完整的心理结构 -
+<strong>中枢</strong>：反映长期、多空力量平衡的心理状态</p>
 <p>用段而不是笔来构成中枢，是因为<strong>中枢需要反映相对稳定的心理平衡状态</strong>，而不是瞬息万变的心理波动。</p>
-<h3 id="3-实战应用的优化"><a href="#3-实战应用的优化" class="headerlink" title="3. 实战应用的优化"></a>3. 实战应用的优化</h3><p>从实战角度考虑：</p>
-<ul>
-<li><strong>减少误判</strong>：用段构成中枢可以减少因偶然因素导致的误判</li>
-<li><strong>提高胜率</strong>：更加稳定的分析基础可以提高交易胜率</li>
-<li><strong>降低风险</strong>：过滤掉市场噪音，专注于主要趋势</li>
-</ul>
-<h2 id="四、实际案例分析"><a href="#四、实际案例分析" class="headerlink" title="四、实际案例分析"></a>四、实际案例分析</h2><h3 id="案例1：偶然交易的影响"><a href="#案例1：偶然交易的影响" class="headerlink" title="案例1：偶然交易的影响"></a>案例1：偶然交易的影响</h3><p>假设某股票在某一分钟出现一笔大额错误交易：</p>
-<ul>
-<li><strong>用笔分析</strong>：可能立即改变笔的结构，导致整个分析需要重做</li>
-<li><strong>用段分析</strong>：除非这笔交易持续影响形成新的线段，否则不会改变现有线段结构</li>
-</ul>
-<h3 id="案例2：短期波动-vs-趋势变化"><a href="#案例2：短期波动-vs-趋势变化" class="headerlink" title="案例2：短期波动 vs 趋势变化"></a>案例2：短期波动 vs 趋势变化</h3><p>市场出现短期快速波动：</p>
-<ul>
-<li><strong>用笔构成中枢</strong>：可能频繁产生中枢破坏和重建信号</li>
-<li><strong>用段构成中枢</strong>：能够区分短期波动和真正的趋势变化</li>
-</ul>
-<h2 id="五、总结与启示"><a href="#五、总结与启示" class="headerlink" title="五、总结与启示"></a>五、总结与启示</h2><h3 id="1-核心结论"><a href="#1-核心结论" class="headerlink" title="1. 核心结论"></a>1. 核心结论</h3><p>在缠论体系中，<strong>用段而不用笔来识别中枢是基于稳定性、心理反映真实性和操作可行性的综合考虑</strong>。这种设计使得缠论体系：</p>
-<ol>
+<h3 id="实战应用的优化">3. 实战应用的优化</h3>
+<p>从实战角度考虑： -
+<strong>减少误判</strong>：用段构成中枢可以减少因偶然因素导致的误判 -
+<strong>提高胜率</strong>：更加稳定的分析基础可以提高交易胜率 -
+<strong>降低风险</strong>：过滤掉市场噪音，专注于主要趋势</p>
+<h2 id="四实际案例分析">四、实际案例分析</h2>
+<h3 id="案例1偶然交易的影响">案例1：偶然交易的影响</h3>
+<p>假设某股票在某一分钟出现一笔大额错误交易： -
+<strong>用笔分析</strong>：可能立即改变笔的结构，导致整个分析需要重做 -
+<strong>用段分析</strong>：除非这笔交易持续影响形成新的线段，否则不会改变现有线段结构</p>
+<h3 id="案例2短期波动-vs-趋势变化">案例2：短期波动 vs 趋势变化</h3>
+<p>市场出现短期快速波动： -
+<strong>用笔构成中枢</strong>：可能频繁产生中枢破坏和重建信号 -
+<strong>用段构成中枢</strong>：能够区分短期波动和真正的趋势变化</p>
+<h2 id="五总结与启示">五、总结与启示</h2>
+<h3 id="核心结论">1. 核心结论</h3>
+<p>在缠论体系中，<strong>用段而不用笔来识别中枢是基于稳定性、心理反映真实性和操作可行性的综合考虑</strong>。这种设计使得缠论体系：</p>
+<ol type="1">
 <li><strong>更加稳定</strong>：能够有效过滤市场噪音和偶然因素</li>
 <li><strong>更加真实</strong>：更好地反映市场买卖双方的心理结构和力量对比</li>
 <li><strong>更加实用</strong>：为实际操作提供可靠的分析基础</li>
 </ol>
-<h3 id="2-学习启示"><a href="#2-学习启示" class="headerlink" title="2. 学习启示"></a>2. 学习启示</h3><p>对于缠论学习者来说，理解这一设计选择有助于：</p>
-<ol>
+<h3 id="学习启示">2. 学习启示</h3>
+<p>对于缠论学习者来说，理解这一设计选择有助于：</p>
+<ol type="1">
 <li><strong>把握体系精髓</strong>：理解缠论不是简单的图形分析，而是对市场心理的深刻洞察</li>
 <li><strong>正确应用方法</strong>：避免在实践中错误地用笔来构建中枢分析</li>
 <li><strong>提高分析水平</strong>：从更本质的角度理解市场走势的结构</li>
 </ol>
-<h3 id="3-实践建议"><a href="#3-实践建议" class="headerlink" title="3. 实践建议"></a>3. 实践建议</h3><p>在实际操作中：</p>
-<ol>
-<li><strong>严格遵守定义</strong>：按照缠论原文的定义进行笔、线段、中枢的划分</li>
-<li><strong>重视稳定性</strong>：选择能够提供稳定分析结果的方法和工具</li>
-<li><strong>理解心理本质</strong>：透过图形看到背后的市场心理博弈</li>
-</ol>
-<h2 id="六、进一步思考"><a href="#六、进一步思考" class="headerlink" title="六、进一步思考"></a>六、进一步思考</h2><h3 id="1-缠论的哲学深度"><a href="#1-缠论的哲学深度" class="headerlink" title="1. 缠论的哲学深度"></a>1. 缠论的哲学深度</h3><p>这一设计选择体现了缠论的哲学深度：<strong>市场走势的本质是参与者心理的集体体现</strong>。用段而不是笔来构建中枢，正是为了更准确地捕捉这种集体心理的稳定状态。</p>
-<h3 id="2-与其他理论的对比"><a href="#2-与其他理论的对比" class="headerlink" title="2. 与其他理论的对比"></a>2. 与其他理论的对比</h3><p>与波浪理论、道氏理论等其他技术分析理论相比，缠论在这一点的设计更加严谨和科学，体现了数学和几何思维在金融市场分析中的应用。</p>
-<h3 id="3-现代市场的适用性"><a href="#3-现代市场的适用性" class="headerlink" title="3. 现代市场的适用性"></a>3. 现代市场的适用性</h3><p>尽管缠论诞生于特定的历史时期，但其基于市场心理本质的设计理念，使其在现代高度电子化、算法交易盛行的市场中仍然具有强大的解释力和预测力。</p>
-<hr>
+<h3 id="实践建议">3. 实践建议</h3>
+<p>在实际操作中： 1.
+<strong>严格遵守定义</strong>：按照缠论原文的定义进行笔、线段、中枢的划分
+2. <strong>重视稳定性</strong>：选择能够提供稳定分析结果的方法和工具 3.
+<strong>理解心理本质</strong>：透过图形看到背后的市场心理博弈</p>
+<h2 id="六进一步思考">六、进一步思考</h2>
+<h3 id="缠论的哲学深度">1. 缠论的哲学深度</h3>
+<p>这一设计选择体现了缠论的哲学深度：<strong>市场走势的本质是参与者心理的集体体现</strong>。用段而不是笔来构建中枢，正是为了更准确地捕捉这种集体心理的稳定状态。</p>
+<h3 id="与其他理论的对比">2. 与其他理论的对比</h3>
+<p>与波浪理论、道氏理论等其他技术分析理论相比，缠论在这一点的设计更加严谨和科学，体现了数学和几何思维在金融市场分析中的应用。</p>
+<h3 id="现代市场的适用性">3. 现代市场的适用性</h3>
+<p>尽管缠论诞生于特定的历史时期，但其基于市场心理本质的设计理念，使其在现代高度电子化、算法交易盛行的市场中仍然具有强大的解释力和预测力。</p>
+<hr />
 <p><strong>参考文献</strong>：</p>
-<ol>
+<ol type="1">
 <li>缠中说禅，《教你炒股票62：分型、笔与线段》</li>
 <li>缠中说禅，《教你炒股票65：再说说分型、笔、线段》</li>
 <li>缠中说禅，《教你炒股票83：笔-线段与线段-最小中枢结构的不同心理意义1》</li>
@@ -362,7 +383,7 @@
 <li><a href="/posts/buy-sell-points/">缠论买卖点体系详解</a></li>
 <li><a href="/posts/divergence-theory/">缠论背驰理论与实战应用</a></li>
 </ul>
-<hr>
+<hr />
 <p><em>本文基于缠论原文分析，旨在帮助读者深入理解缠论体系的设计逻辑。投资有风险，入市需谨慎。</em></p>
 
     </div>
@@ -374,8 +395,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E7%BC%A0%E8%AE%BA/" rel="tag"># 缠论</a>
-              <a href="/tags/%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90/" rel="tag"># 技术分析</a>
               <a href="/tags/%E8%82%A1%E7%A5%A8%E4%BA%A4%E6%98%93/" rel="tag"># 股票交易</a>
+              <a href="/tags/%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90/" rel="tag"># 技术分析</a>
               <a href="/tags/%E4%B8%AD%E6%9E%A2%E7%90%86%E8%AE%BA/" rel="tag"># 中枢理论</a>
               <a href="/tags/%E7%AC%94%E4%B8%8E%E7%BA%BF%E6%AE%B5/" rel="tag"># 笔与线段</a>
           </div>
@@ -435,7 +456,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8%E7%AC%94%E4%B8%AD%E6%9E%A2%EF%BC%9A%E7%BC%A0%E8%AE%BA%E4%B8%AD%E6%9E%A2%E8%AF%86%E5%88%AB%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">为什么不用笔中枢：缠论中枢识别的核心原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%9B%9E%E9%A1%BE"><span class="nav-number">1.1.</span> <span class="nav-text">一、基本概念回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%AC%94%EF%BC%88Stroke%EF%BC%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 笔（Stroke）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BA%BF%E6%AE%B5%EF%BC%88Segment%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 线段（Segment）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%B8%AD%E6%9E%A2%EF%BC%88Center%EF%BC%89"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 中枢（Center）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8%E7%AC%94%E6%9E%84%E6%88%90%E6%9C%80%E5%B0%8F%E4%B8%AD%E6%9E%A2%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">二、为什么不用笔构成最小中枢？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%A8%B3%E5%AE%9A%E6%80%A7%E5%B7%AE%E5%BC%82%EF%BC%9A%E7%AC%94-vs-%E6%AE%B5"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 稳定性差异：笔 vs 段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%94%E7%9A%84%E7%A8%B3%E5%AE%9A%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">笔的稳定性问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AE%B5%E7%9A%84%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BC%98%E5%8A%BF"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">段的稳定性优势</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%BF%83%E7%90%86%E7%BB%93%E6%9E%84%E5%8F%8D%E6%98%A0%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%80%A7"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 心理结构反映的真实性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%94%E7%9A%84%E5%BF%83%E7%90%86%E7%A1%AE%E8%AE%A4%E4%B8%8D%E8%B6%B3"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">笔的心理确认不足</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AE%B5%E7%9A%84%E5%BF%83%E7%90%86%E7%A1%AE%E8%AE%A4%E5%85%85%E5%88%86"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">段的心理确认充分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%81%B6%E7%84%B6%E5%9B%A0%E7%B4%A0%E8%BF%87%E6%BB%A4%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 偶然因素过滤机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%94%E7%9A%84%E8%BF%87%E6%BB%A4%E8%83%BD%E5%8A%9B%E5%BC%B1"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">笔的过滤能力弱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AE%B5%E7%9A%84%E8%BF%87%E6%BB%A4%E8%83%BD%E5%8A%9B%E5%BC%BA"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">段的过滤能力强</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%93%8D%E4%BD%9C%E5%AE%9E%E8%B7%B5%E8%80%83%E9%87%8F"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 操作实践考量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E7%AC%94%E6%9E%84%E6%88%90%E4%B8%AD%E6%9E%A2%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">用笔构成中枢的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%AE%B5%E6%9E%84%E6%88%90%E4%B8%AD%E6%9E%A2%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">用段构成中枢的优势</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BC%A0%E8%AE%BA%E4%BD%93%E7%B3%BB%E7%9A%84%E8%AE%BE%E8%AE%A1%E9%80%BB%E8%BE%91"><span class="nav-number">1.3.</span> <span class="nav-text">三、缠论体系的设计逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%80%92%E5%BD%92%E4%BD%93%E7%B3%BB%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 递归体系的完整性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%BF%83%E7%90%86%E5%8D%9A%E5%BC%88%E7%9A%84%E4%BD%93%E7%8E%B0"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 心理博弈的体现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. 实战应用的优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AE%9E%E9%99%85%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">四、实际案例分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B1%EF%BC%9A%E5%81%B6%E7%84%B6%E4%BA%A4%E6%98%93%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">1.4.1.</span> <span class="nav-text">案例1：偶然交易的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B2%EF%BC%9A%E7%9F%AD%E6%9C%9F%E6%B3%A2%E5%8A%A8-vs-%E8%B6%8B%E5%8A%BF%E5%8F%98%E5%8C%96"><span class="nav-number">1.4.2.</span> <span class="nav-text">案例2：短期波动 vs 趋势变化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%80%BB%E7%BB%93%E4%B8%8E%E5%90%AF%E7%A4%BA"><span class="nav-number">1.5.</span> <span class="nav-text">五、总结与启示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A0%B8%E5%BF%83%E7%BB%93%E8%AE%BA"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 核心结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AD%A6%E4%B9%A0%E5%90%AF%E7%A4%BA"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 学习启示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%9E%E8%B7%B5%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.5.3.</span> <span class="nav-text">3. 实践建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%80%9D%E8%80%83"><span class="nav-number">1.6.</span> <span class="nav-text">六、进一步思考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BC%A0%E8%AE%BA%E7%9A%84%E5%93%B2%E5%AD%A6%E6%B7%B1%E5%BA%A6"><span class="nav-number">1.6.1.</span> <span class="nav-text">1. 缠论的哲学深度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%8E%E5%85%B6%E4%BB%96%E7%90%86%E8%AE%BA%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-number">1.6.2.</span> <span class="nav-text">2. 与其他理论的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%8E%B0%E4%BB%A3%E5%B8%82%E5%9C%BA%E7%9A%84%E9%80%82%E7%94%A8%E6%80%A7"><span class="nav-number">1.6.3.</span> <span class="nav-text">3. 现代市场的适用性</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8%E7%AC%94%E4%B8%AD%E6%9E%A2%E7%BC%A0%E8%AE%BA%E4%B8%AD%E6%9E%A2%E8%AF%86%E5%88%AB%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">为什么不用笔中枢：缠论中枢识别的核心原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%9B%9E%E9%A1%BE"><span class="nav-number">1.1.</span> <span class="nav-text">一、基本概念回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%94stroke"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 笔（Stroke）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%AE%B5segment"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 线段（Segment）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E6%9E%A2center"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 中枢（Center）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8%E7%AC%94%E6%9E%84%E6%88%90%E6%9C%80%E5%B0%8F%E4%B8%AD%E6%9E%A2"><span class="nav-number">1.2.</span> <span class="nav-text">二、为什么不用笔构成最小中枢？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%B3%E5%AE%9A%E6%80%A7%E5%B7%AE%E5%BC%82%E7%AC%94-vs-%E6%AE%B5"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 稳定性差异：笔 vs 段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%94%E7%9A%84%E7%A8%B3%E5%AE%9A%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">笔的稳定性问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AE%B5%E7%9A%84%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BC%98%E5%8A%BF"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">段的稳定性优势</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%83%E7%90%86%E7%BB%93%E6%9E%84%E5%8F%8D%E6%98%A0%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%80%A7"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 心理结构反映的真实性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%94%E7%9A%84%E5%BF%83%E7%90%86%E7%A1%AE%E8%AE%A4%E4%B8%8D%E8%B6%B3"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">笔的心理确认不足</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AE%B5%E7%9A%84%E5%BF%83%E7%90%86%E7%A1%AE%E8%AE%A4%E5%85%85%E5%88%86"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">段的心理确认充分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%B6%E7%84%B6%E5%9B%A0%E7%B4%A0%E8%BF%87%E6%BB%A4%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 偶然因素过滤机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%94%E7%9A%84%E8%BF%87%E6%BB%A4%E8%83%BD%E5%8A%9B%E5%BC%B1"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">笔的过滤能力弱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AE%B5%E7%9A%84%E8%BF%87%E6%BB%A4%E8%83%BD%E5%8A%9B%E5%BC%BA"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">段的过滤能力强</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E5%AE%9E%E8%B7%B5%E8%80%83%E9%87%8F"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 操作实践考量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E7%AC%94%E6%9E%84%E6%88%90%E4%B8%AD%E6%9E%A2%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">用笔构成中枢的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%AE%B5%E6%9E%84%E6%88%90%E4%B8%AD%E6%9E%A2%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">用段构成中枢的优势</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%BC%A0%E8%AE%BA%E4%BD%93%E7%B3%BB%E7%9A%84%E8%AE%BE%E8%AE%A1%E9%80%BB%E8%BE%91"><span class="nav-number">1.3.</span> <span class="nav-text">三、缠论体系的设计逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E4%BD%93%E7%B3%BB%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 递归体系的完整性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%83%E7%90%86%E5%8D%9A%E5%BC%88%E7%9A%84%E4%BD%93%E7%8E%B0"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 心理博弈的体现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. 实战应用的优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E5%AE%9E%E9%99%85%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">四、实际案例分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B1%E5%81%B6%E7%84%B6%E4%BA%A4%E6%98%93%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">1.4.1.</span> <span class="nav-text">案例1：偶然交易的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B2%E7%9F%AD%E6%9C%9F%E6%B3%A2%E5%8A%A8-vs-%E8%B6%8B%E5%8A%BF%E5%8F%98%E5%8C%96"><span class="nav-number">1.4.2.</span> <span class="nav-text">案例2：短期波动 vs 趋势变化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E6%80%BB%E7%BB%93%E4%B8%8E%E5%90%AF%E7%A4%BA"><span class="nav-number">1.5.</span> <span class="nav-text">五、总结与启示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%BB%93%E8%AE%BA"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 核心结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E5%90%AF%E7%A4%BA"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 学习启示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.5.3.</span> <span class="nav-text">3. 实践建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%80%9D%E8%80%83"><span class="nav-number">1.6.</span> <span class="nav-text">六、进一步思考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%A0%E8%AE%BA%E7%9A%84%E5%93%B2%E5%AD%A6%E6%B7%B1%E5%BA%A6"><span class="nav-number">1.6.1.</span> <span class="nav-text">1. 缠论的哲学深度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E%E5%85%B6%E4%BB%96%E7%90%86%E8%AE%BA%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-number">1.6.2.</span> <span class="nav-text">2. 与其他理论的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3%E5%B8%82%E5%9C%BA%E7%9A%84%E9%80%82%E7%94%A8%E6%80%A7"><span class="nav-number">1.6.3.</span> <span class="nav-text">3. 现代市场的适用性</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -449,18 +470,18 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">44</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -515,12 +536,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">105k</span>
+    <span title="站点总字数">106k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:35</span>
+    <span title="站点阅读时长">1:36</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
