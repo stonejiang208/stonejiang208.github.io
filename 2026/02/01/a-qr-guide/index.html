@@ -28,7 +28,7 @@
 <meta property="og:description" content="引言：从一个问题说起 假设你是一个机器人工程师。你刚刚通过传感器测量，得到了物体在三维空间中的位置数据，但这些数据是在机器人自己的坐标系下测量的。你需要把这些数据转换到世界坐标系中。 或者，你是一个计算机视觉工程师。你从摄像机标定中得到了一个 \(3 \times 4\) 的投影矩阵 \(P\)，你想知道摄像机的内参（焦距、主点位置）和外参（旋转、平移）。 这些问题看似不同，却有一个共同的数学内核">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-02-01T11:44:58.000Z">
-<meta property="article:modified_time" content="2026-02-02T07:06:51.489Z">
+<meta property="article:modified_time" content="2026-02-02T07:16:33.317Z">
 <meta property="article:author" content="Stone">
 <meta property="article:tag" content="RQ分解">
 <meta property="article:tag" content="QR分解">
@@ -338,7 +338,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-02-02 15:06:51" itemprop="dateModified" datetime="2026-02-02T15:06:51+08:00">2026-02-02</time>
+                <time title="修改时间：2026-02-02 15:16:33" itemprop="dateModified" datetime="2026-02-02T15:16:33+08:00">2026-02-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -360,14 +360,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>11k</span>
+              <span>12k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
+              <span>11 分钟</span>
             </span>
 
         </div>
@@ -409,9 +409,9 @@ class="math inline">\(P\)</span>，你想知道摄像机的内参（焦距、主
 u_2 + v_2 \end{pmatrix}
 \]</span></p>
 <p>这在物理上对应<strong>位移的合成</strong>——先走 <span
-class="math inline">\(\vec{u}\)</span> 再走 <span
-class="math inline">\(\vec{v}\)</span>，等同于走 <span
-class="math inline">\(\vec{u} + \vec{v}\)</span>。</p>
+class="math inline">\(\mathbf{u}\)</span> 再走 <span
+class="math inline">\(\mathbf{v}\)</span>，等同于走 <span
+class="math inline">\(\mathbf{u} + \mathbf{v}\)</span>。</p>
 <p><strong>数乘</strong>：用标量乘以向量的每个分量</p>
 <p><span class="math display">\[
 k \cdot \mathbf{v} = k \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} =
@@ -438,8 +438,8 @@ class="math inline">\(0\)</span>,那么 <span class="math display">\[
 <p>有了线性无关的概念，我们就可以定义<strong>基</strong>和<strong>维数</strong>。</p>
 <p><strong>基的定义</strong>：一个向量空间 <span
 class="math inline">\(V\)</span> 的一组基 <span
-class="math inline">\(\{\mathbf{v}_{1}, \mathbf{v}_2, \dots,
-\mathbf{v}_n \}\)</span> 满足：</p>
+class="math inline">\(\{\mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v}_n
+\}\)</span> 满足：</p>
 <ol type="1">
 <li>这组向量线性无关；</li>
 <li>它们张成整个空间 <span
@@ -458,7 +458,7 @@ class="math inline">\(\dim(V)\)</span>。</p>
 \end{pmatrix}
 \]</span></p>
 <p>这里的 <span class="math inline">\((x, y)\)</span> 就是向量 <span
-class="math inline">\(\vec{v}\)</span>
+class="math inline">\(\mathbf{v}\)</span>
 在标准基下的<strong>坐标</strong>。</p>
 <hr />
 <h2 id="第二章矩阵从向量到变换">第二章：矩阵——从向量到变换</h2>
@@ -481,9 +481,9 @@ a_{1j} \\ a_{2j} \\ \vdots \\ a_{mj} \end{pmatrix}\)</span> 是第 <span
 class="math inline">\(j\)</span> 个列向量。</p>
 <p>矩阵也代表<strong>线性变换</strong>。给定一个矩阵 <span
 class="math inline">\(A\)</span> 和向量 <span
-class="math inline">\(\vec{x}\)</span>，乘积 <span
-class="math inline">\(A\vec{x}\)</span> 给出了 <span
-class="math inline">\(\vec{x}\)</span> 经过 <span
+class="math inline">\(\mathbf{x}\)</span>，乘积 <span
+class="math inline">\(A\mathbf{x}\)</span> 给出了 <span
+class="math inline">\(\mathbf{x}\)</span> 经过 <span
 class="math inline">\(A\)</span> 变换后的结果。</p>
 <h3 id="矩阵乘法的几何意义">2.2 矩阵乘法的几何意义</h3>
 <p>矩阵乘法 <span class="math inline">\(C = AB\)</span>
@@ -544,9 +544,10 @@ v_2^2 + \cdots + v_n^2}
 \mathbf{u} \perp \mathbf{v} \iff \mathbf{u} \cdot \mathbf{v} = 0
 \]</span></p>
 <p><strong>正交向量组的性质</strong>：如果一组向量两两正交且非零，那么它们一定是线性无关的。</p>
-<p><strong>证明</strong>：设 <span class="math inline">\(c_1 \vec{v}_1 +
-c_2 \vec{v}_2 + \cdots + c_k \vec{v}_k = \vec{0}\)</span>，两边与 <span
-class="math inline">\(\vec{v}_i\)</span> 做点积：</p>
+<p><strong>证明</strong>：设 <span class="math inline">\(c_1
+\mathbf{v}_1 + c_2 \mathbf{v}_2 + \cdots + c_k \mathbf{v}_k =
+\mathbf{0}\)</span>，两边与 <span
+class="math inline">\(\mathbf{v}_i\)</span> 做点积：</p>
 <p><span class="math display">\[
 c_i (\mathbf{v}_i \cdot \mathbf{v}_i) = 0 \implies c_i = 0
 \]</span></p>
@@ -557,40 +558,41 @@ c_i (\mathbf{v}_i \cdot \mathbf{v}_i) = 0 \implies c_i = 0
 = j \\ 0 &amp; i \neq j \end{cases}
 \]</span></p>
 <p><strong>标准正交基的坐标公式</strong>：</p>
-<p>对于任意向量 <span class="math inline">\(\vec{v}\)</span>：</p>
+<p>对于任意向量 <span class="math inline">\(\mathbf{v}\)</span>：</p>
 <p><span class="math display">\[
 \mathbf{v} = (\mathbf{v} \cdot \mathbf{q}_1) \mathbf{q}_1 + (\mathbf{v}
 \cdot \mathbf{q}_2) \mathbf{q}_2 + \cdots + (\mathbf{v} \cdot
 \mathbf{q}_n) \mathbf{q}_n
 \]</span></p>
-<p>坐标就是 <span class="math inline">\(\vec{v}\)</span>
+<p>坐标就是 <span class="math inline">\(\mathbf{v}\)</span>
 与各基向量的点积！</p>
 <hr />
 <h2
 id="第四章格拉姆-施密特正交化如何构造标准正交基">第四章：格拉姆-施密特正交化——如何构造标准正交基</h2>
 <h3 id="问题的提出">4.1 问题的提出</h3>
-<p>给定一组线性无关的向量 <span class="math inline">\(\{\vec{v}_1,
-\vec{v}_2, \dots, \vec{v}_n\}\)</span>，如何构造它们张成空间的标准正交基
-<span class="math inline">\(\{\vec{q}_1, \vec{q}_2, \dots,
-\vec{q}_n\}\)</span>？</p>
+<p>给定一组线性无关的向量 <span class="math inline">\(\{\mathbf{v}_1,
+\mathbf{v}_2, \dots,
+\mathbf{v}_n\}\)</span>，如何构造它们张成空间的标准正交基 <span
+class="math inline">\(\{\mathbf{q}_1, \mathbf{q}_2, \dots,
+\mathbf{q}_n\}\)</span>？</p>
 <p>1907 年，Jørgen Gram 和 Erhard Schmidt
 独立提出了解决方法，这就是<strong>格拉姆-施密特正交化过程</strong>。</p>
 <h3 id="过程的直觉解释">4.2 过程的直觉解释</h3>
-<p>想象你在建房子。你有 <span class="math inline">\(\{\vec{v}_1,
-\vec{v}_2, \vec{v}_3\}\)</span>
+<p>想象你在建房子。你有 <span class="math inline">\(\{\mathbf{v}_1,
+\mathbf{v}_2, \mathbf{v}_3\}\)</span>
 三根柱子，你想让它们两两垂直（正交），并且长度都是 1（单位化）。</p>
 <p><strong>第一步</strong>：取第一根柱子 <span
-class="math inline">\(\vec{v}_{1}\)</span>，把它弄短到长度 1：</p>
+class="math inline">\(\mathbf{v}_{1}\)</span>，把它弄短到长度 1：</p>
 <p><span class="math display">\[
 \mathbf{q}_1 = \frac{\mathbf{v}_1}{\|\mathbf{v}_1\|}
 \]</span></p>
 <p><strong>第二步</strong>：第二根柱子 <span
-class="math inline">\(\vec{v}_{2}\)</span> 肯定和 <span
-class="math inline">\(\vec{q}_{1}\)</span> 不垂直。从 <span
-class="math inline">\(\vec{v}_{2}\)</span> 中减去它在 <span
-class="math inline">\(\vec{q}_{1}\)</span>
+class="math inline">\(\mathbf{v}_{2}\)</span> 肯定和 <span
+class="math inline">\(\mathbf{q}_{1}\)</span> 不垂直。从 <span
+class="math inline">\(\mathbf{v}_{2}\)</span> 中减去它在 <span
+class="math inline">\(\mathbf{q}_{1}\)</span>
 方向上的分量，剩下的部分就垂直于 <span
-class="math inline">\(\vec{q}_{1}\)</span>：</p>
+class="math inline">\(\mathbf{q}_{1}\)</span>：</p>
 <p><span class="math display">\[
 \mathbf{u}_2 = \mathbf{v}_2 - (\mathbf{v}_2 \cdot \mathbf{q}_1)
 \mathbf{q}_1
@@ -600,15 +602,15 @@ class="math inline">\(\vec{q}_{1}\)</span>：</p>
 \mathbf{q}_2 = \frac{\mathbf{u}_2}{\|\mathbf{u}_2\|}
 \]</span></p>
 <p><strong>第三步</strong>：第三根柱子 <span
-class="math inline">\(\vec{v}_{3}\)</span> 既有 <span
-class="math inline">\(\vec{q}_{1}\)</span> 方向的分量，也有 <span
-class="math inline">\(\vec{q}_{2}\)</span>
+class="math inline">\(\mathbf{v}_{3}\)</span> 既有 <span
+class="math inline">\(\mathbf{q}_{1}\)</span> 方向的分量，也有 <span
+class="math inline">\(\mathbf{q}_{2}\)</span>
 方向的分量。把这两部分都减掉：</p>
 <p><span class="math display">\[
 \mathbf{u}_3 = \mathbf{v}_3 - (\mathbf{v}_3 \cdot \mathbf{q}_1)
 \mathbf{q}_1 - (\mathbf{v}_3 \cdot \mathbf{q}_2) \mathbf{q}_2
 \]</span></p>
-<p>单位化得到 <span class="math inline">\(\vec{q}_{3}\)</span>。</p>
+<p>单位化得到 <span class="math inline">\(\mathbf{q}_{3}\)</span>。</p>
 <h3 id="一般公式">4.3 一般公式</h3>
 <p><strong>正交化步骤</strong>：</p>
 <p><span class="math display">\[
@@ -636,9 +638,9 @@ class="math inline">\(\vec{q}_{2}\)</span>
 \cdots \ \mathbf{a}_n]\)</span>，经过格拉姆-施密特正交化后：</p>
 <p><span class="math display">\[
 \begin{aligned}
-\mathbf{v}_1 &amp;= r_{11} \mathbf{q}_1 \\
-\mathbf{v}_2 &amp;= r_{12} \mathbf{q}_1 + r_{22} \mathbf{q}_2 \\
-\mathbf{v}_3 &amp;= r_{13} \mathbf{q}_1 + r_{23} \mathbf{q}_2 + r_{33}
+\mathbf{a}_1 &amp;= r_{11} \mathbf{q}_1 \\
+\mathbf{a}_2 &amp;= r_{12} \mathbf{q}_1 + r_{22} \mathbf{q}_2 \\
+\mathbf{a}_3 &amp;= r_{13} \mathbf{q}_1 + r_{23} \mathbf{q}_2 + r_{33}
 \mathbf{q}_3 \\
 &amp;\vdots
 \end{aligned}
@@ -649,8 +651,9 @@ A = QR
 \]</span></p>
 <p>其中：</p>
 <ul>
-<li><p><span class="math inline">\(Q = [\vec{q}_1 \ \vec{q}_2 \ \cdots \
-\vec{q}_n]\)</span> 是<strong>正交矩阵</strong>（列标准正交）；</p></li>
+<li><p><span class="math inline">\(Q = [\mathbf{q}_1 \ \mathbf{q}_2 \
+\cdots \ \mathbf{q}_n]\)</span>
+是<strong>正交矩阵</strong>（列标准正交）；</p></li>
 <li><p><span class="math inline">\(R\)</span>
 是<strong>上三角矩阵</strong>。</p></li>
 </ul>
@@ -719,7 +722,7 @@ LU\)</span>，其中 <span class="math inline">\(L\)</span>
 <p>这怎么可能？让我们看看几何意义。</p>
 <p><strong>几何视角</strong>：QR 分解将 <span
 class="math inline">\(A\)</span> 的列向量表示为标准正交基 <span
-class="math inline">\(\{ \vec{q}_1, \dots, \vec{q}_n \}\)</span>
+class="math inline">\(\{ \mathbf{q}_1, \dots, \mathbf{q}_n \}\)</span>
 的线性组合，系数矩阵 <span class="math inline">\(R\)</span>
 记录了这些坐标。</p>
 <p><span class="math display">\[
@@ -801,17 +804,17 @@ P = K \begin{bmatrix} R &amp; \mathbf{t} \end{bmatrix}
 class="math inline">\(3 \times 3\)</span> 的<strong>内参矩阵</strong>；
 - <span class="math inline">\(R\)</span> 是 <span
 class="math inline">\(3 \times 3\)</span> 的<strong>旋转矩阵</strong>；
-- <span class="math inline">\(\vec{t}\)</span>
+- <span class="math inline">\(\mathbf{t}\)</span>
 是<strong>平移向量</strong>。</p>
 <p><strong>关键发现</strong>：如果我们只考虑 <span
 class="math inline">\(P\)</span> 的 <span class="math inline">\(3 \times
 3\)</span> 部分 <span class="math inline">\(M = K
-R\)</span>，这恰好是一个 RQ 分解的形式！</p>
+R_{\text{rot}}\)</span>，这恰好是一个 RQ 分解的形式！</p>
 <p><span class="math display">\[
-M = K R = RQ
+M = K R_{\text{rot}} = RQ
 \]</span></p>
 <p>其中 <span class="math inline">\(K\)</span>
-是上三角矩阵（内参），<span class="math inline">\(R\)</span>
+是上三角矩阵（内参），<span class="math inline">\(Q\)</span>
 是正交矩阵（旋转）。</p>
 <p><strong>内参矩阵 <span class="math inline">\(K\)</span>
 的解释</strong>：</p>
@@ -830,25 +833,27 @@ c_y\)</span>：主点坐标（图像中心）；</li>
 <p>在机器人学中，刚体变换用 <span class="math inline">\(4 \times
 4\)</span> 的齐次矩阵表示：</p>
 <p><span class="math display">\[
-T = \begin{pmatrix} R &amp; \mathbf{t} \\ 0 &amp; 1 \end{pmatrix}
+T = \begin{pmatrix} R &amp; \mathbf{t} \\ \mathbf{0}^T &amp; 1
+\end{pmatrix}
 \]</span></p>
 <p>RQ 分解可以帮助从测量数据中提取旋转和平移分量。</p>
 <h3 id="数值线性代数">8.3 数值线性代数</h3>
-<p>对于病态方程组 <span class="math inline">\(A\vec{x} =
-\vec{b}\)</span>，使用 RQ 分解可以提高数值稳定性：</p>
+<p>对于病态方程组 <span class="math inline">\(A\mathbf{x} =
+\mathbf{b}\)</span>，使用 RQ 分解可以提高数值稳定性：</p>
 <ol type="1">
 <li><span class="math inline">\(A = RQ\)</span>；</li>
-<li>求解 <span class="math inline">\(R\vec{y} = Q^T
-\vec{b}\)</span>（良态问题）；</li>
-<li>得到 <span class="math inline">\(\vec{x} = \vec{y}\)</span>。</li>
+<li>求解 <span class="math inline">\(R\mathbf{y} = Q^T
+\mathbf{b}\)</span>（良态问题）；</li>
+<li>得到 <span class="math inline">\(\mathbf{x} =
+Q\mathbf{y}\)</span>。</li>
 </ol>
 <hr />
 <h2
 id="第九章高级视角从有限维到无限维">第九章：高级视角——从有限维到无限维</h2>
 <h3 id="投影定理">9.1 投影定理</h3>
 <p>在希尔伯特空间（完备的内积空间）中，<strong>投影定理</strong>告诉我们：</p>
-<p>对于任意向量 <span class="math inline">\(\vec{x}\)</span> 和闭子空间
-<span class="math inline">\(M\)</span>，存在唯一的分解：</p>
+<p>对于任意向量 <span class="math inline">\(\mathbf{x}\)</span>
+和闭子空间 <span class="math inline">\(M\)</span>，存在唯一的分解：</p>
 <p><span class="math display">\[\mathbf{x} = \mathbf{x}_0 +
 \mathbf{x}_1\]</span></p>
 <p>其中 <span class="math inline">\(\mathbf{x}_0 \in
