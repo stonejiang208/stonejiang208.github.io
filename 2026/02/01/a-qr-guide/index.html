@@ -28,7 +28,7 @@
 <meta property="og:description" content="引言：从一个问题说起 假设你是一个机器人工程师。你刚刚通过传感器测量，得到了物体在三维空间中的位置数据，但这些数据是在机器人自己的坐标系下测量的。你需要把这些数据转换到世界坐标系中。 或者，你是一个计算机视觉工程师。你从摄像机标定中得到了一个 \(3 \times 4\) 的投影矩阵 \(P\)，你想知道摄像机的内参（焦距、主点位置）和外参（旋转、平移）。 这些问题看似不同，却有一个共同的数学内核">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-02-01T11:44:58.000Z">
-<meta property="article:modified_time" content="2026-02-02T05:40:35.004Z">
+<meta property="article:modified_time" content="2026-02-02T06:24:39.792Z">
 <meta property="article:author" content="Stone">
 <meta property="article:tag" content="RQ分解">
 <meta property="article:tag" content="QR分解">
@@ -338,7 +338,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-02-02 13:40:35" itemprop="dateModified" datetime="2026-02-02T13:40:35+08:00">2026-02-02</time>
+                <time title="修改时间：2026-02-02 14:24:39" itemprop="dateModified" datetime="2026-02-02T14:24:39+08:00">2026-02-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -438,8 +438,8 @@ class="math inline">\(0\)</span>,那么 <span class="math display">\[
 <p>有了线性无关的概念，我们就可以定义<strong>基</strong>和<strong>维数</strong>。</p>
 <p><strong>基的定义</strong>：一个向量空间 <span
 class="math inline">\(V\)</span> 的一组基 <span
-class="math inline">\(\{\mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v_n}
-\}\)</span> 满足：</p>
+class="math inline">\(\{\mathbf{v}_{1}, \mathbf{v}_2, \dots,
+\mathbf{v}_n \}\)</span> 满足：</p>
 <ol type="1">
 <li>这组向量线性无关；</li>
 <li>它们张成整个空间 <span
@@ -477,7 +477,7 @@ a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn}
 \end{pmatrix}
 \]</span></p>
 <p>其中 <span class="math inline">\(\mathbf{a}_j = \begin{pmatrix}
-a_{1j} \\ \_{2j} \\ \vdots \\ \_{mj} \end{pmatrix}\)</span> 是第 <span
+a_{1j} \\ a_{2j} \\ \vdots \\ a_{mj} \end{pmatrix}\)</span> 是第 <span
 class="math inline">\(j\)</span> 个列向量。</p>
 <p>矩阵也代表<strong>线性变换</strong>。给定一个矩阵 <span
 class="math inline">\(A\)</span> 和向量 <span
@@ -493,7 +493,7 @@ C\mathbf{x} = A(B\mathbf{x})
 \]</span></p>
 <p>即先做 <span class="math inline">\(B\)</span> 变换，再做 <span
 class="math inline">\(A\)</span> 变换。</p>
-<p>例如，旋转矩阵 <span class="math inline">\(\_\theta\)</span>
+<p>例如，旋转矩阵 <span class="math inline">\(R_\theta\)</span>
 和缩放矩阵 <span class="math inline">\(S\)</span>
 相乘，先缩放再旋转：</p>
 <p><span class="math display">\[
@@ -545,8 +545,8 @@ v_2^2 + \cdots + v_n^2}
 \]</span></p>
 <p><strong>正交向量组的性质</strong>：如果一组向量两两正交且非零，那么它们一定是线性无关的。</p>
 <p><strong>证明</strong>：设 <span class="math inline">\(c_1 \vec{v}_1 +
-c_2 \vec{v}_2 + \cdots + \_k \vec{v\_k = \vec{0}\)</span>，两边与 <span
-class="math inline">\(\vec{v\_i\)</span> 做点积：</p>
+c_2 \vec{v}_2 + \cdots + c_k \vec{v}_k = \vec{0}\)</span>，两边与 <span
+class="math inline">\(\vec{v}_i\)</span> 做点积：</p>
 <p><span class="math display">\[
 c_i (\mathbf{v}_i \cdot \mathbf{v}_i) = 0 \implies c_i = 0
 \]</span></p>
@@ -570,27 +570,27 @@ c_i (\mathbf{v}_i \cdot \mathbf{v}_i) = 0 \implies c_i = 0
 id="第四章格拉姆-施密特正交化如何构造标准正交基">第四章：格拉姆-施密特正交化——如何构造标准正交基</h2>
 <h3 id="问题的提出">4.1 问题的提出</h3>
 <p>给定一组线性无关的向量 <span class="math inline">\(\{\vec{v}_1,
-\vec{v\_2, \dots, \vec{v\_n\}\)</span>，如何构造它们张成空间的标准正交基
-<span class="math inline">\(\{\vec{q}_1, \vec{q\_2, \dots,
-\vec{q\_n\}\)</span>？</p>
+\vec{v}_2, \dots, \vec{v}_n\}\)</span>，如何构造它们张成空间的标准正交基
+<span class="math inline">\(\{\vec{q}_1, \vec{q}_2, \dots,
+\vec{q}_n\}\)</span>？</p>
 <p>1907 年，Jørgen Gram 和 Erhard Schmidt
 独立提出了解决方法，这就是<strong>格拉姆-施密特正交化过程</strong>。</p>
 <h3 id="过程的直觉解释">4.2 过程的直觉解释</h3>
 <p>想象你在建房子。你有 <span class="math inline">\(\{\vec{v}_1,
-\vec{v\_2, \vec{v\_3\}\)</span>
+\vec{v}_2, \vec{v}_3\}\)</span>
 三根柱子，你想让它们两两垂直（正交），并且长度都是 1（单位化）。</p>
 <p><strong>第一步</strong>：取第一根柱子 <span
-class="math inline">\(\vec{v\_1\)</span>，把它弄短到长度 1：</p>
+class="math inline">\(\vec{v}_{1}\)</span>，把它弄短到长度 1：</p>
 <p><span class="math display">\[
 \mathbf{q}_1 = \frac{\mathbf{v}_1}{\|\mathbf{v}_1\|}
 \]</span></p>
 <p><strong>第二步</strong>：第二根柱子 <span
-class="math inline">\(\vec{v\_2\)</span> 肯定和 <span
-class="math inline">\(\vec{q\_1\)</span> 不垂直。从 <span
-class="math inline">\(\vec{v\_2\)</span> 中减去它在 <span
-class="math inline">\(\vec{q\_1\)</span>
+class="math inline">\(\vec{v}_{2}\)</span> 肯定和 <span
+class="math inline">\(\vec{q}_{1}\)</span> 不垂直。从 <span
+class="math inline">\(\vec{v}_{2}\)</span> 中减去它在 <span
+class="math inline">\(\vec{q}_{1}\)</span>
 方向上的分量，剩下的部分就垂直于 <span
-class="math inline">\(\vec{q\_1\)</span>：</p>
+class="math inline">\(\vec{q}_{1}\)</span>：</p>
 <p><span class="math display">\[
 \mathbf{u}_2 = \mathbf{v}_2 - (\mathbf{v}_2 \cdot \mathbf{q}_1)
 \mathbf{q}_1
@@ -600,15 +600,15 @@ class="math inline">\(\vec{q\_1\)</span>：</p>
 \mathbf{q}_2 = \frac{\mathbf{u}_2}{\|\mathbf{u}_2\|}
 \]</span></p>
 <p><strong>第三步</strong>：第三根柱子 <span
-class="math inline">\(\vec{v\_3\)</span> 既有 <span
-class="math inline">\(\vec{q\_1\)</span> 方向的分量，也有 <span
-class="math inline">\(\vec{q\_2\)</span>
+class="math inline">\(\vec{v}_{3}\)</span> 既有 <span
+class="math inline">\(\vec{q}_{1}\)</span> 方向的分量，也有 <span
+class="math inline">\(\vec{q}_{2}\)</span>
 方向的分量。把这两部分都减掉：</p>
 <p><span class="math display">\[
 \mathbf{u}_3 = \mathbf{v}_3 - (\mathbf{v}_3 \cdot \mathbf{q}_1)
 \mathbf{q}_1 - (\mathbf{v}_3 \cdot \mathbf{q}_2) \mathbf{q}_2
 \]</span></p>
-<p>单位化得到 <span class="math inline">\(\vec{q\_3\)</span>。</p>
+<p>单位化得到 <span class="math inline">\(\vec{q}_{3}\)</span>。</p>
 <h3 id="一般公式">4.3 一般公式</h3>
 <p><strong>正交化步骤</strong>：</p>
 <p><span class="math display">\[
@@ -632,8 +632,8 @@ class="math inline">\(\vec{q\_2\)</span>
 \]</span></p>
 <h3 id="正交化的矩阵表示">4.4 正交化的矩阵表示</h3>
 <p>将上述过程用矩阵表示，我们得到一个惊人的结果。</p>
-<p>设矩阵 <span class="math inline">\(A = [\vec{v}_1 \ \vec{v\_2 \
-\cdots \ \vec{v\_n]\)</span>，经过格拉姆-施密特正交化后：</p>
+<p>设矩阵 <span class="math inline">\(A = [\mathbf{a}_1 \ \mathbf{a}_2 \
+\cdots \ \mathbf{a}_n]\)</span>，经过格拉姆-施密特正交化后：</p>
 <p><span class="math display">\[
 \begin{aligned}
 \mathbf{v}_1 &amp;= r_{11} \mathbf{q}_1 \\
@@ -647,8 +647,8 @@ class="math inline">\(\vec{q\_2\)</span>
 <p><span class="math display">\[
 A = QR
 \]</span></p>
-<p>其中： - <span class="math inline">\(Q = [\vec{q}_1 \ \vec{q\_2 \
-\cdots \ \vec{q\_n]\)</span> 是<strong>正交矩阵</strong>（列标准正交）；
+<p>其中： - <span class="math inline">\(Q = [\vec{q}_1 \ \vec{q}_2 \
+\cdots \ \vec{q}_n]\)</span> 是<strong>正交矩阵</strong>（列标准正交）；
 - <span class="math inline">\(R\)</span>
 是<strong>上三角矩阵</strong>。</p>
 <p>这就是著名的 <strong>QR 分解</strong>！格拉姆-施密特过程给出了 QR
@@ -663,10 +663,14 @@ id="第五章正交矩阵保持长度和角度的变换">第五章：正交矩�
 是<strong>正交矩阵</strong>。这意味着 <span class="math inline">\(Q^{-1}
 = Q^T\)</span>。</p>
 <p>由于 <span class="math inline">\(Q\)</span>
-的列是标准正交的（根据定义），我们有： - 列向量两两正交：<span
-class="math inline">\(\_i^T \_j = 0\)</span>（当 <span
-class="math inline">\(i \neq j\)</span>）； - 列向量长度都是 1：<span
-class="math inline">\(\_i^T \_i = 1\)</span>。</p>
+的列是标准正交的（根据定义），我们有：</p>
+<ul>
+<li><p>列向量两两正交：<span class="math inline">\(\mathbf{v}_i^T
+\mathbf{v}_j = 0\)</span>（当 <span class="math inline">\(i \neq
+j\)</span>）；</p></li>
+<li><p>列向量长度都是 1：<span class="math inline">\(\mathbf{v}_i^T
+\mathbf{v}_i = 1\)</span>。</p></li>
+</ul>
 <h3 id="正交矩阵的性质">5.2 正交矩阵的性质</h3>
 <p><strong>保范性</strong>：</p>
 <p>$　|Q| = ||　$</p>
@@ -680,7 +684,7 @@ class="math inline">\(\_i^T \_i = 1\)</span>。</p>
 <p>这意味着正交变换不改变向量的长度和夹角。</p>
 <h3 id="正交变换的几何意义">5.3 正交变换的几何意义</h3>
 <p>在二维平面中，正交矩阵只可能是： - <strong>旋转</strong>：<span
-class="math inline">\(\_\theta = \begin{pmatrix} \cos\theta &amp;
+class="math inline">\(R_\theta = \begin{pmatrix} \cos\theta &amp;
 -\sin\theta \\ \sin\theta &amp; \cos\theta
 \end{pmatrix}\)</span>（行列式为 +1）； - <strong>反射</strong>：<span
 class="math inline">\(F = \begin{pmatrix} \cos 2\theta &amp; \sin
@@ -709,7 +713,7 @@ LU\)</span>，其中 <span class="math inline">\(L\)</span>
 <p>这怎么可能？让我们看看几何意义。</p>
 <p><strong>几何视角</strong>：QR 分解将 <span
 class="math inline">\(A\)</span> 的列向量表示为标准正交基 <span
-class="math inline">\(\{ \vec{q\_1, \dots, \vec{q\_n \}\)</span>
+class="math inline">\(\{ \vec{q}_1, \dots, \vec{q}_n \}\)</span>
 的线性组合，系数矩阵 <span class="math inline">\(R\)</span>
 记录了这些坐标。</p>
 <p><span class="math display">\[
@@ -810,10 +814,10 @@ K = \begin{pmatrix} f_x &amp; s &amp; c_x \\ 0 &amp; f_y &amp; c_y \\ 0
 &amp; 0 &amp; 1 \end{pmatrix}
 \]</span></p>
 <ul>
-<li><span class="math inline">\(\_x,
-\_y\)</span>：焦距（像素单位）；</li>
-<li><span class="math inline">\(\_x,
-\_y\)</span>：主点坐标（图像中心）；</li>
+<li><span class="math inline">\(f_x,
+f_y\)</span>：焦距（像素单位）；</li>
+<li><span class="math inline">\(c_x,
+c_y\)</span>：主点坐标（图像中心）；</li>
 <li><span class="math inline">\(s\)</span>：倾斜因子（通常为 0）。</li>
 </ul>
 <h3 id="机器人学齐次变换分解">8.2 机器人学：齐次变换分解</h3>
@@ -839,23 +843,23 @@ id="第九章高级视角从有限维到无限维">第九章：高级视角—�
 <p>在希尔伯特空间（完备的内积空间）中，<strong>投影定理</strong>告诉我们：</p>
 <p>对于任意向量 <span class="math inline">\(\vec{x}\)</span> 和闭子空间
 <span class="math inline">\(M\)</span>，存在唯一的分解：</p>
-<p><span class="math display">\[\mathbf{x} = \mathbf{x\_0 +
-\mathbf{x\_1\]</span></p>
-<p>其中 <span class="math inline">\(\mathbf{x\_0 \in
-M\)</span>（投影），<span class="math inline">\(\mathbf{x\_1 \in
+<p><span class="math display">\[\mathbf{x} = \mathbf{x}_0 +
+\mathbf{x}_1\]</span></p>
+<p>其中 <span class="math inline">\(\mathbf{x}_0 \in
+M\)</span>（投影），<span class="math inline">\(\mathbf{x}_1 \in
 M^\perp\)</span>（正交补）。</p>
 <p>这正是格拉姆-施密特过程在无限维空间的推广。</p>
 <h3 id="傅里叶级数函数空间的qr-分解">9.2 傅里叶级数——函数空间的「QR
 分解」</h3>
 <p>在函数空间 <span class="math inline">\(L^2[-\pi, \pi]\)</span>
 中，<strong>傅里叶级数</strong>将函数展开为正交基的线性组合：</p>
-<p><span class="math display">\[f(t) = \su\_{n=-\infty}^{\infty} \_n
+<p><span class="math display">\[f(t) = \sum_{n=-\infty}^{\infty} c_n
 e^{int}\]</span></p>
 <ul>
 <li><strong>正交基</strong>：<span class="math inline">\(\{ e^{int}
 \}\)</span> 在内积 <span class="math inline">\(\langle f, g \rangle =
-\in\_{-\pi}^{\pi} f(t) \overline{g(t)} dt\)</span> 下正交；</li>
-<li><strong>系数</strong>：<span class="math inline">\(\_n = \langle f,
+\int_{-\pi}^{\pi} f(t) \overline{g(t)} dt\)</span> 下正交；</li>
+<li><strong>系数</strong>：<span class="math inline">\(c_n = \langle f,
 e^{int} \rangle\)</span>。</li>
 </ul>
 <p>这与 QR 分解的结构完全一致！正交基对应 <span
@@ -864,13 +868,13 @@ class="math inline">\(R\)</span>。</p>
 <h3 id="小波变换另一种正交分解">9.3 小波变换——另一种正交分解</h3>
 <p><strong>小波变换</strong>也利用了类似的结构：用一个正交小波基将信号分解。</p>
 <p><span class="math display">\[\text{信号} = \sum_{k} c_k \phi(t-k) +
-\sum_{j,k} \_{jk} \ps\_{jk}(t)\]</span></p>
+\sum_{j,k} d_{jk} \psi_{jk}(t)\]</span></p>
 <ul>
 <li><span
 class="math inline">\(\phi\)</span>：尺度函数（低频部分）；</li>
 <li><span
 class="math inline">\(\psi\)</span>：小波函数（高频部分）；</li>
-<li>系数 <span class="math inline">\(\_k, \_{jk}\)</span> 类比于 <span
+<li>系数 <span class="math inline">\(c_k, d_{jk}\)</span> 类比于 <span
 class="math inline">\(R\)</span> 矩阵。</li>
 </ul>
 <hr />
@@ -1177,5 +1181,389 @@ in Computer Vision</em>. Cambridge University Press.</li>
 
   
 
+<script>
+(function() {
+  'use strict';
+
+  // 配置
+  const CONFIG = {
+    endpoint: 'https://api.tao-studio.net/performance-metrics',
+    sampleRate: 0.1, // 10% 的页面加载会发送数据
+    maxMetricsPerSession: 50,
+    sessionTimeout: 30 * 60 * 1000, // 30分钟
+    localStorageKey: 'performance_metrics_buffer'
+  };
+
+  // 性能指标收集器
+  class PerformanceMonitor {
+    constructor() {
+      this.metricsBuffer = [];
+      this.sessionId = this.generateSessionId();
+      this.pageLoadTime = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      if (Math.random() > CONFIG.sampleRate) return;
+
+      this.collectInitialMetrics();
+      this.setupEventListeners();
+      this.setupPeriodicSend();
+      
+      window.addEventListener('beforeunload', () => this.sendMetrics());
+    }
+
+    collectInitialMetrics() {
+      const metrics = {
+        type: 'page_load',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        referrer: document.referrer,
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        connection: this.getConnectionInfo(),
+        deviceMemory: navigator.deviceMemory || 'unknown',
+        hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
+        performance: this.getPerformanceMetrics(),
+        mathjax: this.detectMathJax(),
+        pageLoadTime: Date.now() - this.pageLoadTime
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    getConnectionInfo() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return 'unknown';
+      
+      return {
+        effectiveType: connection.effectiveType,
+        downlink: connection.downlink,
+        rtt: connection.rtt,
+        saveData: connection.saveData
+      };
+    }
+
+    getPerformanceMetrics() {
+      if (!window.performance || !window.performance.timing) return null;
+
+      const timing = window.performance.timing;
+      const navigation = window.performance.navigation || {};
+      
+      return {
+        navigationType: navigation.type || 0,
+        redirectCount: navigation.redirectCount || 0,
+        dnsLookup: timing.domainLookupEnd - timing.domainLookupStart,
+        tcpConnect: timing.connectEnd - timing.connectStart,
+        requestResponse: timing.responseEnd - timing.requestStart,
+        domInteractive: timing.domInteractive - timing.navigationStart,
+        domComplete: timing.domComplete - timing.navigationStart,
+        loadEvent: timing.loadEventEnd - timing.navigationStart,
+        firstPaint: this.getFirstPaint(),
+        firstContentfulPaint: this.getFirstContentfulPaint(),
+        largestContentfulPaint: this.getLargestContentfulPaint(),
+        cumulativeLayoutShift: this.getCumulativeLayoutShift()
+      };
+    }
+
+    getFirstPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fpEntry = entries.find(entry => entry.name === 'first-paint');
+      return fpEntry ? Math.round(fpEntry.startTime) : null;
+    }
+
+    getFirstContentfulPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fcpEntry = entries.find(entry => entry.name === 'first-contentful-paint');
+      return fcpEntry ? Math.round(fcpEntry.startTime) : null;
+    }
+
+    getLargestContentfulPaint() {
+      const entries = performance.getEntriesByType('largest-contentful-paint');
+      if (entries.length === 0) return null;
+      
+      const lcpEntry = entries[entries.length - 1];
+      return Math.round(lcpEntry.startTime);
+    }
+
+    getCumulativeLayoutShift() {
+      let cls = 0;
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (!entry.hadRecentInput) {
+            cls += entry.value;
+          }
+        }
+      });
+      
+      try {
+        observer.observe({ type: 'layout-shift', buffered: true });
+        return Math.round(cls * 100) / 100;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    detectMathJax() {
+      const scripts = Array.from(document.querySelectorAll('script'));
+      const hasMathJaxScript = scripts.some(script => 
+        script.src && script.src.includes('mathjax')
+      );
+      
+      const hasMathJaxElements = document.querySelectorAll('[class*="math"], [class*="MathJax"]').length > 0;
+      
+      return {
+        hasScript: hasMathJaxScript,
+        hasElements: hasMathJaxElements,
+        elementCount: document.querySelectorAll('[class*="math"], [class*="MathJax"]').length
+      };
+    }
+
+    setupEventListeners() {
+      window.addEventListener('error', (event) => {
+        if (event.target && event.target.tagName) {
+          this.collectResourceError(event);
+        }
+      }, true);
+
+      this.setupMathJaxMonitoring();
+      this.setupUserInteractionMonitoring();
+      this.setupNetworkMonitoring();
+    }
+
+    collectResourceError(event) {
+      const metrics = {
+        type: 'resource_error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        errorType: 'resource_load',
+        resourceType: event.target.tagName.toLowerCase(),
+        resourceSrc: event.target.src || event.target.href || 'unknown',
+        errorMessage: event.message || 'Resource load failed'
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    setupMathJaxMonitoring() {
+      if (window.MathJax && window.MathJax.Hub) {
+        window.MathJax.Hub.Register.StartupHook('End', () => {
+          const metrics = {
+            type: 'mathjax_rendered',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            renderTime: Date.now() - this.pageLoadTime,
+            mathElementCount: document.querySelectorAll('.MathJax, .math').length
+          };
+
+          this.addToBuffer(metrics);
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const metrics = {
+            type: 'math_element_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            elementType: target.tagName,
+            elementClass: target.className
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupUserInteractionMonitoring() {
+      let scrollStartTime = null;
+      let scrollTimeout = null;
+
+      window.addEventListener('scroll', () => {
+        if (!scrollStartTime) scrollStartTime = Date.now();
+        
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          if (scrollStartTime) {
+            const scrollDuration = Date.now() - scrollStartTime;
+            const metrics = {
+              type: 'scroll_session',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              url: window.location.href,
+              duration: scrollDuration,
+              scrollY: window.scrollY,
+              viewportHeight: window.innerHeight,
+              documentHeight: document.documentElement.scrollHeight
+            };
+
+            this.addToBuffer(metrics);
+            scrollStartTime = null;
+          }
+        }, 1000);
+      });
+
+      document.addEventListener('click', (event) => {
+        if (Math.random() < 0.01) {
+          const metrics = {
+            type: 'user_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            targetTag: event.target.tagName,
+            targetClass: event.target.className,
+            targetId: event.target.id,
+            x: event.clientX,
+            y: event.clientY
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupNetworkMonitoring() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return;
+
+      connection.addEventListener('change', () => {
+        const metrics = {
+          type: 'network_change',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          url: window.location.href,
+          connection: this.getConnectionInfo()
+        };
+
+        this.addToBuffer(metrics);
+      });
+    }
+
+    setupPeriodicSend() {
+      setInterval(() => {
+        if (this.metricsBuffer.length >= 10) this.sendMetrics();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.sendMetrics();
+      });
+    }
+
+    addToBuffer(metrics) {
+      this.metricsBuffer.push(metrics);
+      
+      if (this.metricsBuffer.length > CONFIG.maxMetricsPerSession) {
+        this.metricsBuffer = this.metricsBuffer.slice(-CONFIG.maxMetricsPerSession);
+      }
+      
+      this.saveToLocalStorage();
+    }
+
+    saveToLocalStorage() {
+      try {
+        const data = {
+          sessionId: this.sessionId,
+          metrics: this.metricsBuffer,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(CONFIG.localStorageKey, JSON.stringify(data));
+      } catch (e) {
+        console.warn('无法保存性能数据到 localStorage:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const data = localStorage.getItem(CONFIG.localStorageKey);
+        if (data) {
+          const parsed = JSON.parse(data);
+          if (Date.now() - parsed.timestamp < CONFIG.sessionTimeout) {
+            this.sessionId = parsed.sessionId;
+            this.metricsBuffer = parsed.metrics || [];
+          } else {
+            localStorage.removeItem(CONFIG.localStorageKey);
+          }
+        }
+      } catch (e) {}
+    }
+
+    sendMetrics() {
+      if (this.metricsBuffer.length === 0) return;
+
+      const dataToSend = [...this.metricsBuffer];
+      this.metricsBuffer = [];
+
+      if (navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(dataToSend)], { type: 'application/json' });
+        navigator.sendBeacon(CONFIG.endpoint, blob);
+      } else {
+        fetch(CONFIG.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dataToSend),
+          keepalive: true
+        }).catch(error => {
+          console.warn('性能数据发送失败:', error);
+          this.metricsBuffer = [...dataToSend, ...this.metricsBuffer];
+        });
+      }
+
+      try {
+        localStorage.removeItem(CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    getMobileSpecificMetrics() {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      return {
+        isMobile,
+        isTouchDevice,
+        devicePixelRatio: window.devicePixelRatio || 1,
+        orientation: window.screen.orientation ? window.screen.orientation.type : 'unknown',
+        battery: this.getBatteryInfo()
+      };
+    }
+
+    async getBatteryInfo() {
+      if (!navigator.getBattery) return null;
+      
+      try {
+        const battery = await navigator.getBattery();
+        return {
+          charging: battery.charging,
+          level: battery.level,
+          chargingTime: battery.chargingTime,
+          dischargingTime: battery.dischargingTime
+        };
+      } catch (e) {
+        return null;
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.performanceMonitor = new PerformanceMonitor();
+    });
+  } else {
+    window.performanceMonitor = new PerformanceMonitor();
+  }
+
+})();
+</script>
 </body>
 </html>
