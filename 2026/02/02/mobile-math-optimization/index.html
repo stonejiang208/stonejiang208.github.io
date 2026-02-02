@@ -81,119 +81,7 @@
   </style>
 </noscript>
 
-<style>mjx-container[jax="SVG"] {
-  direction: ltr;
-}
-
-mjx-container[jax="SVG"] > svg {
-  overflow: visible;
-}
-
-mjx-container[jax="SVG"][display="true"] {
-  display: block;
-  text-align: center;
-  margin: 1em 0;
-}
-
-mjx-container[jax="SVG"][justify="left"] {
-  text-align: left;
-}
-
-mjx-container[jax="SVG"][justify="right"] {
-  text-align: right;
-}
-
-g[data-mml-node="merror"] > g {
-  fill: red;
-  stroke: red;
-}
-
-g[data-mml-node="merror"] > rect[data-background] {
-  fill: yellow;
-  stroke: none;
-}
-
-g[data-mml-node="mtable"] > line[data-line] {
-  stroke-width: 70px;
-  fill: none;
-}
-
-g[data-mml-node="mtable"] > rect[data-frame] {
-  stroke-width: 70px;
-  fill: none;
-}
-
-g[data-mml-node="mtable"] > .mjx-dashed {
-  stroke-dasharray: 140;
-}
-
-g[data-mml-node="mtable"] > .mjx-dotted {
-  stroke-linecap: round;
-  stroke-dasharray: 0,140;
-}
-
-g[data-mml-node="mtable"] > svg {
-  overflow: visible;
-}
-
-[jax="SVG"] mjx-tool {
-  display: inline-block;
-  position: relative;
-  width: 0;
-  height: 0;
-}
-
-[jax="SVG"] mjx-tool > mjx-tip {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-mjx-tool > mjx-tip {
-  display: inline-block;
-  padding: .2em;
-  border: 1px solid #888;
-  font-size: 70%;
-  background-color: #F8F8F8;
-  color: black;
-  box-shadow: 2px 2px 5px #AAAAAA;
-}
-
-g[data-mml-node="maction"][data-toggle] {
-  cursor: pointer;
-}
-
-mjx-status {
-  display: block;
-  position: fixed;
-  left: 1em;
-  bottom: 1em;
-  min-width: 25%;
-  padding: .2em .4em;
-  border: 1px solid #888;
-  font-size: 90%;
-  background-color: #F8F8F8;
-  color: black;
-}
-
-foreignObject[data-mjx-xml] {
-  font-family: initial;
-  line-height: normal;
-  overflow: visible;
-}
-
-.MathJax path {
-  stroke-width: 3;
-}
-
-mjx-container[display="true"] {
-  overflow: auto hidden;
-}
-
-mjx-container[display="true"] + br {
-  display: none;
-}
-</style></head>
+</head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -356,14 +244,14 @@ mjx-container[display="true"] + br {
 <p>我们创建了专门的移动端优化样式文件
 (<code>source/_data/styles.styl</code>)，包含以下关键优化：</p>
 <h4 id="防止公式溢出">防止公式溢出</h4>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.mjx-chtml</span> {</span><br><span class="line">  <span class="attribute">max-width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">overflow-x</span>: auto;</span><br><span class="line">  <span class="attribute">overflow-y</span>: hidden;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.mjx-chtml</span> &#123;</span><br><span class="line">  <span class="attribute">max-width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">overflow-x</span>: auto;</span><br><span class="line">  <span class="attribute">overflow-y</span>: hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="响应式字体调整">响应式字体调整</h4>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+mobile() {</span><br><span class="line">  <span class="selector-class">.MJXc-display</span> {</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">95%</span>;</span><br><span class="line">  }</span><br><span class="line">  </span><br><span class="line">  <span class="selector-class">.mjx-frac</span> {</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">110%</span>;</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+mobile() &#123;</span><br><span class="line">  <span class="selector-class">.MJXc-display</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">95%</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="selector-class">.mjx-frac</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">110%</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="触摸设备优化">触摸设备优化</h4>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> (<span class="attribute">hover</span>: none) <span class="keyword">and</span> (<span class="attribute">pointer</span>: coarse) {</span><br><span class="line">  <span class="selector-class">.mjx-chtml</span><span class="selector-attr">[style*=<span class="string">"width"</span>]</span> {</span><br><span class="line">    -webkit-<span class="attribute">overflow</span>-scrolling: touch;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">4px</span> <span class="number">0</span>;</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> (<span class="attribute">hover</span>: none) <span class="keyword">and</span> (<span class="attribute">pointer</span>: coarse) &#123;</span><br><span class="line">  <span class="selector-class">.mjx-chtml</span><span class="selector-attr">[style*=<span class="string">&quot;width&quot;</span>]</span> &#123;</span><br><span class="line">    -webkit-<span class="attribute">overflow</span>-scrolling: touch;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">4px</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="mathjax-配置优化">2. MathJax 配置优化</h3>
 <p>在 <code>_config.yml</code> 中配置 MathJax 以优化移动端体验：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mathjax:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">false</span>  <span class="comment"># 使用服务器端渲染</span></span><br><span class="line">  <span class="attr">cdn:</span> <span class="string">https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js</span></span><br><span class="line">  <span class="attr">config:</span></span><br><span class="line">    <span class="attr">tex:</span></span><br><span class="line">      <span class="attr">inlineMath:</span> [[<span class="string">'$'</span>, <span class="string">'$'</span>], [<span class="string">'\\('</span>, <span class="string">'\\)'</span>]]</span><br><span class="line">      <span class="attr">displayMath:</span> [[<span class="string">'$$'</span>, <span class="string">'$$'</span>], [<span class="string">'\\['</span>, <span class="string">'\\]'</span>]]</span><br><span class="line">    <span class="attr">svg:</span></span><br><span class="line">      <span class="attr">fontCache:</span> <span class="string">'global'</span></span><br><span class="line">    <span class="attr">options:</span></span><br><span class="line">      <span class="attr">enableMenu:</span> <span class="literal">true</span>  <span class="comment"># 启用右键菜单（移动端长按）</span></span><br><span class="line">      <span class="attr">menuOptions:</span></span><br><span class="line">        <span class="attr">settings:</span></span><br><span class="line">          <span class="attr">zoom:</span> <span class="string">'Click'</span>  <span class="comment"># 点击缩放</span></span><br><span class="line">          <span class="attr">zscale:</span> <span class="string">'150%'</span> <span class="comment"># 缩放比例</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mathjax:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">false</span>  <span class="comment"># 使用服务器端渲染</span></span><br><span class="line">  <span class="attr">cdn:</span> <span class="string">https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js</span></span><br><span class="line">  <span class="attr">config:</span></span><br><span class="line">    <span class="attr">tex:</span></span><br><span class="line">      <span class="attr">inlineMath:</span> [[<span class="string">&#x27;$&#x27;</span>, <span class="string">&#x27;$&#x27;</span>], [<span class="string">&#x27;\\(&#x27;</span>, <span class="string">&#x27;\\)&#x27;</span>]]</span><br><span class="line">      <span class="attr">displayMath:</span> [[<span class="string">&#x27;$$&#x27;</span>, <span class="string">&#x27;$$&#x27;</span>], [<span class="string">&#x27;\\[&#x27;</span>, <span class="string">&#x27;\\]&#x27;</span>]]</span><br><span class="line">    <span class="attr">svg:</span></span><br><span class="line">      <span class="attr">fontCache:</span> <span class="string">&#x27;global&#x27;</span></span><br><span class="line">    <span class="attr">options:</span></span><br><span class="line">      <span class="attr">enableMenu:</span> <span class="literal">true</span>  <span class="comment"># 启用右键菜单（移动端长按）</span></span><br><span class="line">      <span class="attr">menuOptions:</span></span><br><span class="line">        <span class="attr">settings:</span></span><br><span class="line">          <span class="attr">zoom:</span> <span class="string">&#x27;Click&#x27;</span>  <span class="comment"># 点击缩放</span></span><br><span class="line">          <span class="attr">zscale:</span> <span class="string">&#x27;150%&#x27;</span> <span class="comment"># 缩放比例</span></span><br></pre></td></tr></table></figure>
 <h3 id="内容编写最佳实践">3. 内容编写最佳实践</h3>
 <h4 id="避免过宽公式">避免过宽公式</h4>
 <ul>
@@ -372,27 +260,27 @@ mjx-container[display="true"] + br {
 <li>考虑使用 <code>\small</code> 或 <code>\tiny</code> 命令</li>
 </ul>
 <h4 id="优化矩阵显示">优化矩阵显示</h4>
-<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 避免过宽矩阵</span></span><br><span class="line"><span class="keyword">\begin</span>{pmatrix}</span><br><span class="line">  a<span class="built_in">_</span>{11} <span class="built_in">&amp;</span> a<span class="built_in">_</span>{12} <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>{1n} <span class="keyword">\\</span></span><br><span class="line">  a<span class="built_in">_</span>{21} <span class="built_in">&amp;</span> a<span class="built_in">_</span>{22} <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>{2n} <span class="keyword">\\</span></span><br><span class="line">  <span class="keyword">\vdots</span> <span class="built_in">&amp;</span> <span class="keyword">\vdots</span> <span class="built_in">&amp;</span> <span class="keyword">\ddots</span> <span class="built_in">&amp;</span> <span class="keyword">\vdots</span> <span class="keyword">\\</span></span><br><span class="line">  a<span class="built_in">_</span>{m1} <span class="built_in">&amp;</span> a<span class="built_in">_</span>{m2} <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>{mn}</span><br><span class="line"><span class="keyword">\end</span>{pmatrix}</span><br><span class="line"></span><br><span class="line"><span class="comment">% 考虑使用转置表示</span></span><br><span class="line">A<span class="built_in">^</span>T = <span class="keyword">\begin</span>{pmatrix}</span><br><span class="line">  a<span class="built_in">_</span>{11} <span class="built_in">&amp;</span> a<span class="built_in">_</span>{21} <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>{m1} <span class="keyword">\\</span></span><br><span class="line">  a<span class="built_in">_</span>{12} <span class="built_in">&amp;</span> a<span class="built_in">_</span>{22} <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>{m2} <span class="keyword">\\</span></span><br><span class="line">  <span class="keyword">\vdots</span> <span class="built_in">&amp;</span> <span class="keyword">\vdots</span> <span class="built_in">&amp;</span> <span class="keyword">\ddots</span> <span class="built_in">&amp;</span> <span class="keyword">\vdots</span> <span class="keyword">\\</span></span><br><span class="line">  a<span class="built_in">_</span>{1n} <span class="built_in">&amp;</span> a<span class="built_in">_</span>{2n} <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>{mn}</span><br><span class="line"><span class="keyword">\end</span>{pmatrix}</span><br></pre></td></tr></table></figure>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 避免过宽矩阵</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;pmatrix&#125;</span><br><span class="line">  a<span class="built_in">_</span>&#123;11&#125; <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;12&#125; <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;1n&#125; <span class="keyword">\\</span></span><br><span class="line">  a<span class="built_in">_</span>&#123;21&#125; <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;22&#125; <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;2n&#125; <span class="keyword">\\</span></span><br><span class="line">  <span class="keyword">\vdots</span> <span class="built_in">&amp;</span> <span class="keyword">\vdots</span> <span class="built_in">&amp;</span> <span class="keyword">\ddots</span> <span class="built_in">&amp;</span> <span class="keyword">\vdots</span> <span class="keyword">\\</span></span><br><span class="line">  a<span class="built_in">_</span>&#123;m1&#125; <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;m2&#125; <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;mn&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;pmatrix&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">% 考虑使用转置表示</span></span><br><span class="line">A<span class="built_in">^</span>T = <span class="keyword">\begin</span>&#123;pmatrix&#125;</span><br><span class="line">  a<span class="built_in">_</span>&#123;11&#125; <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;21&#125; <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;m1&#125; <span class="keyword">\\</span></span><br><span class="line">  a<span class="built_in">_</span>&#123;12&#125; <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;22&#125; <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;m2&#125; <span class="keyword">\\</span></span><br><span class="line">  <span class="keyword">\vdots</span> <span class="built_in">&amp;</span> <span class="keyword">\vdots</span> <span class="built_in">&amp;</span> <span class="keyword">\ddots</span> <span class="built_in">&amp;</span> <span class="keyword">\vdots</span> <span class="keyword">\\</span></span><br><span class="line">  a<span class="built_in">_</span>&#123;1n&#125; <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;2n&#125; <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> a<span class="built_in">_</span>&#123;mn&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;pmatrix&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="使用响应式容器">使用响应式容器</h4>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"responsive-math"</span>&gt;</span></span><br><span class="line">  $$f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;responsive-math&quot;</span>&gt;</span></span><br><span class="line">  $$f(x) = \frac&#123;1&#125;&#123;\sqrt&#123;2\pi\sigma^2&#125;&#125; e^&#123;-\frac&#123;(x-\mu)^2&#125;&#123;2\sigma^2&#125;&#125;$$</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h2 id="具体优化技术">具体优化技术</h2>
 <h3 id="视口适配">1. 视口适配</h3>
-<p>确保 HTML 视口设置正确： <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>确保 HTML 视口设置正确： <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="字体大小策略">2. 字体大小策略</h3>
 <p>采用渐进式字体缩放： - 基础字体：16px -
 公式字体：根据屏幕宽度动态调整 - 最小字体：12px（确保可读性）</p>
 <h3 id="滚动优化">3. 滚动优化</h3>
-<p>为宽公式添加水平滚动： <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.math-long</span> {</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">overflow-x</span>: auto;</span><br><span class="line">  -webkit-<span class="attribute">overflow</span>-scrolling: touch;</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<p>为宽公式添加水平滚动： <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.math-long</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">overflow-x</span>: auto;</span><br><span class="line">  -webkit-<span class="attribute">overflow</span>-scrolling: touch;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="性能优化">4. 性能优化</h3>
 <h4 id="延迟加载">延迟加载</h4>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 延迟加载 MathJax</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">'load'</span>, <span class="keyword">function</span>(<span class="params"></span>) {</span><br><span class="line">  <span class="keyword">if</span> (<span class="string">'MathJax'</span> <span class="keyword">in</span> <span class="variable language_">window</span>) {</span><br><span class="line">    <span class="title class_">MathJax</span>.<span class="property">startup</span>.<span class="title function_">getComponents</span>();</span><br><span class="line">  }</span><br><span class="line">});</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 延迟加载 MathJax</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;load&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="string">&#x27;MathJax&#x27;</span> <span class="keyword">in</span> <span class="variable language_">window</span>) &#123;</span><br><span class="line">    <span class="title class_">MathJax</span>.<span class="property">startup</span>.<span class="title function_">getComponents</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <h4 id="按需渲染">按需渲染</h4>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span>  <span class="comment"># 仅在有公式的页面加载 MathJax</span></span><br></pre></td></tr></table></figure>
 <h3 id="无障碍访问">5. 无障碍访问</h3>
 <h4 id="屏幕阅读器支持">屏幕阅读器支持</h4>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">aria-label</span>=<span class="string">"积分公式：从 a 到 b，f(x) dx"</span>&gt;</span></span><br><span class="line">  $$\int_{a}^{b} f(x) dx$$</span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">aria-label</span>=<span class="string">&quot;积分公式：从 a 到 b，f(x) dx&quot;</span>&gt;</span></span><br><span class="line">  $$\int_&#123;a&#125;^&#123;b&#125; f(x) dx$$</span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h4 id="键盘导航">键盘导航</h4>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.mjx-chtml</span><span class="selector-pseudo">:focus</span> {</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">2px</span> solid <span class="number">#2196f3</span>;</span><br><span class="line">  <span class="attribute">outline-offset</span>: <span class="number">2px</span>;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.mjx-chtml</span><span class="selector-pseudo">:focus</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">2px</span> solid <span class="number">#2196f3</span>;</span><br><span class="line">  <span class="attribute">outline-offset</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="测试方法">测试方法</h2>
 <h3 id="设备模拟测试">1. 设备模拟测试</h3>
 <p>使用浏览器开发者工具测试不同设备： - iPhone SE (375×667) - iPhone 12
@@ -445,14 +333,16 @@ MathJax 缩放功能 3. 考虑使用 <code>\displaystyle</code> 命令</p>
 多设备测试平台</li>
 <li><a target="_blank" rel="noopener" href="https://search.google.com/test/mobile-friendly">Google
 Mobile-Friendly Test</a> - 移动友好性测试</li>
-<li><a target="_blank" rel="noopener" href="https://developers.google.com/web/tools/lighthouse">Lighthouse</a>
+<li><a
+target="_blank" rel="noopener" href="https://developers.google.com/web/tools/lighthouse">Lighthouse</a>
 - 性能测试工具</li>
 </ul>
 <h3 id="优化工具">2. 优化工具</h3>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.mathjax.org/#demo">MathJax Demo</a> - MathJax
 配置演示</li>
-<li><a target="_blank" rel="noopener" href="https://css-tricks.com/snippets/css/media-queries-for-standard-devices/">CSS
+<li><a
+target="_blank" rel="noopener" href="https://css-tricks.com/snippets/css/media-queries-for-standard-devices/">CSS
 Media Queries</a> - 媒体查询参考</li>
 <li><a target="_blank" rel="noopener" href="https://caniuse.com/">Can I Use</a> - 浏览器兼容性查询</li>
 </ul>
@@ -460,7 +350,8 @@ Media Queries</a> - 媒体查询参考</li>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://docs.mathjax.org/">MathJax Documentation</a> -
 MathJax 官方文档</li>
-<li><a target="_blank" rel="noopener" href="https://developers.google.com/web/fundamentals/design-and-ux/responsive">Responsive
+<li><a
+target="_blank" rel="noopener" href="https://developers.google.com/web/fundamentals/design-and-ux/responsive">Responsive
 Web Design</a> - 响应式设计指南</li>
 <li><a target="_blank" rel="noopener" href="https://webaim.org/">Web Accessibility</a> -
 无障碍访问指南</li>
@@ -498,7 +389,10 @@ Web Design</a> - 响应式设计指南</li>
     <a href="/2026/02/02/test-math-formulas/" rel="prev" title="测试数学公式渲染">
       <i class="fa fa-chevron-left"></i> 测试数学公式渲染
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2026/02/02/pandoc-test/" rel="next" title="Pandoc 数学公式测试">
+      Pandoc 数学公式测试 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -555,14 +449,14 @@ Web Design</a> - 响应式设计指南</li>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -621,12 +515,12 @@ Web Design</a> - 响应式设计指南</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">106k</span>
+    <span title="站点总字数">110k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:36</span>
+    <span title="站点阅读时长">1:40</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
@@ -679,6 +573,61 @@ Web Design</a> - 响应式设计指南</li>
 
 
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
