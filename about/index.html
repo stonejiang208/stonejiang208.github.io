@@ -516,14 +516,32 @@
 (function() {
   'use strict';
 
-  // 配置
+  // 配置 - 支持开发和生产环境
   const CONFIG = {
-    endpoint: 'http://localhost:3001',
-    sampleRate: 0.1, // 10% 的页面加载会发送数据
+    // 开发环境配置（本地测试）
+    development: {
+      performanceEndpoint: 'http://localhost:3001',
+      analyticsEndpoint: 'http://localhost:3002/analytics',
+      sampleRate: 1.0, // 100%采样率用于测试
+      debug: true
+    },
+    // 生产环境配置（Railway部署）
+    production: {
+      performanceEndpoint: 'https://blog-performance-monitor.up.railway.app',
+      analyticsEndpoint: 'https://blog-analytics-server.up.railway.app/analytics',
+      sampleRate: 0.1, // 10%采样率
+      debug: false
+    },
+    // 通用配置
     maxMetricsPerSession: 50,
     sessionTimeout: 30 * 60 * 1000, // 30分钟
-    localStorageKey: 'performance_metrics_buffer'
+    localStorageKey: 'performance_metrics_buffer',
+    analyticsLocalStorageKey: 'analytics_events_buffer'
   };
+
+  // 根据当前环境选择配置
+  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const currentConfig = isDevelopment ? CONFIG.development : CONFIG.production;
 
   // 性能指标收集器
   class PerformanceMonitor {
@@ -539,7 +557,7 @@
     }
 
     init() {
-      if (Math.random() > CONFIG.sampleRate) return;
+      if (Math.random() > currentConfig.sampleRate) return;
 
       this.collectInitialMetrics();
       this.setupEventListeners();
@@ -838,9 +856,9 @@
 
       if (navigator.sendBeacon) {
         const blob = new Blob([JSON.stringify(dataToSend)], { type: 'application/json' });
-        navigator.sendBeacon(CONFIG.endpoint, blob);
+        navigator.sendBeacon(currentConfig.performanceEndpoint, blob);
       } else {
-        fetch(CONFIG.endpoint, {
+        fetch(currentConfig.performanceEndpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(dataToSend),
@@ -892,6 +910,344 @@
     });
   } else {
     window.performanceMonitor = new PerformanceMonitor();
+  }
+
+})();
+</script>
+
+
+<script>
+(function() {
+  'use strict';
+
+  // 分析配置 - 使用主配置的环境判断
+  const ANALYTICS_CONFIG = {
+    endpoint: currentConfig.analyticsEndpoint,
+    localStorageKey: CONFIG.analyticsLocalStorageKey,
+    sessionTimeout: CONFIG.sessionTimeout,
+    pageViewSampleRate: isDevelopment ? 1.0 : 0.5, // 开发环境100%，生产环境50%
+    eventSampleRate: isDevelopment ? 0.5 : 0.1 // 开发环境50%，生产环境10%
+  };
+
+  class AnalyticsCollector {
+    constructor() {
+      this.sessionId = this.generateSessionId();
+      this.pageViewId = this.generatePageViewId();
+      this.sessionStart = Date.now();
+      this.pageViewStart = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    generatePageViewId() {
+      return 'page_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      this.collectPageView();
+      this.setupEventListeners();
+      this.setupPeriodicFlush();
+      
+      window.addEventListener('beforeunload', () => this.flushData());
+    }
+
+    collectPageView() {
+      if (Math.random() > ANALYTICS_CONFIG.pageViewSampleRate) return;
+
+      const pageView = {
+        type: 'pageview',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        referrer: document.referrer,
+        title: document.title,
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        deviceType: this.getDeviceType(),
+        connectionType: this.getConnectionType(),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        prefersColorScheme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+        prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      };
+
+      this.saveToLocalStorage(pageView);
+    }
+
+    getDeviceType() {
+      const ua = navigator.userAgent;
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)) {
+        return 'mobile';
+      } else if (/Tablet|iPad/i.test(ua)) {
+        return 'tablet';
+      }
+      return 'desktop';
+    }
+
+    getConnectionType() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      return connection ? connection.effectiveType : 'unknown';
+    }
+
+    setupEventListeners() {
+      document.addEventListener('click', (event) => {
+        if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+        const target = event.target;
+        const clickData = {
+          type: 'click',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          target: {
+            tag: target.tagName,
+            id: target.id,
+            className: target.className,
+            text: target.textContent?.substring(0, 100) || '',
+            href: target.href || ''
+          },
+          position: {
+            x: event.clientX,
+            y: event.clientY
+          }
+        };
+
+        this.saveToLocalStorage(clickData);
+      });
+
+      let lastScrollReport = 0;
+      window.addEventListener('scroll', () => {
+        const now = Date.now();
+        if (now - lastScrollReport < 1000) return;
+        
+        const scrollDepth = this.calculateScrollDepth();
+        const scrollData = {
+          type: 'scroll',
+          timestamp: now,
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          scrollY: window.scrollY,
+          scrollDepth: scrollDepth,
+          viewportHeight: window.innerHeight,
+          documentHeight: document.documentElement.scrollHeight
+        };
+
+        this.saveToLocalStorage(scrollData);
+        lastScrollReport = now;
+      });
+
+      this.setupMathInteractionTracking();
+      this.setupSearchTracking();
+      this.setupExternalLinkTracking();
+    }
+
+    calculateScrollDepth() {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      const maxScroll = documentHeight - windowHeight;
+      if (maxScroll <= 0) return 0;
+      
+      return Math.min(100, Math.round((scrollY / maxScroll) * 100));
+    }
+
+    setupMathInteractionTracking() {
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const mathData = {
+            type: 'math_interaction',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            pageViewId: this.pageViewId,
+            url: window.location.href,
+            elementType: target.tagName,
+            mathType: this.getMathType(target)
+          };
+
+          this.saveToLocalStorage(mathData);
+        }
+      });
+    }
+
+    getMathType(element) {
+      const className = element.className || '';
+      if (className.includes('display')) return 'display';
+      if (className.includes('inline')) return 'inline';
+      return 'unknown';
+    }
+
+    setupSearchTracking() {
+      const searchInput = document.querySelector('input[type="search"], input[name="q"], .search-input');
+      if (searchInput) {
+        let searchStartTime = null;
+        
+        searchInput.addEventListener('focus', () => {
+          searchStartTime = Date.now();
+        });
+
+        searchInput.addEventListener('blur', () => {
+          if (searchStartTime && searchInput.value.trim()) {
+            const searchData = {
+              type: 'search',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              query: searchInput.value,
+              duration: Date.now() - searchStartTime
+            };
+
+            this.saveToLocalStorage(searchData);
+          }
+          searchStartTime = null;
+        });
+      }
+    }
+
+    setupExternalLinkTracking() {
+      document.addEventListener('click', (event) => {
+        let target = event.target;
+        while (target && target.tagName !== 'A') {
+          target = target.parentElement;
+        }
+        
+        if (target && target.tagName === 'A' && target.href) {
+          const url = new URL(target.href);
+          const currentUrl = new URL(window.location.href);
+          
+          if (url.hostname !== currentUrl.hostname) {
+            const linkData = {
+              type: 'external_link',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              externalUrl: target.href,
+              linkText: target.textContent?.substring(0, 100) || '',
+              isNewTab: target.target === '_blank'
+            };
+
+            this.saveToLocalStorage(linkData);
+          }
+        }
+      });
+    }
+
+    setupPeriodicFlush() {
+      setInterval(() => {
+        const data = this.loadFromLocalStorage();
+        if (data.length >= 20) this.flushData();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.flushData();
+      });
+    }
+
+    saveToLocalStorage(data) {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        const analyticsData = stored ? JSON.parse(stored) : [];
+        analyticsData.push(data);
+        
+        if (analyticsData.length > 100) {
+          analyticsData.splice(0, analyticsData.length - 100);
+        }
+        
+        localStorage.setItem(ANALYTICS_CONFIG.localStorageKey, JSON.stringify(analyticsData));
+      } catch (e) {
+        console.warn('无法保存分析数据:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    clearLocalStorage() {
+      try {
+        localStorage.removeItem(ANALYTICS_CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    async flushData() {
+      const data = this.loadFromLocalStorage();
+      if (data.length === 0) return;
+
+      try {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+          navigator.sendBeacon(ANALYTICS_CONFIG.endpoint, blob);
+        } else {
+          await fetch(ANALYTICS_CONFIG.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+            keepalive: true
+          });
+        }
+        
+        this.clearLocalStorage();
+      } catch (error) {
+        console.warn('发送分析数据失败:', error);
+      }
+    }
+
+    trackEvent(eventName, properties = {}) {
+      if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+      const eventData = {
+        type: 'custom_event',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        eventName: eventName,
+        properties: properties
+      };
+
+      this.saveToLocalStorage(eventData);
+    }
+
+    trackError(error, context = {}) {
+      const errorData = {
+        type: 'error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        error: {
+          message: error.message,
+          stack: error.stack,
+          name: error.name
+        },
+        context: context
+      };
+
+      this.saveToLocalStorage(errorData);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.analytics = new AnalyticsCollector();
+    });
+  } else {
+    window.analytics = new AnalyticsCollector();
   }
 
 })();
