@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.tao-studio.net","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"author":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="快速搜索和预览博客中的数学公式，支持按关键词、公式类型和复杂度查找。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="数学公式搜索">
+<meta property="og:url" content="http://blog.tao-studio.net/search/index.html">
+<meta property="og:site_name" content="Stone&#39;s Blog">
+<meta property="og:description" content="快速搜索和预览博客中的数学公式，支持按关键词、公式类型和复杂度查找。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-02-02T11:45:00.000Z">
+<meta property="article:modified_time" content="2026-02-02T05:08:51.496Z">
+<meta property="article:author" content="Stone">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="搜索">
+<meta property="article:tag" content="LaTeX">
+<meta property="article:tag" content="数学公式">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.tao-studio.net/search/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数学公式搜索 | Stone's Blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Stone's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">blog.tao-studio.net</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">数学公式搜索
+</h1>
+
+<div class="post-meta">
+    <div class="post-description">快速搜索和预览博客中的数学公式，支持按关键词、公式类型和复杂度查找。</div>
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="数学公式搜索">数学公式搜索</h1>
+<div class="search-container">
+<div class="search-header">
+<pre><code>&lt;h2&gt;🔍 搜索数学公式&lt;/h2&gt;
+&lt;p&gt;在博客中快速查找数学公式，支持按关键词、公式类型和复杂度搜索。&lt;/p&gt;</code></pre>
+</div>
+<div class="search-controls">
+<pre><code>&lt;div class=&quot;search-input-group&quot;&gt;
+  &lt;input type=&quot;text&quot; id=&quot;search-input&quot; placeholder=&quot;输入关键词或公式片段...&quot; class=&quot;search-input&quot;&gt;
+  &lt;button id=&quot;search-btn&quot; class=&quot;search-btn&quot;&gt;搜索&lt;/button&gt;
+  &lt;button id=&quot;clear-btn&quot; class=&quot;clear-btn&quot;&gt;清空&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;search-filters&quot;&gt;
+  &lt;div class=&quot;filter-group&quot;&gt;
+    &lt;label for=&quot;formula-type&quot;&gt;公式类型:&lt;/label&gt;
+    &lt;select id=&quot;formula-type&quot; class=&quot;filter-select&quot;&gt;
+      &lt;option value=&quot;all&quot;&gt;全部类型&lt;/option&gt;
+      &lt;option value=&quot;equation&quot;&gt;方程&lt;/option&gt;
+      &lt;option value=&quot;matrix&quot;&gt;矩阵&lt;/option&gt;
+      &lt;option value=&quot;integral&quot;&gt;积分&lt;/option&gt;
+      &lt;option value=&quot;derivative&quot;&gt;导数&lt;/option&gt;
+      &lt;option value=&quot;summation&quot;&gt;求和&lt;/option&gt;
+      &lt;option value=&quot;limit&quot;&gt;极限&lt;/option&gt;
+      &lt;option value=&quot;vector&quot;&gt;向量&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;filter-group&quot;&gt;
+    &lt;label for=&quot;complexity&quot;&gt;复杂度:&lt;/label&gt;
+    &lt;select id=&quot;complexity&quot; class=&quot;filter-select&quot;&gt;
+      &lt;option value=&quot;all&quot;&gt;全部&lt;/option&gt;
+      &lt;option value=&quot;simple&quot;&gt;简单&lt;/option&gt;
+      &lt;option value=&quot;medium&quot;&gt;中等&lt;/option&gt;
+      &lt;option value=&quot;complex&quot;&gt;复杂&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;filter-group&quot;&gt;
+    &lt;label for=&quot;sort-by&quot;&gt;排序:&lt;/label&gt;
+    &lt;select id=&quot;sort-by&quot; class=&quot;filter-select&quot;&gt;
+      &lt;option value=&quot;relevance&quot;&gt;相关性&lt;/option&gt;
+      &lt;option value=&quot;date&quot;&gt;发布日期&lt;/option&gt;
+      &lt;option value=&quot;complexity&quot;&gt;复杂度&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</div>
+<div class="search-results">
+<pre><code>&lt;div id=&quot;results-count&quot; class=&quot;results-count&quot;&gt;找到 0 个结果&lt;/div&gt;
+&lt;div id=&quot;results-container&quot; class=&quot;results-container&quot;&gt;
+  &lt;!-- 搜索结果将在这里显示 --&gt;
+&lt;/div&gt;</code></pre>
+</div>
+<div class="search-tips">
+<pre><code>&lt;h3&gt;💡 搜索提示&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;使用数学符号名称搜索，如 &quot;积分&quot;、&quot;矩阵&quot;、&quot;导数&quot;&lt;/li&gt;
+  &lt;li&gt;输入 LaTeX 命令片段，如 &quot;\int&quot;、&quot;\\sum&quot;、&quot;\\begin&#123;pmatrix&#125;&quot;&lt;/li&gt;
+  &lt;li&gt;使用英文关键词搜索，如 &quot;integral&quot;、&quot;matrix&quot;、&quot;derivative&quot;&lt;/li&gt;
+  &lt;li&gt;组合使用过滤器和关键词以获得更精确的结果&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+</div>
+</div>
+<style>
+.search-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.search-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.search-header h2 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.search-header p {
+  color: #7f8c8d;
+  font-size: 1.1em;
+}
+
+.search-controls {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.search-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.search-btn, .clear-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.search-btn {
+  background: #3498db;
+  color: white;
+}
+
+.search-btn:hover {
+  background: #2980b9;
+}
+
+.clear-btn {
+  background: #95a5a6;
+  color: white;
+}
+
+.clear-btn:hover {
+  background: #7f8c8d;
+}
+
+.search-filters {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+}
+
+.search-results {
+  margin-top: 30px;
+}
+
+.results-count {
+  font-size: 18px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eee;
+}
+
+.results-container {
+  display: grid;
+  gap: 20px;
+}
+
+.result-item {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.result-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.result-title {
+  font-size: 18px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.result-title a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.result-title a:hover {
+  text-decoration: underline;
+}
+
+.result-formula {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  overflow-x: auto;
+}
+
+.result-meta {
+  display: flex;
+  gap: 20px;
+  color: #7f8c8d;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.result-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.tag {
+  background: #e8f4fc;
+  color: #3498db;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.search-tips {
+  background: #fff8e1;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 40px;
+  border-left: 4px solid #ffc107;
+}
+
+.search-tips h3 {
+  color: #ff9800;
+  margin-bottom: 15px;
+}
+
+.search-tips ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.search-tips li {
+  margin-bottom: 8px;
+  color: #5d4037;
+}
+
+@media (max-width: 768px) {
+  .search-input-group {
+    flex-direction: column;
+  }
+  
+  .search-filters {
+    flex-direction: column;
+  }
+  
+  .filter-group {
+    min-width: 100%;
+  }
+}
+</style>
+<script>
+// 模拟搜索数据
+const searchData = [
+  {
+    id: 1,
+    title: "矩阵运算基础",
+    url: "/posts/matrix-operations/",
+    formula: "A = \\begin{pmatrix} a_{11} & a_{12} \\\\ a_{21} & a_{22} \\end{pmatrix}",
+    description: "介绍矩阵的基本运算和性质",
+    tags: ["矩阵", "线性代数", "基础"],
+    type: "matrix",
+    complexity: "simple",
+    date: "2026-01-15"
+  },
+  {
+    id: 2,
+    title: "微积分基本定理",
+    url: "/posts/calculus-fundamental-theorem/",
+    formula: "\\int_a^b f(x) dx = F(b) - F(a)",
+    description: "微积分基本定理的证明和应用",
+    tags: ["积分", "微积分", "定理"],
+    type: "integral",
+    complexity: "medium",
+    date: "2026-01-20"
+  },
+  {
+    id: 3,
+    title: "傅里叶级数展开",
+    url: "/posts/fourier-series/",
+    formula: "f(x) = \\frac{a_0}{2} + \\sum_{n=1}^\\infty [a_n \\cos(nx) + b_n \\sin(nx)]",
+    description: "傅里叶级数的推导和物理意义",
+    tags: ["级数", "傅里叶", "信号处理"],
+    type: "summation",
+    complexity: "complex",
+    date: "2026-01-25"
+  },
+  {
+    id: 4,
+    title: "偏微分方程求解",
+    url: "/posts/partial-differential-equations/",
+    formula: "\\frac{\\partial u}{\\partial t} = \\alpha \\nabla^2 u",
+    description: "热传导方程的求解方法",
+    tags: ["偏微分方程", "物理", "数值方法"],
+    type: "equation",
+    complexity: "complex",
+    date: "2026-01-28"
+  },
+  {
+    id: 5,
+    title: "向量空间性质",
+    url: "/posts/vector-space-properties/",
+    formula: "\\mathbf{v} = \\begin{pmatrix} x \\\\ y \\\\ z \\end{pmatrix}",
+    description: "向量空间的基本性质和运算",
+    tags: ["向量", "线性代数", "空间"],
+    type: "vector",
+    complexity: "simple",
+    date: "2026-01-30"
+  },
+  {
+    id: 6,
+    title: "极限计算技巧",
+    url: "/posts/limit-calculation-tricks/",
+    formula: "\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1",
+    description: "常见极限的计算方法和技巧",
+    tags: ["极限", "微积分", "技巧"],
+    type: "limit",
+    complexity: "medium",
+    date: "2026-02-01"
+  },
+  {
+    id: 7,
+    title: "导数运算法则",
+    url: "/posts/derivative-rules/",
+    formula: "\\frac{d}{dx}[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)",
+    description: "导数的基本运算法则和链式法则",
+    tags: ["导数", "微积分", "法则"],
+    type: "derivative",
+    complexity: "simple",
+    date: "2026-02-02"
+  },
+  {
+    id: 8,
+    title: "多重积分计算",
+    url: "/posts/multiple-integrals/",
+    formula: "\\iiint_V f(x,y,z) dV",
+    description: "三重积分的计算方法和应用",
+    tags: ["积分", "多重积分", "体积"],
+    type: "integral",
+    complexity: "complex",
+    date: "2026-02-02"
+  }
+];
+
+// 搜索功能实现
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('search-input');
+  const searchBtn = document.getElementById('search-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const formulaType = document.getElementById('formula-type');
+  const complexity = document.getElementById('complexity');
+  const sortBy = document.getElementById('sort-by');
+  const resultsCount = document.getElementById('results-count');
+  const resultsContainer = document.getElementById('results-container');
+
+  // 初始化显示所有结果
+  displayResults(searchData);
+
+  // 搜索按钮点击事件
+  searchBtn.addEventListener('click', performSearch);
+  
+  // 输入框回车事件
+  searchInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      performSearch();
+    }
+  });
+
+  // 清空按钮点击事件
+  clearBtn.addEventListener('click', function() {
+    searchInput.value = '';
+    displayResults(searchData);
+  });
+
+  // 过滤器变化事件
+  formulaType.addEventListener('change', performSearch);
+  complexity.addEventListener('change', performSearch);
+  sortBy.addEventListener('change', performSearch);
+
+  function performSearch() {
+    const query = searchInput.value.toLowerCase().trim();
+    const selectedType = formulaType.value;
+    const selectedComplexity = complexity.value;
+    const selectedSort = sortBy.value;
+
+    let filteredResults = searchData.filter(item => {
+      // 关键词匹配
+      const matchesQuery = !query || 
+        item.title.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.tags.some(tag => tag.toLowerCase().includes(query)) ||
+        item.formula.toLowerCase().includes(query);
+
+      // 类型匹配
+      const matchesType = selectedType === 'all' || item.type === selectedType;
+      
+      // 复杂度匹配
+      const matchesComplexity = selectedComplexity === 'all' || item.complexity === selectedComplexity;
+
+      return matchesQuery && matchesType && matchesComplexity;
+    });
+
+    // 排序
+    filteredResults.sort((a, b) => {
+      switch (selectedSort) {
+        case 'date':
+          return new Date(b.date) - new Date(a.date);
+        case 'complexity':
+          const complexityOrder = { simple: 1, medium: 2, complex: 3 };
+          return complexityOrder[b.complexity] - complexityOrder[a.complexity];
+        case 'relevance':
+        default:
+          // 简单相关性排序：标题匹配 > 描述匹配 > 标签匹配
+          if (query) {
+            const aScore = calculateRelevanceScore(a, query);
+            const bScore = calculateRelevanceScore(b, query);
+            return bScore - aScore;
+          }
+          return 0;
+      }
+    });
+
+    displayResults(filteredResults);
+  }
+
+  function calculateRelevanceScore(item, query) {
+    let score = 0;
+    if (item.title.toLowerCase().includes(query)) score += 3;
+    if (item.description.toLowerCase().includes(query)) score += 2;
+    if (item.tags.some(tag => tag.toLowerCase().includes(query))) score += 1;
+    if (item.formula.toLowerCase().includes(query)) score += 2;
+    return score;
+  }
+
+  function displayResults(results) {
+    resultsCount.textContent = `找到 ${results.length} 个结果`;
+    
+    if (results.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="no-results">
+          <h3>😕 没有找到匹配的结果</h3>
+          <p>尝试使用不同的关键词或调整过滤器设置。</p>
+          <ul>
+            <li>检查拼写是否正确</li>
+            <li>尝试更通用的关键词</li>
+            <li>清除过滤器设置</li>
+          </ul>
+        </div>
+      `;
+      return;
+    }
+
+    resultsContainer.innerHTML = results.map(item => `
+      <div class="result-item">
+        <h3 class="result-title">
+          <a href="${item.url}">${item.title}</a>
+        </h3>
+        <p>${item.description}</p>
+        <div class="result-formula">
+          <div class="math-display">$${item.formula}$$</div>
+        </div>
+        <div class="result-meta">
+          <span>类型: ${getTypeLabel(item.type)}</span>
+          <span>复杂度: ${getComplexityLabel(item.complexity)}</span>
+          <span>日期: ${item.date}</span>
+        </div>
+        <div class="result-tags">
+          ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+        </div>
+      </div>
+    `).join('');
+
+    // 重新渲染 MathJax
+    if (typeof MathJax !== 'undefined') {
+      MathJax.typesetPromise();
+    }
+  }
+
+  function getTypeLabel(type) {
+    const labels = {
+      equation: '方程',
+      matrix: '矩阵',
+      integral: '积分',
+      derivative: '导数',
+      summation: '求和',
+      limit: '极限',
+      vector: '向量'
+    };
+    return labels[type] || type;
+  }
+
+  function getComplexityLabel(complexity) {
+    const labels = {
+      simple: '简单',
+      medium: '中等',
+      complex: '复杂'
+    };
+    return labels[complexity] || complexity;
+  }
+});
+</script>
+<h2 id="使用说明">使用说明</h2>
+<h3 id="搜索功能">搜索功能</h3>
+<ol type="1">
+<li><strong>关键词搜索</strong>:
+在搜索框中输入数学概念、公式片段或文章标题</li>
+<li><strong>过滤器</strong>: 使用公式类型和复杂度过滤器缩小搜索范围</li>
+<li><strong>排序</strong>: 按相关性、发布日期或复杂度排序结果</li>
+</ol>
+<h3 id="公式预览">公式预览</h3>
+<p>搜索结果中的数学公式会自动渲染，支持： - 点击公式查看详细内容 - 复制
+LaTeX 代码 - 在不同设备上正确显示</p>
+<h3 id="移动端优化">移动端优化</h3>
+<p>搜索界面已针对移动设备优化： - 响应式布局 - 触摸友好的控件 -
+适合小屏幕的显示方式</p>
+<h3 id="数据说明">数据说明</h3>
+<p>当前搜索功能使用模拟数据进行演示。在实际部署中，可以： 1.
+集成博客文章的真实数据 2. 添加实时搜索索引 3. 支持更复杂的搜索算法</p>
+<hr />
+<p><strong>提示</strong>: 此页面需要 MathJax
+支持才能正确显示数学公式。确保您的浏览器已加载 MathJax 库。</p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          <script src="https://utteranc.es/client.js"
+        repo="stonejiang208/blog"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E6%90%9C%E7%B4%A2"><span class="nav-number">1.</span> <span class="nav-text">数学公式搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E"><span class="nav-number">1.1.</span> <span class="nav-text">使用说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD"><span class="nav-number">1.1.1.</span> <span class="nav-text">搜索功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E9%A2%84%E8%A7%88"><span class="nav-number">1.1.2.</span> <span class="nav-text">公式预览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%BC%98%E5%8C%96"><span class="nav-number">1.1.3.</span> <span class="nav-text">移动端优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E"><span class="nav-number">1.1.4.</span> <span class="nav-text">数据说明</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Stone</p>
+  <div class="site-description" itemprop="description">数学,阅读和编程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:stone@tao-studio.net" title="E-Mail → mailto:stone@tao-studio.net" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="mailto:stone@tao-studio.net" title="mailto:stone@tao-studio.net" rel="noopener" target="_blank">欢迎互粉</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://terrytao.wordpress.com/" title="https:&#x2F;&#x2F;terrytao.wordpress.com&#x2F;" rel="noopener" target="_blank">陶哲轩的博客</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stone</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">89k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:21</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
