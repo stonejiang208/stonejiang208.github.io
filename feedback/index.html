@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.tao-studio.net","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"author":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="数学公式反馈与问题报告 欢迎使用数学公式反馈系统！如果您在浏览博客时发现任何数学公式显示问题，或者有关于 LaTeX 使用的建议，请在此页面留下反馈。 常见问题类型 1. 公式显示问题  公式显示为行向量或乱码 公式渲染不完整 特殊符号显示异常 移动端显示问题  2. LaTeX 语法问题  语法错误导致公式无法渲染 转义字符使用问题 环境配置问题  3. 性能问题  公式加载缓慢 页面卡顿 移动">
+<meta property="og:type" content="website">
+<meta property="og:title" content="数学公式反馈与问题报告">
+<meta property="og:url" content="http://blog.tao-studio.net/feedback/index.html">
+<meta property="og:site_name" content="Stone&#39;s Blog">
+<meta property="og:description" content="数学公式反馈与问题报告 欢迎使用数学公式反馈系统！如果您在浏览博客时发现任何数学公式显示问题，或者有关于 LaTeX 使用的建议，请在此页面留下反馈。 常见问题类型 1. 公式显示问题  公式显示为行向量或乱码 公式渲染不完整 特殊符号显示异常 移动端显示问题  2. LaTeX 语法问题  语法错误导致公式无法渲染 转义字符使用问题 环境配置问题  3. 性能问题  公式加载缓慢 页面卡顿 移动">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-02-02T11:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-02T04:51:55.852Z">
+<meta property="article:author" content="Stone">
+<meta property="article:tag" content="数学公式">
+<meta property="article:tag" content="反馈">
+<meta property="article:tag" content="LaTeX">
+<meta property="article:tag" content="技术支持">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.tao-studio.net/feedback/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数学公式反馈与问题报告 | Stone's Blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Stone's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">blog.tao-studio.net</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">数学公式反馈与问题报告
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="数学公式反馈与问题报告">数学公式反馈与问题报告</h1>
+<p>欢迎使用数学公式反馈系统！如果您在浏览博客时发现任何数学公式显示问题，或者有关于
+LaTeX 使用的建议，请在此页面留下反馈。</p>
+<h2 id="常见问题类型">常见问题类型</h2>
+<h3 id="公式显示问题">1. 公式显示问题</h3>
+<ul>
+<li>公式显示为行向量或乱码</li>
+<li>公式渲染不完整</li>
+<li>特殊符号显示异常</li>
+<li>移动端显示问题</li>
+</ul>
+<h3 id="latex-语法问题">2. LaTeX 语法问题</h3>
+<ul>
+<li>语法错误导致公式无法渲染</li>
+<li>转义字符使用问题</li>
+<li>环境配置问题</li>
+</ul>
+<h3 id="性能问题">3. 性能问题</h3>
+<ul>
+<li>公式加载缓慢</li>
+<li>页面卡顿</li>
+<li>移动端性能问题</li>
+</ul>
+<h3 id="功能建议">4. 功能建议</h3>
+<ul>
+<li>新的数学符号支持</li>
+<li>公式编辑工具改进</li>
+<li>用户体验优化</li>
+</ul>
+<h2 id="如何报告问题">如何报告问题</h2>
+<h3 id="使用反馈表单推荐">使用反馈表单（推荐）</h3>
+<p>我们提供了专门的反馈表单，可以自动收集所有必要信息：</p>
+{% include 'feedback-form.html' %}
+<h3 id="手动报告最佳实践">手动报告最佳实践</h3>
+<p>如果您选择手动报告，请遵循以下最佳实践：</p>
+<ol type="1">
+<li><p><strong>提供具体示例</strong> <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>&#123;bmatrix&#125;</span><br><span class="line">1 <span class="built_in">&amp;</span> 2 <span class="keyword">\\</span></span><br><span class="line">3 <span class="built_in">&amp;</span> 4</span><br><span class="line"><span class="keyword">\end</span>&#123;bmatrix&#125;</span><br></pre></td></tr></table></figure></p></li>
+<li><p><strong>描述问题现象</strong></p>
+<ul>
+<li>期望显示：2x2 矩阵</li>
+<li>实际显示：行向量 [1 2 3 4]</li>
+</ul></li>
+<li><p><strong>提供环境信息</strong></p>
+<ul>
+<li>浏览器：Chrome 120.0.6099.129</li>
+<li>操作系统：Windows 11</li>
+<li>设备：桌面/移动端</li>
+<li>网络环境：家庭宽带/移动网络</li>
+</ul></li>
+<li><p><strong>截图辅助</strong></p>
+<ul>
+<li>如果可能，提供问题截图</li>
+<li>对比正常和异常显示</li>
+</ul></li>
+</ol>
+<h2 id="反馈模板">反馈模板</h2>
+<h3 id="问题报告模板">问题报告模板</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">**问题类型**：[公式显示/语法错误/性能问题/其他]</span><br><span class="line"></span><br><span class="line">**问题描述**：</span><br><span class="line">[详细描述您遇到的问题]</span><br><span class="line"></span><br><span class="line">**复现步骤**：</span><br><span class="line">1. 访问页面：[页面URL]</span><br><span class="line">2. 观察公式：[具体公式位置]</span><br><span class="line">3. 问题现象：[具体现象]</span><br><span class="line"></span><br><span class="line">**期望结果**：</span><br><span class="line">[期望的显示效果]</span><br><span class="line"></span><br><span class="line">**实际结果**：</span><br><span class="line">[实际的显示效果]</span><br><span class="line"></span><br><span class="line">**环境信息**：</span><br><span class="line">- 浏览器：</span><br><span class="line">- 操作系统：</span><br><span class="line">- 设备类型：</span><br><span class="line">- 网络环境：</span><br><span class="line"></span><br><span class="line">**相关公式**：</span><br><span class="line">```latex</span><br><span class="line">[有问题的LaTeX代码]</span><br></pre></td></tr></table></figure>
+<p><strong>截图</strong>：[可选] <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 功能建议模板</span><br></pre></td></tr></table></figure>
+<strong>建议类型</strong>：[新功能/改进/优化]</p>
+<p><strong>建议描述</strong>： [详细描述您的建议]</p>
+<p><strong>预期效果</strong>： [建议实现后的预期效果]</p>
+<p><strong>使用场景</strong>： [该功能的主要使用场景]</p>
+<p><strong>优先级</strong>：[高/中/低]</p>
+<p><strong>参考示例</strong>：[可选] ```</p>
+<h2 id="技术支持流程">技术支持流程</h2>
+<h3 id="问题接收">1. 问题接收</h3>
+<ul>
+<li>通过本页面评论接收反馈</li>
+<li>自动分类和标记问题</li>
+</ul>
+<h3 id="问题分析">2. 问题分析</h3>
+<ul>
+<li>技术团队分析问题原因</li>
+<li>复现问题并定位根本原因</li>
+</ul>
+<h3 id="解决方案">3. 解决方案</h3>
+<ul>
+<li>制定修复方案</li>
+<li>开发修复代码</li>
+<li>测试验证</li>
+</ul>
+<h3 id="部署更新">4. 部署更新</h3>
+<ul>
+<li>部署修复到生产环境</li>
+<li>通知反馈者问题已解决</li>
+</ul>
+<h2 id="响应时间承诺">响应时间承诺</h2>
+<table>
+<thead>
+<tr>
+<th>问题类型</th>
+<th>初步响应</th>
+<th>解决方案</th>
+<th>部署时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>紧急问题</td>
+<td>24小时内</td>
+<td>3天内</td>
+<td>1周内</td>
+</tr>
+<tr>
+<td>重要问题</td>
+<td>48小时内</td>
+<td>1周内</td>
+<td>2周内</td>
+</tr>
+<tr>
+<td>一般问题</td>
+<td>1周内</td>
+<td>2周内</td>
+<td>1月内</td>
+</tr>
+<tr>
+<td>功能建议</td>
+<td>2周内</td>
+<td>评估后</td>
+<td>规划中</td>
+</tr>
+</tbody>
+</table>
+<h2 id="常见问题解答">常见问题解答</h2>
+<h3 id="q-为什么我的矩阵显示为行向量">Q:
+为什么我的矩阵显示为行向量？</h3>
+<p><strong>A</strong>: 这通常是因为下划线没有正确转义。请确保使用
+<code>\_</code> 而不是 <code>_</code>。</p>
+<h3 id="q-公式在移动端显示异常怎么办">Q:
+公式在移动端显示异常怎么办？</h3>
+<p><strong>A</strong>:
+我们已经优化了移动端显示，如果仍有问题，请提供具体设备和浏览器信息。</p>
+<h3 id="q-如何检查我的-latex-语法">Q: 如何检查我的 LaTeX 语法？</h3>
+<p><strong>A</strong>: 使用我们的 <a href="/latex-preview/">LaTeX
+语法检查工具</a> 进行验证。</p>
+<h3 id="q-反馈后多久能得到回复">Q: 反馈后多久能得到回复？</h3>
+<p><strong>A</strong>: 我们会在承诺的时间内回复，紧急问题优先处理。</p>
+<h3 id="q-如何跟踪问题处理进度">Q: 如何跟踪问题处理进度？</h3>
+<p><strong>A</strong>: 您可以在评论中 @ 管理员或关注 GitHub Issues
+更新。</p>
+<h2 id="技术架构参考">技术架构参考</h2>
+<h3 id="当前配置">当前配置</h3>
+<ul>
+<li><strong>渲染引擎</strong>: hexo-renderer-marked</li>
+<li><strong>数学公式</strong>: Next 主题内置 MathJax</li>
+<li><strong>CDN</strong>: MathJax CDN 加速</li>
+<li><strong>移动端优化</strong>: 响应式设计 + 性能优化</li>
+</ul>
+<h3 id="已知限制">已知限制</h3>
+<ol type="1">
+<li>下划线必须转义为 <code>\_</code></li>
+<li>某些复杂公式可能需要额外配置</li>
+<li>移动端复杂公式渲染性能有限</li>
+</ol>
+<h2 id="贡献指南">贡献指南</h2>
+<p>如果您想为数学公式支持系统做出贡献：</p>
+<ol type="1">
+<li><strong>报告问题</strong>: 使用本页面报告问题</li>
+<li><strong>提交修复</strong>: 通过 GitHub Pull Request</li>
+<li><strong>改进文档</strong>: 帮助完善使用指南</li>
+<li><strong>分享经验</strong>: 分享 LaTeX 使用技巧</li>
+</ol>
+<h2 id="联系信息">联系信息</h2>
+<ul>
+<li><strong>GitHub</strong>: <a
+target="_blank" rel="noopener" href="https://github.com/stonejiang208/blog">stonejiang208/blog</a></li>
+<li><strong>Issues</strong>: <a
+target="_blank" rel="noopener" href="https://github.com/stonejiang208/blog/issues">数学公式相关问题</a></li>
+<li><strong>邮箱</strong>: [通过 GitHub 联系]</li>
+</ul>
+<hr />
+<p><strong>重要提示</strong>:
+为了确保问题能够被快速解决，请尽可能提供详细的信息和复现步骤。我们的技术团队会定期检查和处理所有反馈。</p>
+<p>感谢您的反馈和支持！</p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          <script src="https://utteranc.es/client.js"
+        repo="stonejiang208/blog"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E5%8F%8D%E9%A6%88%E4%B8%8E%E9%97%AE%E9%A2%98%E6%8A%A5%E5%91%8A"><span class="nav-number">1.</span> <span class="nav-text">数学公式反馈与问题报告</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">常见问题类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 公式显示问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#latex-%E8%AF%AD%E6%B3%95%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. LaTeX 语法问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 性能问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.1.4.</span> <span class="nav-text">4. 功能建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%8A%A5%E5%91%8A%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">如何报告问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%8D%E9%A6%88%E8%A1%A8%E5%8D%95%E6%8E%A8%E8%8D%90"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用反馈表单（推荐）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E6%8A%A5%E5%91%8A%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.2.2.</span> <span class="nav-text">手动报告最佳实践</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E9%A6%88%E6%A8%A1%E6%9D%BF"><span class="nav-number">1.3.</span> <span class="nav-text">反馈模板</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8A%A5%E5%91%8A%E6%A8%A1%E6%9D%BF"><span class="nav-number">1.3.1.</span> <span class="nav-text">问题报告模板</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E6%94%AF%E6%8C%81%E6%B5%81%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">技术支持流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8E%A5%E6%94%B6"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 问题接收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 问题分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. 解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%9B%B4%E6%96%B0"><span class="nav-number">1.4.4.</span> <span class="nav-text">4. 部署更新</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E6%97%B6%E9%97%B4%E6%89%BF%E8%AF%BA"><span class="nav-number">1.5.</span> <span class="nav-text">响应时间承诺</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%A7%A3%E7%AD%94"><span class="nav-number">1.6.</span> <span class="nav-text">常见问题解答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#q-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E7%9A%84%E7%9F%A9%E9%98%B5%E6%98%BE%E7%A4%BA%E4%B8%BA%E8%A1%8C%E5%90%91%E9%87%8F"><span class="nav-number">1.6.1.</span> <span class="nav-text">Q:
+为什么我的矩阵显示为行向量？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#q-%E5%85%AC%E5%BC%8F%E5%9C%A8%E7%A7%BB%E5%8A%A8%E7%AB%AF%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="nav-number">1.6.2.</span> <span class="nav-text">Q:
+公式在移动端显示异常怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#q-%E5%A6%82%E4%BD%95%E6%A3%80%E6%9F%A5%E6%88%91%E7%9A%84-latex-%E8%AF%AD%E6%B3%95"><span class="nav-number">1.6.3.</span> <span class="nav-text">Q: 如何检查我的 LaTeX 语法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#q-%E5%8F%8D%E9%A6%88%E5%90%8E%E5%A4%9A%E4%B9%85%E8%83%BD%E5%BE%97%E5%88%B0%E5%9B%9E%E5%A4%8D"><span class="nav-number">1.6.4.</span> <span class="nav-text">Q: 反馈后多久能得到回复？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#q-%E5%A6%82%E4%BD%95%E8%B7%9F%E8%B8%AA%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86%E8%BF%9B%E5%BA%A6"><span class="nav-number">1.6.5.</span> <span class="nav-text">Q: 如何跟踪问题处理进度？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E5%8F%82%E8%80%83"><span class="nav-number">1.7.</span> <span class="nav-text">技术架构参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E9%85%8D%E7%BD%AE"><span class="nav-number">1.7.1.</span> <span class="nav-text">当前配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%B2%E7%9F%A5%E9%99%90%E5%88%B6"><span class="nav-number">1.7.2.</span> <span class="nav-text">已知限制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97"><span class="nav-number">1.8.</span> <span class="nav-text">贡献指南</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%94%E7%B3%BB%E4%BF%A1%E6%81%AF"><span class="nav-number">1.9.</span> <span class="nav-text">联系信息</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Stone</p>
+  <div class="site-description" itemprop="description">数学,阅读和编程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:stone@tao-studio.net" title="E-Mail → mailto:stone@tao-studio.net" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="mailto:stone@tao-studio.net" title="mailto:stone@tao-studio.net" rel="noopener" target="_blank">欢迎互粉</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://terrytao.wordpress.com/" title="https:&#x2F;&#x2F;terrytao.wordpress.com&#x2F;" rel="noopener" target="_blank">陶哲轩的博客</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stone</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">110k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:40</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
