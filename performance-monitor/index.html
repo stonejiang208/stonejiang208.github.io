@@ -28,7 +28,7 @@
 <meta property="og:description" content="数学公式性能监控   &lt;!-- 实时性能指标 --&gt; &lt;section class&#x3D;&quot;metrics-section&quot;&gt;   &lt;h2&gt;实时性能指标&lt;&#x2F;h2&gt;   &lt;div class&#x3D;&quot;metrics-grid&quot;&gt;     &lt;div class&#x3D;&quot;metric-card&quot;&amp;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-02-02T11:40:00.000Z">
-<meta property="article:modified_time" content="2026-02-02T04:31:58.011Z">
+<meta property="article:modified_time" content="2026-02-02T04:55:05.795Z">
 <meta property="article:author" content="Stone">
 <meta property="article:tag" content="TAO">
 <meta name="twitter:card" content="summary">
@@ -418,6 +418,8 @@ cdn: true version: “3.2.2”’&gt;复制配置</button>
 </div>
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- 性能监控 API -->
+<script src="/_data/performance-api.js"></script>
 <style>
 .performance-monitor {
   max-width: 1200px;
@@ -884,7 +886,7 @@ td {
 }
 </style>
 <script>
-document.addEventListener('DOMContent', function() {
+document.addEventListener('DOMContentLoaded', function() {
   // 初始化性能图表
   const ctx = document.getElementById('performance-chart').getContext('2d');
   const performanceChart = new Chart(ctx, {
@@ -1103,7 +1105,390 @@ document.addEventListener('DOMContent', function() {
   
   // 页面加载时初始化
   clearTestResults();
+  
+  // 初始化实时数据更新
+  initRealTimeUpdates();
 });
+
+// 实时数据更新功能
+function initRealTimeUpdates() {
+  // 检查 API 是否可用
+  if (!window.PerformanceAPI) {
+    console.warn('PerformanceAPI 未加载，使用模拟数据');
+    return;
+  }
+  
+  // 更新实时指标
+  function updateMetrics() {
+    const metrics = window.PerformanceAPI.getMetrics();
+    
+    // 更新指标显示
+    document.getElementById('load-time').textContent = metrics.loadTime.toFixed(1) + 's';
+    document.getElementById('render-time').textContent = metrics.renderTime.toFixed(1) + 's';
+    document.getElementById('memory-usage').textContent = Math.round(metrics.memoryUsage) + 'MB';
+    document.getElementById('formula-count').textContent = metrics.formulaCount;
+    
+    // 更新状态指示器
+    updateMetricStatus('load-time', metrics.loadTime, 1.5, 2.0);
+    updateMetricStatus('render-time', metrics.renderTime, 1.0, 1.5);
+    updateMetricStatus('memory-usage', metrics.memoryUsage, 50, 70);
+    
+    // 更新趋势箭头
+    updateTrendIndicators();
+  }
+  
+  // 更新指标状态
+  function updateMetricStatus(metricId, value, warningThreshold, criticalThreshold) {
+    const statusEl = document.querySelector(`#${metricId}`).closest('.metric-card').querySelector('.metric-status');
+    
+    if (value >= criticalThreshold) {
+      statusEl.textContent = '警告';
+      statusEl.className = 'metric-status bad';
+    } else if (value >= warningThreshold) {
+      statusEl.textContent = '注意';
+      statusEl.className = 'metric-status warning';
+    } else {
+      statusEl.textContent = '良好';
+      statusEl.className = 'metric-status good';
+    }
+  }
+  
+  // 更新趋势指示器
+  function updateTrendIndicators() {
+    const trends = document.querySelectorAll('.metric-trend');
+    trends.forEach(trend => {
+      const icon = trend.querySelector('.trend-icon');
+      const text = trend.querySelector('.trend-text');
+      
+      // 随机生成趋势数据（实际应用中应该来自历史数据比较）
+      const change = Math.random() * 0.3 - 0.15; // -0.15 到 +0.15
+      const direction = change > 0 ? '↗' : (change < 0 ? '↘' : '→');
+      const absChange = Math.abs(change).toFixed(1);
+      
+      icon.textContent = direction;
+      if (change > 0) {
+        text.textContent = `较上次增加 ${absChange}s`;
+      } else if (change < 0) {
+        text.textContent = `较上次减少 ${absChange}s`;
+      } else {
+        text.textContent = '与基准持平';
+      }
+    });
+  }
+  
+  // 更新性能图表
+  function updateChart(range = '7d') {
+    if (!window.PerformanceAPI || !performanceChart) return;
+    
+    const historyData = window.PerformanceAPI.getHistory(range);
+    
+    // 更新图表数据
+    performanceChart.data.labels = historyData.map(d => {
+      const date = new Date(d.date);
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    });
+    
+    performanceChart.data.datasets[0].data = historyData.map(d => d.loadTime);
+    performanceChart.data.datasets[1].data = historyData.map(d => d.renderTime);
+    
+    performanceChart.update();
+  }
+  
+  // 更新优化建议
+  function updateRecommendations() {
+    if (!window.PerformanceAPI) return;
+    
+    const recommendations = window.PerformanceAPI.getRecommendations();
+    const container = document.getElementById('recommendations-list');
+    
+    // 清空现有内容
+    container.innerHTML = '';
+    
+    // 添加新的建议卡片
+    recommendations.forEach(rec => {
+      const card = createRecommendationCard(rec);
+      container.appendChild(card);
+    });
+  }
+  
+  // 创建建议卡片
+  function createRecommendationCard(rec) {
+    const card = document.createElement('div');
+    card.className = `recommendation-card priority-${rec.priority}`;
+    
+    card.innerHTML = `
+      <div class="rec-header">
+        <span class="priority-badge ${rec.priority}">${getPriorityText(rec.priority)}</span>
+        <span class="rec-category">${rec.category}</span>
+      </div>
+      <h3>${rec.title}</h3>
+      <p>${rec.description}</p>
+      <div class="rec-meta">
+        <span class="meta-item">影响: ${(rec.impact * 100).toFixed(0)}%</span>
+        <span class="meta-item">预计时间: ${rec.estimatedTime}</span>
+      </div>
+      <div class="rec-actions">
+        <button class="copy-btn" data-code='${JSON.stringify(rec.action.code).replace(/'/g, "\\'")}'>复制配置</button>
+        <a href="/latex-usage-guide/" class="learn-more">了解更多</a>
+      </div>
+    `;
+    
+    // 添加复制功能
+    const copyBtn = card.querySelector('.copy-btn');
+    copyBtn.addEventListener('click', function() {
+      const code = JSON.parse(this.dataset.code);
+      copyToClipboard(code);
+      
+      // 显示复制成功反馈
+      const originalText = this.textContent;
+      this.textContent = '已复制!';
+      this.classList.add('copied');
+      
+      setTimeout(() => {
+        this.textContent = originalText;
+        this.classList.remove('copied');
+      }, 2000);
+    });
+    
+    return card;
+  }
+  
+  // 获取优先级文本
+  function getPriorityText(priority) {
+    const texts = {
+      high: '高优先级',
+      medium: '中优先级',
+      low: '低优先级',
+      info: '信息'
+    };
+    return texts[priority] || priority;
+  }
+  
+  // 更新性能基准
+  function updateBenchmarks() {
+    if (!window.PerformanceAPI) return;
+    
+    const benchmarks = window.PerformanceAPI.getBenchmarks();
+    const tableBody = document.querySelector('.benchmark-table tbody');
+    
+    // 清空现有内容
+    tableBody.innerHTML = '';
+    
+    // 添加新的基准数据
+    benchmarks.forEach(benchmark => {
+      const row = document.createElement('tr');
+      
+      row.innerHTML = `
+        <td>${benchmark.type}</td>
+        <td>${benchmark.renderTime.toFixed(1)}s</td>
+        <td>${benchmark.memoryUsage}MB</td>
+        <td>${benchmark.score}/100</td>
+        <td><span class="status-${getStatusClass(benchmark.score)}">${benchmark.status}</span></td>
+      `;
+      
+      tableBody.appendChild(row);
+    });
+  }
+  
+  // 根据分数获取状态类
+  function getStatusClass(score) {
+    if (score >= 80) return 'good';
+    if (score >= 60) return 'warning';
+    return 'bad';
+  }
+  
+  // 系统状态监控
+  function monitorSystemStatus() {
+    if (!window.PerformanceAPI) return;
+    
+    const status = window.PerformanceAPI.getSystemStatus();
+    const statusIndicator = document.getElementById('system-status-indicator') || createStatusIndicator();
+    
+    updateStatusIndicator(statusIndicator, status);
+  }
+  
+  // 创建状态指示器
+  function createStatusIndicator() {
+    const header = document.querySelector('.dashboard h1') || document.querySelector('.dashboard h2');
+    if (!header) return null;
+    
+    const indicator = document.createElement('div');
+    indicator.id = 'system-status-indicator';
+    indicator.className = 'system-status';
+    indicator.innerHTML = `
+      <span class="status-dot"></span>
+      <span class="status-text">系统状态: 加载中...</span>
+      <span class="status-time">最后检查: --</span>
+    `;
+    
+    header.parentNode.insertBefore(indicator, header.nextSibling);
+    return indicator;
+  }
+  
+  // 更新状态指示器
+  function updateStatusIndicator(indicator, status) {
+    if (!indicator) return;
+    
+    const dot = indicator.querySelector('.status-dot');
+    const text = indicator.querySelector('.status-text');
+    const time = indicator.querySelector('.status-time');
+    
+    // 更新状态
+    dot.className = `status-dot ${status.overall}`;
+    text.textContent = `系统状态: ${getStatusText(status.overall)}`;
+    time.textContent = `最后检查: ${new Date(status.lastCheck).toLocaleTimeString()}`;
+    
+    // 添加组件状态详情
+    updateComponentStatus(status.components);
+  }
+  
+  // 获取状态文本
+  function getStatusText(status) {
+    const texts = {
+      healthy: '健康',
+      warning: '警告',
+      critical: '严重'
+    };
+    return texts[status] || status;
+  }
+  
+  // 更新组件状态
+  function updateComponentStatus(components) {
+    // 在实际应用中，可以在这里显示各个组件的状态
+    console.log('组件状态:', components);
+  }
+  
+  // 初始化所有数据
+  function initAllData() {
+    updateMetrics();
+    updateChart();
+    updateRecommendations();
+    updateBenchmarks();
+    monitorSystemStatus();
+  }
+  
+  // 设置定时更新
+  let updateInterval;
+  function startAutoUpdate() {
+    // 每30秒更新一次指标
+    updateInterval = setInterval(() => {
+      updateMetrics();
+      monitorSystemStatus();
+    }, 30000);
+    
+    // 每5分钟更新一次图表和建议
+    setInterval(() => {
+      updateChart();
+      updateRecommendations();
+      updateBenchmarks();
+    }, 300000);
+  }
+  
+  // 停止自动更新
+  function stopAutoUpdate() {
+    if (updateInterval) {
+      clearInterval(updateInterval);
+    }
+  }
+  
+  // 页面可见性变化处理
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      stopAutoUpdate();
+    } else {
+      startAutoUpdate();
+    }
+  });
+  
+  // 初始化
+  initAllData();
+  startAutoUpdate();
+  
+  // 导出函数供其他部分使用
+  window.PerformanceMonitor = {
+    updateMetrics,
+    updateChart,
+    updateRecommendations,
+    updateBenchmarks,
+    monitorSystemStatus,
+    startAutoUpdate,
+    stopAutoUpdate
+  };
+}
+
+// 添加状态指示器样式
+const statusStyles = document.createElement('style');
+statusStyles.textContent = `
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-size: 14px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.healthy {
+  background-color: #2ecc71;
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+}
+
+.status-dot.warning {
+  background-color: #f39c12;
+  box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+}
+
+.status-dot.critical {
+  background-color: #e74c3c;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.status-text {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.status-time {
+  color: #6c757d;
+  margin-left: auto;
+}
+
+.rec-meta {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  color: #6c757d;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.meta-item::before {
+  content: '•';
+  color: #3498db;
+}
+`;
+document.head.appendChild(statusStyles);
 </script>
 
       </div>
