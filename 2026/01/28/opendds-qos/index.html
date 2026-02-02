@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.tao-studio.net","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"author":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="OpenDDS QoS 策略完整指南 概述 Quality of Service (QoS) 策略是 OpenDDS 中控制实体行为的关键机制。本指南基于 OpenDDS 官方文档和源代码分析，提供完整的 QoS 策略分类、适用性分析和配置指南。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenDDS QoS 策略完整指南">
+<meta property="og:url" content="http://blog.tao-studio.net/2026/01/28/opendds-qos/index.html">
+<meta property="og:site_name" content="Stone&#39;s Blog">
+<meta property="og:description" content="OpenDDS QoS 策略完整指南 概述 Quality of Service (QoS) 策略是 OpenDDS 中控制实体行为的关键机制。本指南基于 OpenDDS 官方文档和源代码分析，提供完整的 QoS 策略分类、适用性分析和配置指南。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-28T04:51:06.000Z">
+<meta property="article:modified_time" content="2026-01-30T04:27:03.447Z">
+<meta property="article:author" content="Stone">
+<meta property="article:tag" content="OpenDDS">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.tao-studio.net/2026/01/28/opendds-qos/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>OpenDDS QoS 策略完整指南 | Stone's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Stone's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">blog.tao-studio.net</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/01/28/opendds-qos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读和编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OpenDDS QoS 策略完整指南
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2026-01-28 12:51:06" itemprop="dateCreated datePublished" datetime="2026-01-28T12:51:06+08:00">2026-01-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-01-30 12:27:03" itemprop="dateModified" datetime="2026-01-30T12:27:03+08:00">2026-01-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>21k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>19 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1>OpenDDS QoS 策略完整指南</h1>
+<h2 id="概述">概述</h2>
+<p>Quality of Service (QoS) 策略是 OpenDDS 中控制实体行为的关键机制。本指南基于 OpenDDS 官方文档和源代码分析，提供完整的 QoS 策略分类、适用性分析和配置指南。</p>
+<span id="more"></span>
+<h2 id="QoS-策略完整分类表">QoS 策略完整分类表</h2>
+<h3 id="1-可靠性相关策略">1. 可靠性相关策略</h3>
+<table>
+<thead>
+<tr>
+<th>策略名称</th>
+<th>适用实体</th>
+<th>默认值</th>
+<th>可修改性</th>
+<th>关联影响</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Reliability QoS</strong></td>
+<td>Topic, DataWriter, DataReader</td>
+<td>DataWriter: RELIABLE<br>其他: BEST_EFFORT</td>
+<td>不可变</td>
+<td>影响关联</td>
+<td>控制数据传输的可靠性（尽力而为 vs 可靠）</td>
+</tr>
+<tr>
+<td><strong>History QoS</strong></td>
+<td>Topic, DataWriter, DataReader</td>
+<td>KEEP_LAST, depth=1</td>
+<td>不可变</td>
+<td>不影响关联</td>
+<td>控制实例历史记录的保留策略</td>
+</tr>
+<tr>
+<td><strong>Resource Limits QoS</strong></td>
+<td>Topic, DataWriter, DataReader</td>
+<td>无限制</td>
+<td>不可变</td>
+<td>不影响关联</td>
+<td>限制资源使用（最大样本数、实例数等）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-实时性相关策略">2. 实时性相关策略</h3>
+<table>
+<thead>
+<tr>
+<th>策略名称</th>
+<th>适用实体</th>
+<th>默认值</th>
+<th>可修改性</th>
+<th>关联影响</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Deadline QoS</strong></td>
+<td>Topic, DataWriter, DataReader</td>
+<td>无限期</td>
+<td>可变</td>
+<td>影响关联</td>
+<td>设置数据发布/订阅的截止期限</td>
+</tr>
+<tr>
+<td><strong>Latency Budget QoS</strong></td>
+<td>Topic, DataWriter, DataReader</td>
+<td>零延迟</td>
+<td>可变</td>
+<td>影响关联</td>
+<td>指定延迟预算，用于监控目的</td>
+</tr>
+<tr>
+<td><strong>Transport Priority QoS</strong></td>
+<td>Topic, DataWriter</td>
+<td>0</td>
+<td>不可变</td>
+<td>不影响关联</td>
+<td>控制传输优先级（线程和 DiffServ）</td>
+</tr>
+<tr>
+<td><strong>Time Based Filter QoS</strong></td>
+<td>DataReader</td>
+<td>零间隔</td>
+<td>可变</td>
+<td>不影响关联</td>
+<td>基于时间间隔过滤数据更新</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-持久性相关策略">3. 持久性相关策略</h3>
+<table>
+<thead>
+<tr>
+<th>策略名称</th>
+<th>适用实体</th>
+<th>默认值</th>
+<th>可修改性</th>
+<th>关联影响</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Durability QoS</strong></td>
+<td>Topic, DataWriter, DataReader</td>
+<td>VOLATILE</td>
+<td>不可变</td>
+<td>影响关联</td>
+<td>控制数据的持久性级别</td>
+</tr>
+<tr>
+<td><strong>Durability Service QoS</strong></td>
+<td>Topic, DataWriter</td>
+<td>零清理延迟</td>
+<td>不可变</td>
+<td>不影响关联</td>
+<td>配置持久性服务的缓存参数</td>
+</tr>
+<tr>
+<td><strong>Lifespan QoS</strong></td>
+<td>Topic, DataWriter</td>
+<td>无限期</td>
+<td>可变</td>
+<td>不影响关联</td>
+<td>设置样本的过期时间</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-发现和关联相关策略">4. 发现和关联相关策略</h3>
+<table>
+<thead>
+<tr>
+<th>策略名称</th>
+<th>适用实体</th>
+<th>默认值</th>
+<th>可修改性</th>
+<th>关联影响</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Liveliness QoS</strong></td>
+<td>Topic, DataWriter, DataReader</td>
+<td>AUTOMATIC, 无限期</td>
+<td>不可变</td>
+<td>影响关联</td>
+<td>控制活跃性检测机制</td>
+</tr>
+<tr>
+<td><strong>Partition QoS</strong></td>
+<td>Publisher, Subscriber</td>
+<td>空序列</td>
+<td>可变</td>
+<td>影响关联</td>
+<td>创建逻辑分区进行隔离</td>
+</tr>
+<tr>
+<td><strong>Ownership QoS</strong></td>
+<td>Topic, DataWriter, DataReader</td>
+<td>SHARED</td>
+<td>不可变</td>
+<td>影响关联</td>
+<td>控制实例的所有权模式</td>
+</tr>
+<tr>
+<td><strong>Ownership Strength QoS</strong></td>
+<td>DataWriter</td>
+<td>0</td>
+<td>可变</td>
+<td>不影响关联</td>
+<td>设置独占所有权时的强度值</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-数据管理相关策略">5. 数据管理相关策略</h3>
+<table>
+<thead>
+<tr>
+<th>策略名称</th>
+<th>适用实体</th>
+<th>默认值</th>
+<th>可修改性</th>
+<th>关联影响</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Destination Order QoS</strong></td>
+<td>Topic, DataWriter, DataReader</td>
+<td>BY_RECEPTION_TIMESTAMP</td>
+<td>不可变</td>
+<td>影响关联</td>
+<td>控制样本的排序方式</td>
+</tr>
+<tr>
+<td><strong>Presentation QoS</strong></td>
+<td>Publisher, Subscriber</td>
+<td>INSTANCE, false, false</td>
+<td>不可变</td>
+<td>影响关联</td>
+<td>控制数据表示的顺序和范围</td>
+</tr>
+<tr>
+<td><strong>Writer Data Lifecycle QoS</strong></td>
+<td>DataWriter</td>
+<td>true</td>
+<td>可变</td>
+<td>不影响关联</td>
+<td>控制写入器实例的生命周期</td>
+</tr>
+<tr>
+<td><strong>Reader Data Lifecycle QoS</strong></td>
+<td>DataReader</td>
+<td>无限期</td>
+<td>可变</td>
+<td>不影响关联</td>
+<td>控制读取器资源的自动清理</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-应用数据相关策略">6. 应用数据相关策略</h3>
+<table>
+<thead>
+<tr>
+<th>策略名称</th>
+<th>适用实体</th>
+<th>默认值</th>
+<th>可修改性</th>
+<th>关联影响</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User Data QoS</strong></td>
+<td>DomainParticipant, DataWriter, DataReader</td>
+<td>空序列</td>
+<td>可变</td>
+<td>不影响关联</td>
+<td>附加用户自定义数据到实体</td>
+</tr>
+<tr>
+<td><strong>Topic Data QoS</strong></td>
+<td>Topic</td>
+<td>空序列</td>
+<td>可变</td>
+<td>不影响关联</td>
+<td>附加用户自定义数据到主题</td>
+</tr>
+<tr>
+<td><strong>Group Data QoS</strong></td>
+<td>Publisher, Subscriber</td>
+<td>空序列</td>
+<td>可变</td>
+<td>不影响关联</td>
+<td>附加用户自定义数据到组</td>
+</tr>
+</tbody>
+</table>
+<h3 id="7-配置相关策略">7. 配置相关策略</h3>
+<table>
+<thead>
+<tr>
+<th>策略名称</th>
+<th>适用实体</th>
+<th>默认值</th>
+<th>可修改性</th>
+<th>关联影响</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Entity Factory QoS</strong></td>
+<td>DomainParticipantFactory, DomainParticipant, Publisher, Subscriber</td>
+<td>true</td>
+<td>可变</td>
+<td>不影响关联</td>
+<td>控制实体创建时是否自动启用</td>
+</tr>
+<tr>
+<td><strong>Property QoS</strong></td>
+<td>DomainParticipant</td>
+<td>空序列</td>
+<td>可变</td>
+<td>间接影响</td>
+<td>包含键值对属性（主要用于安全）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="8-类型系统相关策略">8. 类型系统相关策略</h3>
+<table>
+<thead>
+<tr>
+<th>策略名称</th>
+<th>适用实体</th>
+<th>默认值</th>
+<th>可修改性</th>
+<th>关联影响</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Data Representation QoS</strong></td>
+<td>DataWriter, DataReader</td>
+<td>传输相关</td>
+<td>不可变</td>
+<td>影响关联</td>
+<td>定义数据编码表示方式</td>
+</tr>
+<tr>
+<td><strong>Type Consistency Enforcement QoS</strong></td>
+<td>DataReader</td>
+<td>ALLOW_TYPE_COERCION</td>
+<td>不可变</td>
+<td>影响关联</td>
+<td>控制类型一致性强制规则</td>
+</tr>
+</tbody>
+</table>
+<h2 id="实体适用性矩阵">实体适用性矩阵</h2>
+<table>
+<thead>
+<tr>
+<th>QoS 策略</th>
+<th>DomainParticipant</th>
+<th>Publisher</th>
+<th>Subscriber</th>
+<th>Topic</th>
+<th>DataWriter</th>
+<th>DataReader</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>User Data</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Group Data</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Topic Data</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Partition</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Durability</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Durability Service</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td>Deadline</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Latency Budget</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Liveliness</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Reliability</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Destination Order</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>History</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Resource Limits</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Transport Priority</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td>Lifespan</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td>Ownership</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Ownership Strength</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td>Presentation</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Time Based Filter</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Writer Data Lifecycle</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td>Reader Data Lifecycle</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Entity Factory</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Property</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Data Representation</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Type Consistency Enforcement</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<h2 id="典型应用场景和配置指南">典型应用场景和配置指南</h2>
+<h3 id="1-实时控制系统">1. 实时控制系统</h3>
+<p><strong>特点</strong>：低延迟、高优先级、严格的时间要求</p>
+<p><strong>推荐配置</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数据写入器配置</span></span><br><span class="line">DDS::DataWriterQos dw_qos;</span><br><span class="line">pub-&gt;<span class="built_in">get_default_datawriter_qos</span>(dw_qos);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 低延迟配置</span></span><br><span class="line">dw_qos.reliability.kind = DDS::BEST_EFFORT_RELIABILITY_QOS;  <span class="comment">// 优先考虑延迟</span></span><br><span class="line">dw_qos.history.kind = DDS::KEEP_LAST_HISTORY_QOS;</span><br><span class="line">dw_qos.history.depth = <span class="number">1</span>;  <span class="comment">// 只保留最新数据</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 实时性要求</span></span><br><span class="line">dw_qos.deadline.period.sec = <span class="number">0</span>;</span><br><span class="line">dw_qos.deadline.period.nanosec = <span class="number">50000000</span>;  <span class="comment">// 50ms 截止期限</span></span><br><span class="line"></span><br><span class="line">dw_qos.transport_priority.value = <span class="number">10</span>;  <span class="comment">// 高传输优先级</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据读取器配置</span></span><br><span class="line">DDS::DataReaderQos dr_qos;</span><br><span class="line">sub-&gt;<span class="built_in">get_default_datareader_qos</span>(dr_qos);</span><br><span class="line"></span><br><span class="line">dr_qos.time_based_filter.minimum_separation.sec = <span class="number">0</span>;</span><br><span class="line">dr_qos.time_based_filter.minimum_separation.nanosec = <span class="number">20000000</span>;  <span class="comment">// 20ms 过滤间隔</span></span><br></pre></td></tr></table></figure>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>机器人控制</li>
+<li>自动驾驶系统</li>
+<li>工业自动化</li>
+<li>游戏服务器</li>
+</ul>
+<h3 id="2-可靠数据传输系统">2. 可靠数据传输系统</h3>
+<p><strong>特点</strong>：数据完整性、不丢失、可恢复</p>
+<p><strong>推荐配置</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数据写入器配置</span></span><br><span class="line">DDS::DataWriterQos dw_qos;</span><br><span class="line">pub-&gt;<span class="built_in">get_default_datawriter_qos</span>(dw_qos);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 高可靠性配置</span></span><br><span class="line">dw_qos.reliability.kind = DDS::RELIABLE_RELIABILITY_QOS;</span><br><span class="line">dw_qos.reliability.max_blocking_time.sec = <span class="number">10</span>;  <span class="comment">// 10秒阻塞时间</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 历史记录配置</span></span><br><span class="line">dw_qos.history.kind = DDS::KEEP_ALL_HISTORY_QOS;  <span class="comment">// 保留所有历史</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 资源限制</span></span><br><span class="line">dw_qos.resource_limits.max_samples = <span class="number">1000</span>;</span><br><span class="line">dw_qos.resource_limits.max_instances = <span class="number">100</span>;</span><br><span class="line">dw_qos.resource_limits.max_samples_per_instance = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 持久性配置</span></span><br><span class="line">dw_qos.durability.kind = DDS::TRANSIENT_LOCAL_DURABILITY_QOS;  <span class="comment">// 本地持久化</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据读取器配置</span></span><br><span class="line">DDS::DataReaderQos dr_qos;</span><br><span class="line">sub-&gt;<span class="built_in">get_default_datareader_qos</span>(dr_qos);</span><br><span class="line"></span><br><span class="line">dr_qos.reader_data_lifecycle.autopurge_nowriter_samples_delay.sec = <span class="number">30</span>;  <span class="comment">// 30秒后清理</span></span><br></pre></td></tr></table></figure>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>金融交易系统</li>
+<li>医疗数据记录</li>
+<li>日志收集系统</li>
+<li>配置管理系统</li>
+</ul>
+<h3 id="3-分布式缓存系统">3. 分布式缓存系统</h3>
+<p><strong>特点</strong>：数据持久化、缓存管理、生命周期控制</p>
+<p><strong>推荐配置</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数据写入器配置</span></span><br><span class="line">DDS::DataWriterQos dw_qos;</span><br><span class="line">pub-&gt;<span class="built_in">get_default_datawriter_qos</span>(dw_qos);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 持久性配置</span></span><br><span class="line">dw_qos.durability.kind = DDS::TRANSIENT_DURABILITY_QOS;  <span class="comment">// 进程级持久化</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 持久性服务配置</span></span><br><span class="line">dw_qos.durability_service.history_kind = DDS::KEEP_LAST_HISTORY_QOS;</span><br><span class="line">dw_qos.durability_service.history_depth = <span class="number">100</span>;</span><br><span class="line">dw_qos.durability_service.max_samples = <span class="number">10000</span>;</span><br><span class="line">dw_qos.durability_service.max_instances = <span class="number">1000</span>;</span><br><span class="line">dw_qos.durability_service.max_samples_per_instance = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生命周期配置</span></span><br><span class="line">dw_qos.lifespan.duration.sec = <span class="number">3600</span>;  <span class="comment">// 1小时过期</span></span><br><span class="line">dw_qos.lifespan.duration.nanosec = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 所有权配置（用于故障转移）</span></span><br><span class="line">dw_qos.ownership.kind = DDS::EXCLUSIVE_OWNERSHIP_QOS;</span><br><span class="line">dw_qos.ownership_strength.value = <span class="number">1</span>;  <span class="comment">// 所有权强度</span></span><br></pre></td></tr></table></figure>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>分布式数据库缓存</li>
+<li>会话状态管理</li>
+<li>配置服务器</li>
+<li>服务发现注册表</li>
+</ul>
+<h3 id="4-容错和高可用系统">4. 容错和高可用系统</h3>
+<p><strong>特点</strong>：故障检测、自动恢复、负载均衡</p>
+<p><strong>推荐配置</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 活跃性配置</span></span><br><span class="line">DDS::DataWriterQos dw_qos;</span><br><span class="line">pub-&gt;<span class="built_in">get_default_datawriter_qos</span>(dw_qos);</span><br><span class="line"></span><br><span class="line">dw_qos.liveliness.kind = DDS::MANUAL_BY_PARTICIPANT_LIVELINESS_QOS;</span><br><span class="line">dw_qos.liveliness.lease_duration.sec = <span class="number">5</span>;  <span class="comment">// 5秒租约期限</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 所有权配置</span></span><br><span class="line">dw_qos.ownership.kind = DDS::EXCLUSIVE_OWNERSHIP_QOS;</span><br><span class="line">dw_qos.ownership_strength.value = <span class="number">100</span>;  <span class="comment">// 高所有权强度</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 截止期限监控</span></span><br><span class="line">dw_qos.deadline.period.sec = <span class="number">2</span>;</span><br><span class="line">dw_qos.deadline.period.nanosec = <span class="number">0</span>;  <span class="comment">// 2秒截止期限</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据读取器配置</span></span><br><span class="line">DDS::DataReaderQos dr_qos;</span><br><span class="line">sub-&gt;<span class="built_in">get_default_datareader_qos</span>(dr_qos);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 读取器数据生命周期</span></span><br><span class="line">dr_qos.reader_data_lifecycle.autopurge_nowriter_samples_delay.sec = <span class="number">10</span>;  <span class="comment">// 10秒清理</span></span><br><span class="line">dr_qos.reader_data_lifecycle.autopurge_disposed_samples_delay.sec = <span class="number">5</span>;   <span class="comment">// 5秒清理</span></span><br></pre></td></tr></table></figure>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>主备切换系统</li>
+<li>负载均衡集群</li>
+<li>监控告警系统</li>
+<li>服务网格</li>
+</ul>
+<h3 id="5-大数据量流处理系统">5. 大数据量流处理系统</h3>
+<p><strong>特点</strong>：高吞吐量、内存管理、数据过滤</p>
+<p><strong>推荐配置</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数据写入器配置</span></span><br><span class="line">DDS::DataWriterQos dw_qos;</span><br><span class="line">pub-&gt;<span class="built_in">get_default_datawriter_qos</span>(dw_qos);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 资源限制配置</span></span><br><span class="line">dw_qos.resource_limits.max_samples = <span class="number">10000</span>;</span><br><span class="line">dw_qos.resource_limits.max_instances = <span class="number">1000</span>;</span><br><span class="line">dw_qos.resource_limits.max_samples_per_instance = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 历史记录配置</span></span><br><span class="line">dw_qos.history.kind = DDS::KEEP_LAST_HISTORY_QOS;</span><br><span class="line">dw_qos.history.depth = <span class="number">10</span>;  <span class="comment">// 保留最近10个样本</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 目标顺序配置</span></span><br><span class="line">dw_qos.destination_order.kind = DDS::BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据读取器配置</span></span><br><span class="line">DDS::DataReaderQos dr_qos;</span><br><span class="line">sub-&gt;<span class="built_in">get_default_datareader_qos</span>(dr_qos);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基于时间的过滤</span></span><br><span class="line">dr_qos.time_based_filter.minimum_separation.sec = <span class="number">0</span>;</span><br><span class="line">dr_qos.time_based_filter.minimum_separation.nanosec = <span class="number">100000000</span>;  <span class="comment">// 100ms 过滤间隔</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 分区配置（用于负载均衡）</span></span><br><span class="line">DDS::PublisherQos pub_qos;</span><br><span class="line">participant-&gt;<span class="built_in">get_default_publisher_qos</span>(pub_qos);</span><br><span class="line">pub_qos.partition.name.<span class="built_in">length</span>(<span class="number">1</span>);</span><br><span class="line">pub_qos.partition.name[<span class="number">0</span>] = CORBA::<span class="built_in">string_dup</span>(<span class="string">"high_throughput"</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>物联网数据采集</li>
+<li>日志分析系统</li>
+<li>实时监控</li>
+<li>市场数据流</li>
+</ul>
+<h2 id="详细配置示例">详细配置示例</h2>
+<h3 id="1-完整的发布者配置示例">1. 完整的发布者配置示例</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建域参与者</span></span><br><span class="line">DDS::DomainParticipantFactory_var dpf = <span class="built_in">TheParticipantFactoryWithArgs</span>(argc, argv);</span><br><span class="line">DDS::DomainParticipant_var participant = </span><br><span class="line">  dpf-&gt;<span class="built_in">create_participant</span>(domainId, PARTICIPANT_QOS_DEFAULT, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 配置发布者 QoS</span></span><br><span class="line">DDS::PublisherQos pub_qos;</span><br><span class="line">participant-&gt;<span class="built_in">get_default_publisher_qos</span>(pub_qos);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 分区配置</span></span><br><span class="line">pub_qos.partition.name.<span class="built_in">length</span>(<span class="number">2</span>);</span><br><span class="line">pub_qos.partition.name[<span class="number">0</span>] = CORBA::<span class="built_in">string_dup</span>(<span class="string">"sensors"</span>);</span><br><span class="line">pub_qos.partition.name[<span class="number">1</span>] = CORBA::<span class="built_in">string_dup</span>(<span class="string">"control"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 组数据配置</span></span><br><span class="line">pub_qos.group_data.value.<span class="built_in">length</span>(<span class="number">16</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">16</span>; ++i) {</span><br><span class="line">  pub_qos.group_data.value[i] = i;  <span class="comment">// 示例数据</span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// 表示配置</span></span><br><span class="line">pub_qos.presentation.access_scope = DDS::TOPIC_PRESENTATION_QOS;</span><br><span class="line">pub_qos.presentation.coherent_access = <span class="literal">true</span>;</span><br><span class="line">pub_qos.presentation.ordered_access = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建发布者</span></span><br><span class="line">DDS::Publisher_var publisher = participant-&gt;<span class="built_in">create_publisher</span>(pub_qos, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 配置数据写入器 QoS</span></span><br><span class="line">DDS::DataWriterQos dw_qos;</span><br><span class="line">publisher-&gt;<span class="built_in">get_default_datawriter_qos</span>(dw_qos);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可靠性配置</span></span><br><span class="line">dw_qos.reliability.kind = DDS::RELIABLE_RELIABILITY_QOS;</span><br><span class="line">dw_qos.reliability.max_blocking_time.sec = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 历史记录配置</span></span><br><span class="line">dw_qos.history.kind = DDS::KEEP_ALL_HISTORY_QOS;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 资源限制</span></span><br><span class="line">dw_qos.resource_limits.max_samples = <span class="number">1000</span>;</span><br><span class="line">dw_qos.resource_limits.max_instances = <span class="number">100</span>;</span><br><span class="line">dw_qos.resource_limits.max_samples_per_instance = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 活跃性配置</span></span><br><span class="line">dw_qos.liveliness.kind = DDS::AUTOMATIC_LIVELINESS_QOS;</span><br><span class="line">dw_qos.liveliness.lease_duration.sec = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 截止期限</span></span><br><span class="line">dw_qos.deadline.period.sec = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 持久性</span></span><br><span class="line">dw_qos.durability.kind = DDS::TRANSIENT_LOCAL_DURABILITY_QOS;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 目标顺序</span></span><br><span class="line">dw_qos.destination_order.kind = DDS::BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用户数据</span></span><br><span class="line">dw_qos.user_data.value.<span class="built_in">length</span>(<span class="number">32</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; ++i) {</span><br><span class="line">  dw_qos.user_data.value[i] = i % <span class="number">256</span>;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建数据写入器</span></span><br><span class="line">DDS::DataWriter_var writer = publisher-&gt;<span class="built_in">create_datawriter</span>(topic, dw_qos, <span class="number">0</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="2-完整的订阅者配置示例">2. 完整的订阅者配置示例</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建订阅者</span></span><br><span class="line">DDS::SubscriberQos sub_qos;</span><br><span class="line">participant-&gt;<span class="built_in">get_default_subscriber_qos</span>(sub_qos);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 分区配置（必须与发布者匹配才能接收数据）</span></span><br><span class="line">sub_qos.partition.name.<span class="built_in">length</span>(<span class="number">1</span>);</span><br><span class="line">sub_qos.partition.name[<span class="number">0</span>] = CORBA::<span class="built_in">string_dup</span>(<span class="string">"sensors"</span>);</span><br><span class="line"></span><br><span class="line">DDS::Subscriber_var subscriber = participant-&gt;<span class="built_in">create_subscriber</span>(sub_qos, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 配置数据读取器 QoS</span></span><br><span class="line">DDS::DataReaderQos dr_qos;</span><br><span class="line">subscriber-&gt;<span class="built_in">get_default_datareader_qos</span>(dr_qos);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可靠性配置（必须与写入器兼容）</span></span><br><span class="line">dr_qos.reliability.kind = DDS::RELIABLE_RELIABILITY_QOS;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 历史记录配置</span></span><br><span class="line">dr_qos.history.kind = DDS::KEEP_ALL_HISTORY_QOS;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 资源限制</span></span><br><span class="line">dr_qos.resource_limits.max_samples = <span class="number">1000</span>;</span><br><span class="line">dr_qos.resource_limits.max_instances = <span class="number">100</span>;</span><br><span class="line">dr_qos.resource_limits.max_samples_per_instance = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 活跃性配置</span></span><br><span class="line">dr_qos.liveliness.kind = DDS::AUTOMATIC_LIVELINESS_QOS;</span><br><span class="line">dr_qos.liveliness.lease_duration.sec = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 截止期限（必须大于或等于写入器的截止期限）</span></span><br><span class="line">dr_qos.deadline.period.sec = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 持久性</span></span><br><span class="line">dr_qos.durability.kind = DDS::TRANSIENT_LOCAL_DURABILITY_QOS;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 目标顺序</span></span><br><span class="line">dr_qos.destination_order.kind = DDS::BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基于时间的过滤</span></span><br><span class="line">dr_qos.time_based_filter.minimum_separation.sec = <span class="number">0</span>;</span><br><span class="line">dr_qos.time_based_filter.minimum_separation.nanosec = <span class="number">100000000</span>;  <span class="comment">// 100ms</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 读取器数据生命周期</span></span><br><span class="line">dr_qos.reader_data_lifecycle.autopurge_nowriter_samples_delay.sec = <span class="number">30</span>;</span><br><span class="line">dr_qos.reader_data_lifecycle.autopurge_disposed_samples_delay.sec = <span class="number">15</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用户数据</span></span><br><span class="line">dr_qos.user_data.value.<span class="built_in">length</span>(<span class="number">16</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">16</span>; ++i) {</span><br><span class="line">  dr_qos.user_data.value[i] = (i + <span class="number">1</span>) % <span class="number">256</span>;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建监听器</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DataReaderListener</span> : <span class="keyword">public</span> DDS::DataReaderListener {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">on_data_available</span><span class="params">(DDS::DataReader_ptr reader)</span> </span>{</span><br><span class="line">    <span class="comment">// 处理数据</span></span><br><span class="line">  }</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">on_requested_deadline_missed</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    DDS::DataReader_ptr reader,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> DDS::RequestedDeadlineMissedStatus&amp; status)</span> </span>{</span><br><span class="line">    std::cout &lt;&lt; <span class="string">"Deadline missed: "</span> &lt;&lt; status.total_count &lt;&lt; std::endl;</span><br><span class="line">  }</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">on_liveliness_changed</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    DDS::DataReader_ptr reader,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> DDS::LivelinessChangedStatus&amp; status)</span> </span>{</span><br><span class="line">    std::cout &lt;&lt; <span class="string">"Liveliness changed: "</span> </span><br><span class="line">              &lt;&lt; status.alive_count &lt;&lt; <span class="string">" alive, "</span></span><br><span class="line">              &lt;&lt; status.not_alive_count &lt;&lt; <span class="string">" not alive"</span> &lt;&lt; std::endl;</span><br><span class="line">  }</span><br><span class="line">};</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建带监听器的数据读取器</span></span><br><span class="line"><span class="function">DDS::DataReaderListener_var <span class="title">listener</span><span class="params">(<span class="keyword">new</span> DataReaderListener())</span></span>;</span><br><span class="line">DDS::StatusMask mask = DDS::DATA_AVAILABLE_STATUS |</span><br><span class="line">                      DDS::REQUESTED_DEADLINE_MISSED_STATUS |</span><br><span class="line">                      DDS::LIVELINESS_CHANGED_STATUS;</span><br><span class="line"></span><br><span class="line">DDS::DataReader_var reader = subscriber-&gt;<span class="built_in">create_datareader</span>(</span><br><span class="line">  topic, dr_qos, listener, mask);</span><br></pre></td></tr></table></figure>
+<h2 id="OpenDDS-特有扩展和限制">OpenDDS 特有扩展和限制</h2>
+<h3 id="1-传输优先级策略的限制">1. 传输优先级策略的限制</h3>
+<p><strong>OpenDDS 特有行为</strong>：</p>
+<ul>
+<li>仅对 TCP 和 UDP 传输实现</li>
+<li>不可变（与 DDS 规范不同）</li>
+<li>映射到线程优先级和 DiffServ 代码点</li>
+</ul>
+<p><strong>配置示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dw_qos.transport_priority.value = <span class="number">10</span>;  <span class="comment">// 0-63，值越高优先级越高</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-数据表示策略的默认值">2. 数据表示策略的默认值</h3>
+<p><strong>OpenDDS 特有默认值</strong>：</p>
+<ul>
+<li>RTPS/UDP 传输：DataWriter 默认 XCDR2，DataReader 默认接受 XCDR 和 XCDR2</li>
+<li>其他传输：默认使用 UNALIGNED_CDR</li>
+</ul>
+<p><strong>配置示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 显式配置数据表示</span></span><br><span class="line">dw_qos.representation.value.<span class="built_in">length</span>(<span class="number">2</span>);</span><br><span class="line">dw_qos.representation.value[<span class="number">0</span>] = DDS::XCDR2_DATA_REPRESENTATION;</span><br><span class="line">dw_qos.representation.value[<span class="number">1</span>] = DDS::XCDR_DATA_REPRESENTATION;</span><br></pre></td></tr></table></figure>
+<h3 id="3-类型一致性强制策略的支持">3. 类型一致性强制策略的支持</h3>
+<p><strong>OpenDDS 限制</strong>：</p>
+<ul>
+<li>仅支持 <code>ignore_member_names</code> 成员</li>
+<li>仅在使用 RTPS 发现时支持</li>
+<li>其他成员应保持默认值</li>
+</ul>
+<p><strong>配置示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dr_qos.type_consistency.ignore_member_names = <span class="literal">true</span>;  <span class="comment">// 仅按成员 ID 匹配</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-安全相关的属性策略">4. 安全相关的属性策略</h3>
+<p><strong>OpenDDS 扩展</strong>：</p>
+<ul>
+<li>主要用于 DDS 安全配置</li>
+<li>可以通过属性配置安全凭证和策略</li>
+</ul>
+<p><strong>配置示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">DDS::DomainParticipantQos dp_qos;</span><br><span class="line">dpf-&gt;<span class="built_in">get_default_participant_qos</span>(dp_qos);</span><br><span class="line"></span><br><span class="line">dp_qos.property.value.<span class="built_in">length</span>(<span class="number">3</span>);</span><br><span class="line">dp_qos.property.value[<span class="number">0</span>].name = <span class="string">"dds.sec.auth.identity_ca"</span>;</span><br><span class="line">dp_qos.property.value[<span class="number">0</span>].value = <span class="string">"file:identity_ca.pem"</span>;</span><br><span class="line">dp_qos.property.value[<span class="number">0</span>].propagate = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">dp_qos.property.value[<span class="number">1</span>].name = <span class="string">"dds.sec.auth.private_key"</span>;</span><br><span class="line">dp_qos.property.value[<span class="number">1</span>].value = <span class="string">"file:private_key.pem"</span>;</span><br><span class="line">dp_qos.property.value[<span class="number">1</span>].propagate = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">dp_qos.property.value[<span class="number">2</span>].name = <span class="string">"dds.sec.auth.identity_certificate"</span>;</span><br><span class="line">dp_qos.property.value[<span class="number">2</span>].value = <span class="string">"file:identity_certificate.pem"</span>;</span><br><span class="line">dp_qos.property.value[<span class="number">2</span>].propagate = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="最佳实践总结">最佳实践总结</h2>
+<h3 id="1-性能优化建议">1. 性能优化建议</h3>
+<p><strong>内存管理</strong>：</p>
+<ul>
+<li>根据数据量设置合理的 <code>Resource Limits</code></li>
+<li>使用 <code>KEEP_LAST</code> 历史策略并设置适当的深度</li>
+<li>配置 <code>Reader Data Lifecycle</code> 自动清理过期数据</li>
+</ul>
+<p><strong>网络优化</strong>：</p>
+<ul>
+<li>使用 <code>Partition</code> 进行逻辑隔离，减少不必要的网络流量</li>
+<li>配置 <code>Transport Priority</code> 对关键数据进行优先级处理</li>
+<li>考虑使用共享内存传输进行本地通信</li>
+</ul>
+<p><strong>延迟优化</strong>：</p>
+<ul>
+<li>实时系统使用 <code>BEST_EFFORT</code> 可靠性</li>
+<li>配置适当的 <code>Deadline</code> 进行时间监控</li>
+<li>使用 <code>Time Based Filter</code> 减少数据处理频率</li>
+</ul>
+<h3 id="2-可靠性设计建议">2. 可靠性设计建议</h3>
+<p><strong>数据完整性</strong>：</p>
+<ul>
+<li>关键系统使用 <code>RELIABLE</code> 可靠性</li>
+<li>配置适当的 <code>max_blocking_time</code> 避免无限阻塞</li>
+<li>使用 <code>KEEP_ALL</code> 历史策略确保数据不丢失</li>
+</ul>
+<p><strong>容错设计</strong>：</p>
+<ul>
+<li>配置 <code>Liveliness</code> 检测进行故障发现</li>
+<li>使用 <code>EXCLUSIVE_OWNERSHIP</code> 和 <code>Ownership Strength</code> 实现主备切换</li>
+<li>设置适当的 <code>Durability</code> 级别确保数据可恢复</li>
+</ul>
+<p><strong>监控和告警</strong>：</p>
+<ul>
+<li>实现监听器处理 <code>on_requested_deadline_missed</code></li>
+<li>监控 <code>on_liveliness_changed</code> 进行健康检查</li>
+<li>处理 <code>on_sample_rejected</code> 了解数据丢失情况</li>
+</ul>
+<h3 id="3-配置管理建议">3. 配置管理建议</h3>
+<p><strong>代码组织</strong>：</p>
+<ul>
+<li>创建 QoS 配置工厂函数，便于重用</li>
+<li>使用配置文件管理不同环境的 QoS 设置</li>
+<li>实现 QoS 配置验证，确保兼容性</li>
+</ul>
+<p><strong>测试策略</strong>：</p>
+<ul>
+<li>测试不同 QoS 配置下的性能表现</li>
+<li>验证 QoS 兼容性规则</li>
+<li>测试故障恢复场景</li>
+</ul>
+<p><strong>文档和维护</strong>：</p>
+<ul>
+<li>记录 QoS 配置决策和原因</li>
+<li>定期审查和优化 QoS 设置</li>
+<li>建立 QoS 配置变更管理流程</li>
+</ul>
+<h2 id="QoS-兼容性规则">QoS 兼容性规则</h2>
+<h3 id="1-关联建立的基本规则">1. 关联建立的基本规则</h3>
+<p>数据写入器（DataWriter）和数据读取器（DataReader）要建立关联，必须满足以下兼容性规则：</p>
+<table>
+<thead>
+<tr>
+<th>QoS 策略</th>
+<th>兼容性规则</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Liveliness</strong></td>
+<td>Writer.kind ≥ Reader.kind<br>Writer.lease_duration ≤ Reader.lease_duration</td>
+<td>写入器必须提供不低于读取器要求的活跃性级别</td>
+</tr>
+<tr>
+<td><strong>Reliability</strong></td>
+<td>Writer.kind ≥ Reader.kind</td>
+<td>可靠读取器只能关联可靠写入器</td>
+</tr>
+<tr>
+<td><strong>Durability</strong></td>
+<td>Writer.kind ≥ Reader.kind</td>
+<td>写入器必须提供不低于读取器要求的持久性级别</td>
+</tr>
+<tr>
+<td><strong>Deadline</strong></td>
+<td>Reader.period ≥ Writer.period</td>
+<td>读取器截止期限必须大于等于写入器截止期限</td>
+</tr>
+<tr>
+<td><strong>Latency Budget</strong></td>
+<td>Writer.duration ≥ Reader.duration</td>
+<td>写入器延迟预算必须大于等于读取器延迟预算</td>
+</tr>
+<tr>
+<td><strong>Destination Order</strong></td>
+<td>Writer.kind ≥ Reader.kind</td>
+<td>写入器排序方式必须不低于读取器要求</td>
+</tr>
+<tr>
+<td><strong>Ownership</strong></td>
+<td>Writer.kind == Reader.kind</td>
+<td>所有权模式必须相同</td>
+</tr>
+<tr>
+<td><strong>Partition</strong></td>
+<td>至少有一个分区名称匹配</td>
+<td>使用通配符进行匹配</td>
+</tr>
+<tr>
+<td><strong>Presentation</strong></td>
+<td>Writer.access_scope ≥ Reader.access_scope<br>Writer.coherent_access ≤ Reader.coherent_access<br>Writer.ordered_access ≤ Reader.ordered_access</td>
+<td>复杂的多层兼容性规则</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-兼容性检查工具">2. 兼容性检查工具</h3>
+<p>创建 QoS 兼容性检查函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">check_qos_compatibility</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> DDS::DataWriterQos&amp; writer_qos,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> DDS::DataReaderQos&amp; reader_qos)</span> </span>{</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 检查可靠性</span></span><br><span class="line">    <span class="keyword">if</span> (reader_qos.reliability.kind == DDS::RELIABLE_RELIABILITY_QOS &amp;&amp;</span><br><span class="line">        writer_qos.reliability.kind != DDS::RELIABLE_RELIABILITY_QOS) {</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 检查持久性</span></span><br><span class="line">    <span class="keyword">if</span> (reader_qos.durability.kind &gt; writer_qos.durability.kind) {</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 检查活跃性</span></span><br><span class="line">    <span class="keyword">if</span> (reader_qos.liveliness.kind &gt; writer_qos.liveliness.kind) {</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (writer_qos.liveliness.lease_duration.sec &gt; </span><br><span class="line">        reader_qos.liveliness.lease_duration.sec) {</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 检查截止期限</span></span><br><span class="line">    <span class="keyword">if</span> (reader_qos.deadline.period.sec &lt; writer_qos.deadline.period.sec) {</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 检查所有权</span></span><br><span class="line">    <span class="keyword">if</span> (reader_qos.ownership.kind != writer_qos.ownership.kind) {</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h2 id="实用配置模板">实用配置模板</h2>
+<h3 id="1-实时传感器数据模板">1. 实时传感器数据模板</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实时传感器数据配置</span></span><br><span class="line"><span class="function">DDS::DataWriterQos <span class="title">create_sensor_writer_qos</span><span class="params">(DDS::Publisher_ptr publisher)</span> </span>{</span><br><span class="line">    DDS::DataWriterQos qos;</span><br><span class="line">    publisher-&gt;<span class="built_in">get_default_datawriter_qos</span>(qos);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 低延迟配置</span></span><br><span class="line">    qos.reliability.kind = DDS::BEST_EFFORT_RELIABILITY_QOS;</span><br><span class="line">    qos.history.kind = DDS::KEEP_LAST_HISTORY_QOS;</span><br><span class="line">    qos.history.depth = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 实时性要求</span></span><br><span class="line">    qos.deadline.period.sec = <span class="number">0</span>;</span><br><span class="line">    qos.deadline.period.nanosec = <span class="number">100000000</span>;  <span class="comment">// 100ms</span></span><br><span class="line">    </span><br><span class="line">    qos.transport_priority.value = <span class="number">5</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 资源限制</span></span><br><span class="line">    qos.resource_limits.max_samples = <span class="number">100</span>;</span><br><span class="line">    qos.resource_limits.max_instances = <span class="number">50</span>;</span><br><span class="line">    qos.resource_limits.max_samples_per_instance = <span class="number">2</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> qos;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function">DDS::DataReaderQos <span class="title">create_sensor_reader_qos</span><span class="params">(DDS::Subscriber_ptr subscriber)</span> </span>{</span><br><span class="line">    DDS::DataReaderQos qos;</span><br><span class="line">    subscriber-&gt;<span class="built_in">get_default_datareader_qos</span>(qos);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 兼容性配置</span></span><br><span class="line">    qos.reliability.kind = DDS::BEST_EFFORT_RELIABILITY_QOS;</span><br><span class="line">    qos.deadline.period.sec = <span class="number">0</span>;</span><br><span class="line">    qos.deadline.period.nanosec = <span class="number">200000000</span>;  <span class="comment">// 200ms（大于写入器）</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 数据过滤</span></span><br><span class="line">    qos.time_based_filter.minimum_separation.sec = <span class="number">0</span>;</span><br><span class="line">    qos.time_based_filter.minimum_separation.nanosec = <span class="number">50000000</span>;  <span class="comment">// 50ms</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> qos;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="2-可靠命令控制模板">2. 可靠命令控制模板</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可靠命令控制配置</span></span><br><span class="line"><span class="function">DDS::DataWriterQos <span class="title">create_command_writer_qos</span><span class="params">(DDS::Publisher_ptr publisher)</span> </span>{</span><br><span class="line">    DDS::DataWriterQos qos;</span><br><span class="line">    publisher-&gt;<span class="built_in">get_default_datawriter_qos</span>(qos);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 高可靠性配置</span></span><br><span class="line">    qos.reliability.kind = DDS::RELIABLE_RELIABILITY_QOS;</span><br><span class="line">    qos.reliability.max_blocking_time.sec = <span class="number">5</span>;</span><br><span class="line">    </span><br><span class="line">    qos.history.kind = DDS::KEEP_ALL_HISTORY_QOS;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 持久性配置</span></span><br><span class="line">    qos.durability.kind = DDS::TRANSIENT_LOCAL_DURABILITY_QOS;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 资源限制</span></span><br><span class="line">    qos.resource_limits.max_samples = <span class="number">1000</span>;</span><br><span class="line">    qos.resource_limits.max_instances = <span class="number">100</span>;</span><br><span class="line">    qos.resource_limits.max_samples_per_instance = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 所有权配置（用于主备切换）</span></span><br><span class="line">    qos.ownership.kind = DDS::EXCLUSIVE_OWNERSHIP_QOS;</span><br><span class="line">    qos.ownership_strength.value = <span class="number">100</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> qos;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function">DDS::DataReaderQos <span class="title">create_command_reader_qos</span><span class="params">(DDS::Subscriber_ptr subscriber)</span> </span>{</span><br><span class="line">    DDS::DataReaderQos qos;</span><br><span class="line">    subscriber-&gt;<span class="built_in">get_default_datareader_qos</span>(qos);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 兼容性配置</span></span><br><span class="line">    qos.reliability.kind = DDS::RELIABLE_RELIABILITY_QOS;</span><br><span class="line">    qos.durability.kind = DDS::TRANSIENT_LOCAL_DURABILITY_QOS;</span><br><span class="line">    qos.ownership.kind = DDS::EXCLUSIVE_OWNERSHIP_QOS;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 数据生命周期管理</span></span><br><span class="line">    qos.reader_data_lifecycle.autopurge_nowriter_samples_delay.sec = <span class="number">30</span>;</span><br><span class="line">    qos.reader_data_lifecycle.autopurge_disposed_samples_delay.sec = <span class="number">15</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> qos;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="3-配置管理工厂类">3. 配置管理工厂类</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">QosFactory</span> {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">Profile</span> {</span><br><span class="line">        REAL_TIME_SENSOR,</span><br><span class="line">        RELIABLE_COMMAND,</span><br><span class="line">        DISTRIBUTED_CACHE,</span><br><span class="line">        HIGH_AVAILABILITY,</span><br><span class="line">        BIG_DATA_STREAM</span><br><span class="line">    };</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">static</span> DDS::DataWriterQos <span class="title">create_writer_qos</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        DDS::Publisher_ptr publisher, </span></span></span><br><span class="line"><span class="params"><span class="function">        Profile profile)</span> </span>{</span><br><span class="line">        </span><br><span class="line">        DDS::DataWriterQos qos;</span><br><span class="line">        publisher-&gt;<span class="built_in">get_default_datawriter_qos</span>(qos);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">switch</span> (profile) {</span><br><span class="line">            <span class="keyword">case</span> REAL_TIME_SENSOR:</span><br><span class="line">                qos.reliability.kind = DDS::BEST_EFFORT_RELIABILITY_QOS;</span><br><span class="line">                qos.history.kind = DDS::KEEP_LAST_HISTORY_QOS;</span><br><span class="line">                qos.history.depth = <span class="number">1</span>;</span><br><span class="line">                qos.deadline.period.nanosec = <span class="number">100000000</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">case</span> RELIABLE_COMMAND:</span><br><span class="line">                qos.reliability.kind = DDS::RELIABLE_RELIABILITY_QOS;</span><br><span class="line">                qos.reliability.max_blocking_time.sec = <span class="number">5</span>;</span><br><span class="line">                qos.history.kind = DDS::KEEP_ALL_HISTORY_QOS;</span><br><span class="line">                qos.durability.kind = DDS::TRANSIENT_LOCAL_DURABILITY_QOS;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">case</span> DISTRIBUTED_CACHE:</span><br><span class="line">                qos.durability.kind = DDS::TRANSIENT_DURABILITY_QOS;</span><br><span class="line">                qos.lifespan.duration.sec = <span class="number">3600</span>;</span><br><span class="line">                qos.durability_service.history_depth = <span class="number">100</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">case</span> HIGH_AVAILABILITY:</span><br><span class="line">                qos.liveliness.kind = DDS::MANUAL_BY_PARTICIPANT_LIVELINESS_QOS;</span><br><span class="line">                qos.liveliness.lease_duration.sec = <span class="number">5</span>;</span><br><span class="line">                qos.ownership.kind = DDS::EXCLUSIVE_OWNERSHIP_QOS;</span><br><span class="line">                qos.ownership_strength.value = <span class="number">100</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">case</span> BIG_DATA_STREAM:</span><br><span class="line">                qos.resource_limits.max_samples = <span class="number">10000</span>;</span><br><span class="line">                qos.resource_limits.max_instances = <span class="number">1000</span>;</span><br><span class="line">                qos.resource_limits.max_samples_per_instance = <span class="number">100</span>;</span><br><span class="line">                qos.history.kind = DDS::KEEP_LAST_HISTORY_QOS;</span><br><span class="line">                qos.history.depth = <span class="number">10</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        }</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> qos;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">static</span> DDS::DataReaderQos <span class="title">create_reader_qos</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        DDS::Subscriber_ptr subscriber,</span></span></span><br><span class="line"><span class="params"><span class="function">        Profile profile)</span> </span>{</span><br><span class="line">        </span><br><span class="line">        DDS::DataReaderQos qos;</span><br><span class="line">        subscriber-&gt;<span class="built_in">get_default_datareader_qos</span>(qos);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">switch</span> (profile) {</span><br><span class="line">            <span class="keyword">case</span> REAL_TIME_SENSOR:</span><br><span class="line">                qos.reliability.kind = DDS::BEST_EFFORT_RELIABILITY_QOS;</span><br><span class="line">                qos.time_based_filter.minimum_separation.nanosec = <span class="number">50000000</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">case</span> RELIABLE_COMMAND:</span><br><span class="line">                qos.reliability.kind = DDS::RELIABLE_RELIABILITY_QOS;</span><br><span class="line">                qos.reader_data_lifecycle.autopurge_nowriter_samples_delay.sec = <span class="number">30</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">case</span> DISTRIBUTED_CACHE:</span><br><span class="line">                <span class="comment">// 使用默认配置</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">case</span> HIGH_AVAILABILITY:</span><br><span class="line">                qos.liveliness.kind = DDS::MANUAL_BY_PARTICIPANT_LIVELINESS_QOS;</span><br><span class="line">                qos.ownership.kind = DDS::EXCLUSIVE_OWNERSHIP_QOS;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">case</span> BIG_DATA_STREAM:</span><br><span class="line">                qos.time_based_filter.minimum_separation.nanosec = <span class="number">100000000</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        }</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> qos;</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<h2 id="故障排除指南">故障排除指南</h2>
+<h3 id="1-常见-QoS-问题">1. 常见 QoS 问题</h3>
+<p><strong>问题1：数据写入器和读取器无法关联</strong></p>
+<p><strong>可能原因</strong>：</p>
+<ul>
+<li>QoS 不兼容（最常见）</li>
+<li>分区不匹配</li>
+<li>主题类型不匹配</li>
+</ul>
+<p><strong>解决方案</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 检查 QoS 兼容性</span></span><br><span class="line">std::cout &lt;&lt; <span class="string">"Writer Reliability: "</span> &lt;&lt; writer_qos.reliability.kind &lt;&lt; std::endl;</span><br><span class="line">std::cout &lt;&lt; <span class="string">"Reader Reliability: "</span> &lt;&lt; reader_qos.reliability.kind &lt;&lt; std::endl;</span><br><span class="line">std::cout &lt;&lt; <span class="string">"Writer Durability: "</span> &lt;&lt; writer_qos.durability.kind &lt;&lt; std::endl;</span><br><span class="line">std::cout &lt;&lt; <span class="string">"Reader Durability: "</span> &lt;&lt; reader_qos.durability.kind &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现监听器检测不兼容的 QoS</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">IncompatibleQosListener</span> : <span class="keyword">public</span> DDS::DataReaderListener {</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">on_requested_incompatible_qos</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        DDS::DataReader_ptr reader,</span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">const</span> DDS::RequestedIncompatibleQosStatus&amp; status)</span> </span>{</span><br><span class="line">        </span><br><span class="line">        std::cout &lt;&lt; <span class="string">"Incompatible QoS detected!"</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">for</span> (CORBA::ULong i = <span class="number">0</span>; i &lt; status.policies.<span class="built_in">length</span>(); ++i) {</span><br><span class="line">            std::cout &lt;&lt; <span class="string">"Policy ID: "</span> &lt;&lt; status.policies[i].policy_id</span><br><span class="line">                      &lt;&lt; <span class="string">", Count: "</span> &lt;&lt; status.policies[i].count &lt;&lt; std::endl;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<p><strong>问题2：数据丢失或延迟过高</strong></p>
+<p><strong>可能原因</strong>：</p>
+<ul>
+<li>资源限制过小</li>
+<li>网络拥堵</li>
+<li>QoS 配置不当</li>
+</ul>
+<p><strong>解决方案</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调整资源限制</span></span><br><span class="line">dw_qos.resource_limits.max_samples = <span class="number">1000</span>;  <span class="comment">// 增加缓存大小</span></span><br><span class="line">dw_qos.resource_limits.max_samples_per_instance = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调整可靠性设置</span></span><br><span class="line">dw_qos.reliability.max_blocking_time.sec = <span class="number">10</span>;  <span class="comment">// 增加阻塞时间</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用传输优先级</span></span><br><span class="line">dw_qos.transport_priority.value = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>问题3：内存使用持续增长</strong></p>
+<p><strong>可能原因</strong>：</p>
+<ul>
+<li>未配置 Reader Data Lifecycle</li>
+<li>Resource Limits 设置过大</li>
+<li>数据未及时清理</li>
+</ul>
+<p><strong>解决方案</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 配置自动清理</span></span><br><span class="line">dr_qos.reader_data_lifecycle.autopurge_nowriter_samples_delay.sec = <span class="number">30</span>;</span><br><span class="line">dr_qos.reader_data_lifecycle.autopurge_disposed_samples_delay.sec = <span class="number">15</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置合理的资源限制</span></span><br><span class="line">dr_qos.resource_limits.max_samples = <span class="number">1000</span>;</span><br><span class="line">dr_qos.resource_limits.max_instances = <span class="number">100</span>;</span><br><span class="line">dr_qos.resource_limits.max_samples_per_instance = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="2-调试和监控">2. 调试和监控</h3>
+<p><strong>启用调试输出</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置 OpenDDS 调试级别</span></span><br><span class="line">OpenDDS::DCPS::<span class="built_in">set_DCPS_debug_level</span>(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启用传输调试</span></span><br><span class="line">TheTransportRegistry-&gt;<span class="built_in">set_log_level</span>(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 环境变量方式</span></span><br><span class="line"><span class="comment">// export DCPSDebugLevel=5</span></span><br><span class="line"><span class="comment">// export ACE_LOG_MSG=/tmp/opendds.log</span></span><br></pre></td></tr></table></figure>
+<p><strong>实现监控监听器</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MonitoringListener</span> : <span class="keyword">public</span> DDS::DataReaderListener {</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">on_sample_rejected</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        DDS::DataReader_ptr reader,</span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">const</span> DDS::SampleRejectedStatus&amp; status)</span> </span>{</span><br><span class="line">        </span><br><span class="line">        std::cout &lt;&lt; <span class="string">"Samples rejected: "</span> &lt;&lt; status.total_count </span><br><span class="line">                  &lt;&lt; <span class="string">", Reason: "</span> &lt;&lt; status.last_reason &lt;&lt; std::endl;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">on_sample_lost</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        DDS::DataReader_ptr reader,</span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">const</span> DDS::SampleLostStatus&amp; status)</span> </span>{</span><br><span class="line">        </span><br><span class="line">        std::cout &lt;&lt; <span class="string">"Samples lost: "</span> &lt;&lt; status.total_count &lt;&lt; std::endl;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">on_subscription_matched</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        DDS::DataReader_ptr reader,</span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">const</span> DDS::SubscriptionMatchedStatus&amp; status)</span> </span>{</span><br><span class="line">        </span><br><span class="line">        std::cout &lt;&lt; <span class="string">"Subscription matched: "</span> </span><br><span class="line">                  &lt;&lt; status.current_count &lt;&lt; <span class="string">" current, "</span></span><br><span class="line">                  &lt;&lt; status.total_count &lt;&lt; <span class="string">" total"</span> &lt;&lt; std::endl;</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2>
+<p>OpenDDS 的 QoS 策略提供了强大的机制来控制分布式系统的行为。通过合理配置 QoS，可以实现：</p>
+<ol>
+<li><strong>性能优化</strong>：根据应用需求平衡延迟和可靠性</li>
+<li><strong>资源管理</strong>：控制内存和网络资源的使用</li>
+<li><strong>容错设计</strong>：实现故障检测和自动恢复</li>
+<li><strong>数据管理</strong>：控制数据的生命周期和持久性</li>
+<li><strong>系统隔离</strong>：使用分区进行逻辑隔离</li>
+</ol>
+<p><strong>关键建议</strong>：</p>
+<ul>
+<li>从简单配置开始，根据需要逐步调整</li>
+<li>测试不同 QoS 配置下的系统行为</li>
+<li>实现监控和告警机制</li>
+<li>记录配置决策和变更历史</li>
+<li>定期审查和优化 QoS 设置</li>
+</ul>
+<p>通过本指南，您应该能够：</p>
+<ol>
+<li>理解 OpenDDS 支持的所有 QoS 策略</li>
+<li>为不同应用场景选择合适的 QoS 配置</li>
+<li>避免常见的 QoS 兼容性问题</li>
+<li>实现高效的分布式系统设计</li>
+</ol>
+<p>OpenDDS 的 QoS 系统虽然复杂，但提供了极大的灵活性。通过深入理解和合理应用，可以构建出高性能、可靠、可维护的分布式系统。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OpenDDS/" rel="tag"># OpenDDS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/01/27/opendds-learning-guide/" rel="prev" title="OpenDDS 学习使用指南">
+      <i class="fa fa-chevron-left"></i> OpenDDS 学习使用指南
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2026/01/29/chan-guide/" rel="next" title="缠论交易方法知识脉络完整指南">
+      缠论交易方法知识脉络完整指南 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          <script src="https://utteranc.es/client.js"
+        repo="stonejiang208/blog"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">OpenDDS QoS 策略完整指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QoS-%E7%AD%96%E7%95%A5%E5%AE%8C%E6%95%B4%E5%88%86%E7%B1%BB%E8%A1%A8"><span class="nav-number">1.2.</span> <span class="nav-text">QoS 策略完整分类表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%8F%AF%E9%9D%A0%E6%80%A7%E7%9B%B8%E5%85%B3%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 可靠性相关策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%9E%E6%97%B6%E6%80%A7%E7%9B%B8%E5%85%B3%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 实时性相关策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%8C%81%E4%B9%85%E6%80%A7%E7%9B%B8%E5%85%B3%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 持久性相关策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%8F%91%E7%8E%B0%E5%92%8C%E5%85%B3%E8%81%94%E7%9B%B8%E5%85%B3%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 发现和关联相关策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E7%9B%B8%E5%85%B3%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.5.</span> <span class="nav-text">5. 数据管理相关策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%BA%94%E7%94%A8%E6%95%B0%E6%8D%AE%E7%9B%B8%E5%85%B3%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.6.</span> <span class="nav-text">6. 应用数据相关策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E9%85%8D%E7%BD%AE%E7%9B%B8%E5%85%B3%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.7.</span> <span class="nav-text">7. 配置相关策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E7%9B%B8%E5%85%B3%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.8.</span> <span class="nav-text">8. 类型系统相关策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BD%93%E9%80%82%E7%94%A8%E6%80%A7%E7%9F%A9%E9%98%B5"><span class="nav-number">1.3.</span> <span class="nav-text">实体适用性矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%92%8C%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97"><span class="nav-number">1.4.</span> <span class="nav-text">典型应用场景和配置指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AE%9E%E6%97%B6%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 实时控制系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 可靠数据传输系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. 分布式缓存系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AE%B9%E9%94%99%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.4.4.</span> <span class="nav-text">4. 容错和高可用系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E6%B5%81%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.4.5.</span> <span class="nav-text">5. 大数据量流处理系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.5.</span> <span class="nav-text">详细配置示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AE%8C%E6%95%B4%E7%9A%84%E5%8F%91%E5%B8%83%E8%80%85%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 完整的发布者配置示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%8C%E6%95%B4%E7%9A%84%E8%AE%A2%E9%98%85%E8%80%85%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 完整的订阅者配置示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenDDS-%E7%89%B9%E6%9C%89%E6%89%A9%E5%B1%95%E5%92%8C%E9%99%90%E5%88%B6"><span class="nav-number">1.6.</span> <span class="nav-text">OpenDDS 特有扩展和限制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BC%A0%E8%BE%93%E4%BC%98%E5%85%88%E7%BA%A7%E7%AD%96%E7%95%A5%E7%9A%84%E9%99%90%E5%88%B6"><span class="nav-number">1.6.1.</span> <span class="nav-text">1. 传输优先级策略的限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%A4%BA%E7%AD%96%E7%95%A5%E7%9A%84%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="nav-number">1.6.2.</span> <span class="nav-text">2. 数据表示策略的默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%B1%BB%E5%9E%8B%E4%B8%80%E8%87%B4%E6%80%A7%E5%BC%BA%E5%88%B6%E7%AD%96%E7%95%A5%E7%9A%84%E6%94%AF%E6%8C%81"><span class="nav-number">1.6.3.</span> <span class="nav-text">3. 类型一致性强制策略的支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E5%B1%9E%E6%80%A7%E7%AD%96%E7%95%A5"><span class="nav-number">1.6.4.</span> <span class="nav-text">4. 安全相关的属性策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93"><span class="nav-number">1.7.</span> <span class="nav-text">最佳实践总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.7.1.</span> <span class="nav-text">1. 性能优化建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8F%AF%E9%9D%A0%E6%80%A7%E8%AE%BE%E8%AE%A1%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.7.2.</span> <span class="nav-text">2. 可靠性设计建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.7.3.</span> <span class="nav-text">3. 配置管理建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QoS-%E5%85%BC%E5%AE%B9%E6%80%A7%E8%A7%84%E5%88%99"><span class="nav-number">1.8.</span> <span class="nav-text">QoS 兼容性规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%85%B3%E8%81%94%E5%BB%BA%E7%AB%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E8%A7%84%E5%88%99"><span class="nav-number">1.8.1.</span> <span class="nav-text">1. 关联建立的基本规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%85%BC%E5%AE%B9%E6%80%A7%E6%A3%80%E6%9F%A5%E5%B7%A5%E5%85%B7"><span class="nav-number">1.8.2.</span> <span class="nav-text">2. 兼容性检查工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%94%A8%E9%85%8D%E7%BD%AE%E6%A8%A1%E6%9D%BF"><span class="nav-number">1.9.</span> <span class="nav-text">实用配置模板</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AE%9E%E6%97%B6%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE%E6%A8%A1%E6%9D%BF"><span class="nav-number">1.9.1.</span> <span class="nav-text">1. 实时传感器数据模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8F%AF%E9%9D%A0%E5%91%BD%E4%BB%A4%E6%8E%A7%E5%88%B6%E6%A8%A1%E6%9D%BF"><span class="nav-number">1.9.2.</span> <span class="nav-text">2. 可靠命令控制模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E5%B7%A5%E5%8E%82%E7%B1%BB"><span class="nav-number">1.9.3.</span> <span class="nav-text">3. 配置管理工厂类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4%E6%8C%87%E5%8D%97"><span class="nav-number">1.10.</span> <span class="nav-text">故障排除指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%B8%B8%E8%A7%81-QoS-%E9%97%AE%E9%A2%98"><span class="nav-number">1.10.1.</span> <span class="nav-text">1. 常见 QoS 问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%B0%83%E8%AF%95%E5%92%8C%E7%9B%91%E6%8E%A7"><span class="nav-number">1.10.2.</span> <span class="nav-text">2. 调试和监控</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.11.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Stone</p>
+  <div class="site-description" itemprop="description">数学,阅读和编程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:stone@tao-studio.net" title="E-Mail → mailto:stone@tao-studio.net" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="mailto:stone@tao-studio.net" title="mailto:stone@tao-studio.net" rel="noopener" target="_blank">欢迎互粉</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://terrytao.wordpress.com/" title="https:&#x2F;&#x2F;terrytao.wordpress.com&#x2F;" rel="noopener" target="_blank">陶哲轩的博客</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stone</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">101k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:31</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
