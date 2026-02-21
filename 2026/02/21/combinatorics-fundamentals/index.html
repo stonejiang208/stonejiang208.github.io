@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.tao-studio.net","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"author":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="如果你想攀登概率论的高峰，组合数学就是你脚下的山路。它不华丽，却是一切的基础。   引言：为什么要学组合数学？ 想象一下：你面前有一副扑克牌，随机抽5张，恰好是同花顺的概率是多少？ 要回答这个问题，你需要知道： - 一副牌有多少种可能的5张组合？ - 同花顺有多少种？ - 两个数字一除，就是答案 这就是组合数学的魔法——它教我们数数。 数数谁不会？但这里的关键是：在复杂的情况下，如何不重不漏地数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组合数学：概率论的第一块基石">
+<meta property="og:url" content="http://blog.tao-studio.net/2026/02/21/combinatorics-fundamentals/index.html">
+<meta property="og:site_name" content="Stone&#39;s Blog">
+<meta property="og:description" content="如果你想攀登概率论的高峰，组合数学就是你脚下的山路。它不华丽，却是一切的基础。   引言：为什么要学组合数学？ 想象一下：你面前有一副扑克牌，随机抽5张，恰好是同花顺的概率是多少？ 要回答这个问题，你需要知道： - 一副牌有多少种可能的5张组合？ - 同花顺有多少种？ - 两个数字一除，就是答案 这就是组合数学的魔法——它教我们数数。 数数谁不会？但这里的关键是：在复杂的情况下，如何不重不漏地数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-02-21T00:20:00.000Z">
+<meta property="article:modified_time" content="2026-02-21T03:07:06.407Z">
+<meta property="article:author" content="Stone">
+<meta property="article:tag" content="组合数学">
+<meta property="article:tag" content="计数原理">
+<meta property="article:tag" content="排列组合">
+<meta property="article:tag" content="概率论">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.tao-studio.net/2026/02/21/combinatorics-fundamentals/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>组合数学：概率论的第一块基石 | Stone's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Stone's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">blog.tao-studio.net</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/21/combinatorics-fundamentals/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读和编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          组合数学：概率论的第一块基石
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-02-21 08:20:00 / 修改时间：11:07:06" itemprop="dateCreated datePublished" datetime="2026-02-21T08:20:00+08:00">2026-02-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E6%A6%82%E7%8E%87%E5%92%8C%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">概率和统计</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p><em>如果你想攀登概率论的高峰，组合数学就是你脚下的山路。它不华丽，却是一切的基础。</em></p>
+</blockquote>
+<hr />
+<h2 id="引言为什么要学组合数学">引言：为什么要学组合数学？</h2>
+<p>想象一下：你面前有一副扑克牌，随机抽5张，恰好是同花顺的概率是多少？</p>
+<p>要回答这个问题，你需要知道： - 一副牌有多少种可能的5张组合？ -
+同花顺有多少种？ - 两个数字一除，就是答案</p>
+<p><strong>这就是组合数学的魔法——它教我们数数。</strong></p>
+<p>数数谁不会？但这里的关键是：<strong>在复杂的情况下，如何不重不漏地数清楚所有可能性</strong>。这不是简单的1+1=2，而是一种精妙的思维艺术。</p>
+<p>概率论的本质是<strong>计数</strong>：<span class="math inline">\(P(A)
+= \frac{\text{事件A的情况数}}{\text{所有可能情况数}}\)</span></p>
+<p>所以我说：组合数学是概率论的第一块基石。</p>
+<h2 id="section"><span id="more"></span></h2>
+<h2 id="第一章最基本的计数法则">第一章：最基本的计数法则</h2>
+<h3 id="加法原理走不同的路">1.1 加法原理：走不同的路</h3>
+<blockquote>
+<p><strong>加法原理</strong>：完成一件事有 <span
+class="math inline">\(n\)</span> 类方法，每类方法分别有 <span
+class="math inline">\(a_1, a_2, \ldots, a_n\)</span>
+种方式，则完成这件事共有 <span class="math inline">\(a_1 + a_2 + \cdots
++ a_n\)</span> 种方式。</p>
+</blockquote>
+<p><strong>比喻</strong>：你要从北京去上海，可以坐飞机（有5班）、坐高铁（有8班）、自驾（有3条路线）。一共多少种走法？</p>
+<p><span class="math inline">\(5 + 8 + 3 = 16\)</span> 种。</p>
+<p><strong>关键点</strong>：这些方法是<strong>互斥</strong>的——你不能同时坐飞机又坐高铁。选了一种，就不能选另一种。</p>
+<p><strong>例子</strong>：从1-100中选一个数，是3的倍数或5的倍数，有多少个？</p>
+<ul>
+<li>3的倍数：33个</li>
+<li>5的倍数：20个</li>
+<li>既是3又是5的倍数（15的倍数）：6个</li>
+</ul>
+<p>注意！这里有重叠，不能直接33+20，需要用容斥原理（后面会讲）。</p>
+<hr />
+<h3 id="乘法原理步步为营">1.2 乘法原理：步步为营</h3>
+<blockquote>
+<p><strong>乘法原理</strong>：完成一件事需要 <span
+class="math inline">\(n\)</span> 个步骤，第一个步骤有 <span
+class="math inline">\(a_1\)</span> 种方式，第二个步骤有 <span
+class="math inline">\(a_2\)</span> 种方式，……，第 <span
+class="math inline">\(n\)</span> 个步骤有 <span
+class="math inline">\(a_n\)</span> 种方式，则完成这件事共有 <span
+class="math inline">\(a_1 \times a_2 \times \cdots \times a_n\)</span>
+种方式。</p>
+</blockquote>
+<p><strong>比喻</strong>：你要买一套衣服，上装有4种选择，下装有3种选择，鞋子有2种选择。一共有多少种全身搭配？</p>
+<p><span class="math inline">\(4 \times 3 \times 2 = 24\)</span>
+种。</p>
+<p><strong>关键点</strong>：这些步骤是<strong>依次进行</strong>的，每个步骤的选择不受其他步骤影响。</p>
+<p><strong>例子</strong>：用数字1、2、3、4、5能组成多少个三位数（各位数字可以重复）？</p>
+<p>百位：5种选择（1-5） 十位：5种选择 个位：5种选择</p>
+<p><span class="math inline">\(5 \times 5 \times 5 = 125\)</span>
+个三位数。</p>
+<hr />
+<h3 id="加法与乘法的区别">1.3 加法与乘法的区别</h3>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 27%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr>
+<th>场景</th>
+<th>原理</th>
+<th>核心区别</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>从A地到B地有3条路，从B地到C地有4条路</td>
+<td>乘法原理</td>
+<td>步骤相关联，要一步步走</td>
+</tr>
+<tr>
+<td>从A地到C地，可以坐飞机或火车或汽车</td>
+<td>加法原理</td>
+<td>类别互斥，只能选一种</td>
+</tr>
+</tbody>
+</table>
+<p><strong>记住</strong>：先分类（加法）再分步（乘法），这是解决复杂计数问题的基本思路。</p>
+<hr />
+<h2 id="第二章排列顺序很重要">第二章：排列——顺序很重要</h2>
+<h3 id="什么是排列">2.1 什么是排列？</h3>
+<blockquote>
+<p><strong>排列（Permutation）</strong>：从 <span
+class="math inline">\(n\)</span> 个不同元素中取出 <span
+class="math inline">\(r\)</span> 个，按照一定顺序排成一列，记为 <span
+class="math inline">\(P_n^r\)</span> 或 <span
+class="math inline">\(A_n^r\)</span>。</p>
+</blockquote>
+<p><strong>公式</strong>： <span class="math display">\[P_n^r = n \times
+(n-1) \times (n-2) \times \cdots \times (n-r+1) =
+\frac{n!}{(n-r)!}\]</span></p>
+<p>其中 <span class="math inline">\(n! = n \times (n-1) \times \cdots
+\times 2 \times 1\)</span>，叫做<strong>阶乘</strong>。</p>
+<p><strong>比喻</strong>：想象你有 <span
+class="math inline">\(n\)</span> 个不同的座位，要安排 <span
+class="math inline">\(r\)</span> 个人坐进去。第一个座位有 <span
+class="math inline">\(n\)</span> 种选择，第二个座位有 <span
+class="math inline">\(n-1\)</span> 种（已经坐了一个），以此类推。</p>
+<p><strong>例子</strong>：从5个人中选3个人排成一队，有多少种排法？</p>
+<p><span class="math inline">\(P_5^3 = 5 \times 4 \times 3 = 60\)</span>
+种。</p>
+<hr />
+<h3 id="全排列">2.2 全排列</h3>
+<p>当 <span class="math inline">\(r = n\)</span>
+时，叫做<strong>全排列</strong>： <span class="math display">\[P_n^n =
+n!\]</span></p>
+<p><strong>例子</strong>：4个人排成一队，有 <span
+class="math inline">\(4! = 24\)</span> 种排法。</p>
+<p><strong>有趣的应用——电话号码爆炸</strong>：
+如果手机号码是11位，每位有10种选择（0-9），理论上可以有 <span
+class="math inline">\(10^{11} = 1000\)</span>
+亿个号码。中国14亿人，每人分10万个都够用——这就是号码资源”爆炸”的数学基础。</p>
+<hr />
+<h3 id="排列vs组合到底区别在哪">2.3 排列vs组合：到底区别在哪？</h3>
+<p>这是最容易混淆的概念。让我用一个生动的例子说明：</p>
+<p><strong>场景</strong>：从A、B、C、D四个人中选3个人</p>
+<p><strong>排列</strong>：选出3个人，还要排顺序 -
+顺序ABC和顺序CBA是不同的！ - <span class="math inline">\(P_4^3 = 4
+\times 3 \times 2 = 24\)</span> 种</p>
+<p><strong>组合</strong>：选出3个人，不考虑顺序 - ABC和CBA是同样的！ -
+<span class="math inline">\(C_4^3 = \frac{4!}{3! \times 1!} = 4\)</span>
+种</p>
+<p><strong>一句话总结</strong>： &gt;
+<strong>排列看”顺序”，组合看”选择”</strong></p>
+<hr />
+<h2
+id="第三章组合只问结果不问过程">第三章：组合——只问结果，不问过程</h2>
+<h3 id="什么是组合">3.1 什么是组合？</h3>
+<blockquote>
+<p><strong>组合（Combination）</strong>：从 <span
+class="math inline">\(n\)</span> 个不同元素中取出 <span
+class="math inline">\(r\)</span> 个，不考虑顺序，记为 <span
+class="math inline">\(C_n^r\)</span> 或 <span
+class="math inline">\(\binom{n}{r}\)</span>。</p>
+</blockquote>
+<p><strong>公式</strong>： <span class="math display">\[\binom{n}{r} =
+\frac{P_n^r}{r!} = \frac{n!}{r!(n-r)!}\]</span></p>
+<p><strong>理解</strong>：先按排列选出（有序），再除以 <span
+class="math inline">\(r!\)</span>（去掉重复的顺序）。</p>
+<p><strong>例子</strong>：从5个人中选3个人组成一个委员会，有多少种选法？</p>
+<p><span class="math display">\[\binom{5}{3} = \frac{5!}{3! \times 2!} =
+\frac{5 \times 4 \times 3}{3 \times 2 \times 1} = 10 \text{
+种}\]</span></p>
+<hr />
+<h3 id="组合数的性质">3.2 组合数的性质</h3>
+<p><strong>性质1：对称性</strong> <span
+class="math display">\[\binom{n}{r} = \binom{n}{n-r}\]</span></p>
+<p><strong>比喻</strong>：从10个人中选5个人去开会，等价于选5个人留下。两种选择方式的数量一样。</p>
+<p><strong>性质2： Pascal 递推公式</strong> <span
+class="math display">\[\binom{n}{r} = \binom{n-1}{r-1} +
+\binom{n-1}{r}\]</span></p>
+<p><strong>比喻</strong>：你要从 <span class="math inline">\(n\)</span>
+个人中选 <span class="math inline">\(r\)</span> 个人。其中某个人A： -
+选A：再从剩下 <span class="math inline">\(n-1\)</span> 人中选 <span
+class="math inline">\(r-1\)</span> 人 → <span
+class="math inline">\(\binom{n-1}{r-1}\)</span> 种 - 不选A：从剩下 <span
+class="math inline">\(n-1\)</span> 人中选 <span
+class="math inline">\(r\)</span> 人 → <span
+class="math inline">\(\binom{n-1}{r}\)</span> 种</p>
+<p>这个性质揭示了<strong>组合数的递归结构</strong>，是后面学习生成函数的重要基础。</p>
+<hr />
+<h3 id="二项式定理">3.3 二项式定理</h3>
+<p><span class="math display">\[\binom{n}{0} + \binom{n}{1} +
+\binom{n}{2} + \cdots + \binom{n}{n} = 2^n\]</span></p>
+<p><strong>理解</strong>：对于 <span class="math inline">\(n\)</span>
+个元素，每个元素有”选”或”不选”两种状态，所以总共有 <span
+class="math inline">\(2^n\)</span> 种选择。</p>
+<p><strong>例子</strong>： - <span class="math inline">\((a+b)^2 = a^2 +
+2ab + b^2\)</span> — 系数正好是 <span
+class="math inline">\(\binom{2}{0}, \binom{2}{1}, \binom{2}{2}\)</span>
+- <span class="math inline">\((1+1)^2 = 2^2 = 4 = 1 + 2 + 1\)</span>
+✓</p>
+<hr />
+<h3 id="组合数的实际应用">3.4 组合数的实际应用</h3>
+<p><strong>例子1：扑克牌同花顺</strong></p>
+<ul>
+<li>一副牌52张，选5张：<span class="math inline">\(\binom{52}{5} =
+2,598,960\)</span> 种</li>
+<li>同花顺：每种花色有10种（从A到10的顺子），4种花色，共40种</li>
+<li>概率：<span class="math inline">\(40 / 2,598,960 \approx
+0.0000154\)</span>（约万分之一）</li>
+</ul>
+<p><strong>例子2：双色球</strong></p>
+<ul>
+<li>从33个红球中选6个：<span class="math inline">\(\binom{33}{6} =
+1,107,568\)</span> 种</li>
+<li>从16个蓝球中选1个：<span class="math inline">\(\binom{16}{1} =
+16\)</span> 种</li>
+<li>总组合：<span class="math inline">\(1,107,568 \times 16 =
+17,721,088\)</span> 种</li>
+<li>中一等奖概率：约1772万分之一</li>
+</ul>
+<hr />
+<h2
+id="第四章容斥原理处理重叠的艺术">第四章：容斥原理——处理重叠的艺术</h2>
+<h3 id="问题的起源">4.1 问题的起源</h3>
+<p><strong>场景</strong>：1到100中，是3的倍数或5的倍数的数有多少个？</p>
+<ul>
+<li>3的倍数：<span class="math inline">\(\lfloor 100/3 \rfloor =
+33\)</span> 个</li>
+<li>5的倍数：<span class="math inline">\(\lfloor 100/5 \rfloor =
+20\)</span> 个</li>
+<li>直接相加：<span class="math inline">\(33 + 20 = 53\)</span> 个</li>
+</ul>
+<p><strong>但这是错的！</strong>
+因为15、30、45…这些数被重复数了两次。</p>
+<hr />
+<h3 id="容斥原理">4.2 容斥原理</h3>
+<blockquote>
+<p><strong>容斥原理（Inclusion-Exclusion
+Principle）</strong>：计算并集的大小，先加上所有单个集合的大小，再减去所有两两交集的大小，再加上所有三个交集的大小……</p>
+</blockquote>
+<p><strong>公式（两个集合）</strong>： <span class="math display">\[|A
+\cup B| = |A| + |B| - |A \cap B|\]</span></p>
+<p><strong>公式（三个集合）</strong>： <span class="math display">\[|A
+\cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |A \cap C| - |B \cap C|
++ |A \cap B \cap C|\]</span></p>
+<p><strong>比喻</strong>：想象你在整理一堆有重叠的拼图。直接数会重复，你需要：
+1. 先全部加起来 2. 发现重叠了，减掉 3. 减多了？再加回来 4.
+就像容斥一样，“包含-排除-再包含”，层层递进</p>
+<hr />
+<h3 id="容斥原理的例子">4.3 容斥原理的例子</h3>
+<p><strong>例子</strong>：1到1000中，能被3或5或7整除的数有多少？</p>
+<p>解： - 能被3整除：<span class="math inline">\(\lfloor 1000/3 \rfloor
+= 333\)</span> - 能被5整除：<span class="math inline">\(\lfloor 1000/5
+\rfloor = 200\)</span> - 能被7整除：<span class="math inline">\(\lfloor
+1000/7 \rfloor = 142\)</span></p>
+<ul>
+<li><p>能被3和5整除（15的倍数）：<span class="math inline">\(\lfloor
+1000/15 \rfloor = 66\)</span></p></li>
+<li><p>能被3和7整除（21的倍数）：<span class="math inline">\(\lfloor
+1000/21 \rfloor = 47\)</span></p></li>
+<li><p>能被5和7整除（35的倍数）：<span class="math inline">\(\lfloor
+1000/35 \rfloor = 28\)</span></p></li>
+<li><p>能被3、5、7同时整除（105的倍数）：<span
+class="math inline">\(\lfloor 1000/105 \rfloor = 9\)</span></p></li>
+</ul>
+<p>应用容斥原理： <span class="math display">\[333 + 200 + 142 - 66 - 47
+- 28 + 9 = 543\]</span></p>
+<p>答案是543个。</p>
+<hr />
+<h2 id="第五章进阶组合数学">第五章：进阶组合数学</h2>
+<h3 id="递推关系递归的智慧">5.1 递推关系——递归的智慧</h3>
+<blockquote>
+<p><strong>递推关系</strong>：通过已知的前几项来推导后面项的关系。</p>
+</blockquote>
+<p><strong>经典例子：斐波那契数列</strong></p>
+<p><span class="math display">\[F_n = F_{n-1} + F_{n-2}, \quad F_1 = 1,
+F_2 = 1\]</span></p>
+<p>1, 1, 2, 3, 5, 8, 13, 21, 34, 55, …</p>
+<p><strong>比喻</strong>：就像兔子的繁殖——每一代的数量等于前两代数量的和。</p>
+<p><strong>实际应用</strong>：爬楼梯问题</p>
+<p><strong>问题</strong>：要爬10级楼梯，每次可以爬1级或2级，有多少种爬法？</p>
+<p><strong>解</strong>：设爬 <span class="math inline">\(n\)</span>
+级楼梯有 <span class="math inline">\(a_n\)</span> 种方法 -
+第一步爬1级，剩下 <span class="math inline">\(n-1\)</span> 级：<span
+class="math inline">\(a_{n-1}\)</span> 种 - 第一步爬2级，剩下 <span
+class="math inline">\(n-2\)</span> 级：<span
+class="math inline">\(a_{n-2}\)</span> 种</p>
+<p><span class="math display">\[a_n = a_{n-1} + a_{n-2}\]</span></p>
+<p>这不就是斐波那契数列吗！所以 <span class="math inline">\(a_{10} =
+89\)</span> 种。</p>
+<hr />
+<h3 id="生成函数无声的求和">5.2 生成函数——无声的求和</h3>
+<blockquote>
+<p><strong>生成函数</strong>：把数列封装进一个”多项式”里，通过代数运算来研究数列的性质。</p>
+</blockquote>
+<p><strong>比喻</strong>：如果说递推关系是”显性基因”，那生成函数就是”隐性基因”——它把数列的结构编码在多项式的系数中，让复杂问题变得可以代数操作。</p>
+<p><strong>例子</strong>：求斐波那契数列的通项</p>
+<p>设生成函数 <span class="math inline">\(F(x) = \sum_{n=0}^{\infty} F_n
+x^n\)</span></p>
+<p>通过代数运算可以推导出： <span class="math display">\[F_n =
+\frac{1}{\sqrt{5}}\left(\frac{1+\sqrt{5}}{2}\right)^n -
+\frac{1}{\sqrt{5}}\left(\frac{1-\sqrt{5}}{2}\right)^n\]</span></p>
+<p>这就是著名的<strong>斐波那契数列通项公式</strong>，由数学家比内证明，也叫<strong>比内公式</strong>。</p>
+<hr />
+<h3 id="卡特兰数优雅的平衡">5.3 卡特兰数——优雅的平衡</h3>
+<blockquote>
+<p><strong>卡特兰数（Catalan
+Number）</strong>：满足某些约束条件的序列计数。</p>
+</blockquote>
+<p><strong>通式</strong>： <span class="math display">\[C_n =
+\frac{1}{n+1}\binom{2n}{n} = \frac{(2n)!}{(n+1)!n!}\]</span></p>
+<p>前几项：1, 1, 2, 5, 14, 42, 132, 429, …</p>
+<p><strong>经典问题1：合法括号序列</strong></p>
+<p><span class="math inline">\(n\)</span>
+对括号能组成多少种合法的表达式？</p>
+<ul>
+<li>1对：() —— 1种</li>
+<li>2对：()(), (()) —— 2种</li>
+<li>3对：5种</li>
+<li>这就是卡特兰数！</li>
+</ul>
+<p><strong>经典问题2：出栈序列</strong></p>
+<p><span class="math inline">\(1, 2, 3, \ldots, n\)</span>
+按顺序入栈，有多少种不同的出栈序列？</p>
+<p>答案也是卡特兰数 <span class="math inline">\(C_n\)</span>。</p>
+<p><strong>经典问题3：二叉树</strong></p>
+<p><span class="math inline">\(n+1\)</span>
+个叶子能构成多少种不同的二叉树？</p>
+<p>答案还是卡特兰数 <span class="math inline">\(C_n\)</span>！</p>
+<p><strong>比喻</strong>：卡特兰数就像”平衡”的数学化身——无论在括号、栈还是树的世界里，它总是悄然出现，守护着某种优雅的对称性。</p>
+<hr />
+<h3 id="整数分拆数的分割艺术">5.4 整数分拆——数的分割艺术</h3>
+<blockquote>
+<p><strong>整数分拆（Partition）</strong>：把一个正整数表示为若干个正整数之和，不考虑顺序。</p>
+</blockquote>
+<p><strong>例子</strong>：整数4有多少种分拆方式？</p>
+<p><span class="math display">\[4\]</span> <span
+class="math display">\[3+1\]</span> <span
+class="math display">\[2+2\]</span> <span
+class="math display">\[2+1+1\]</span> <span
+class="math display">\[1+1+1+1\]</span></p>
+<p>共5种。记作 <span class="math inline">\(p(4) = 5\)</span>。</p>
+<p><strong>欧拉函数与分拆</strong>：数学家欧拉发现了一个惊人的事实——整数的分拆数量遵循极其复杂的规律，但可以通过生成函数来研究。</p>
+<p><strong>应用</strong>：在统计学、物理学（玻色-爱因斯坦凝聚）、计算机科学中都有重要应用。</p>
+<hr />
+<h2 id="第六章排列组合的八大技巧">第六章：排列组合的八大技巧</h2>
+<h3 id="技巧1特殊元素优先法">技巧1：特殊元素优先法</h3>
+<p><strong>问题</strong>：6个人排成一排，甲必须在左边或右边，有多少种排法？</p>
+<p><strong>解</strong>： - 把甲放在最左边：其余5人全排列，<span
+class="math inline">\(5! = 120\)</span> 种 -
+把甲放在最右边：其余5人全排列，<span class="math inline">\(5! =
+120\)</span> 种 - 共 <span class="math inline">\(120 + 120 =
+240\)</span> 种</p>
+<hr />
+<h3 id="技巧2捆绑法相邻问题">技巧2：捆绑法（相邻问题）</h3>
+<p><strong>问题</strong>：6个人排成一排，甲、乙、丙三人必须相邻，有多少种排法？</p>
+<p><strong>解</strong>： -
+把甲乙丙视为一个”整体”，与另外3人共4个元素全排列：<span
+class="math inline">\(4! = 24\)</span> 种 - 甲乙丙内部再排列：<span
+class="math inline">\(3! = 6\)</span> 种 - 共 <span
+class="math inline">\(24 \times 6 = 144\)</span> 种</p>
+<hr />
+<h3 id="技巧3插空法不相邻问题">技巧3：插空法（不相邻问题）</h3>
+<p><strong>问题</strong>：6个人排成一排，甲、乙、丙三人互不相邻，有多少种排法？</p>
+<p><strong>解</strong>： - 先排另外3人：<span class="math inline">\(3! =
+6\)</span> 种 - 产生4个”空位”（包括两端），甲乙丙插入这4个空位 -
+从4个空位中选3个插入：<span class="math inline">\(\binom{4}{3} =
+4\)</span> 种 - 甲乙丙内部再排列：<span class="math inline">\(3! =
+6\)</span> 种 - 共 <span class="math inline">\(6 \times 4 \times 6 =
+144\)</span> 种</p>
+<hr />
+<h3 id="技巧4隔板法分配问题">技巧4：隔板法（分配问题）</h3>
+<p><strong>问题</strong>：把10个相同的球放入3个不同的盒子，每个盒子至少一个球，有多少种放法？</p>
+<p><strong>解</strong>：用隔板法 - 10个球有9个空隙 - 放2个隔板：<span
+class="math inline">\(\binom{9}{2} = 36\)</span> 种</p>
+<p><strong>变式</strong>：如果盒子可以为空呢？ -
+先每个盒子放1个”虚球”（共3个），变成13个球放3个盒子，每个至少一个 -
+<span class="math inline">\(\binom{12}{2} = 66\)</span> 种</p>
+<hr />
+<h3 id="技巧5逆向思维">技巧5：逆向思维</h3>
+<p><strong>问题</strong>：从1到1000中，不能被3、5、7整除的数有多少？</p>
+<p><strong>解</strong>：用容斥原理求能整除的，再用总数减去 -
+能被3或5或7整除的：543个（见第四章例子） - 不能被整除：<span
+class="math inline">\(1000 - 543 = 457\)</span> 个</p>
+<hr />
+<h3 id="技巧6概率转化">技巧6：概率转化</h3>
+<p><strong>问题</strong>：抛一枚硬币10次，恰好出现5次正面的概率是多少？</p>
+<p><strong>解</strong>： - 所有可能结果：<span
+class="math inline">\(2^{10} = 1024\)</span> 种 - 恰好5次正面：<span
+class="math inline">\(\binom{10}{5} = 252\)</span> 种 - 概率：<span
+class="math inline">\(252 / 1024 \approx 24.6\%\)</span></p>
+<hr />
+<h3 id="技巧7分组与分配">技巧7：分组与分配</h3>
+<p><strong>问题</strong>：把6个人分成3组，每组2人，有多少种分法？</p>
+<p><strong>解</strong>： <span class="math display">\[\frac{\binom{6}{2}
+\times \binom{4}{2} \times \binom{2}{2}}{3!} = \frac{15 \times 6 \times
+1}{6} = 15 \text{ 种}\]</span></p>
+<p><strong>注意</strong>：为什么要除以 <span
+class="math inline">\(3!\)</span>？因为组是无序的，<span
+class="math inline">\((A,B), (C,D), (E,F)\)</span> 和 <span
+class="math inline">\((C,D), (A,B), (E,F)\)</span> 是同一种分组。</p>
+<hr />
+<h3 id="技巧8棋盘法排列限制">技巧8：棋盘法（排列限制）</h3>
+<p><strong>问题</strong>：3×3的棋盘，放3个相同的车（可以攻击同行同列），有多少种放法？</p>
+<p><strong>解</strong>：这等价于在3×3矩阵中选3个位置，使得没有两个在同一行或同一列——这就是<strong>排列</strong>问题：<span
+class="math inline">\(P_3^3 = 3! = 6\)</span> 种。</p>
+<hr />
+<h2 id="结语组合数学与概率论的桥梁">结语：组合数学与概率论的桥梁</h2>
+<p>让我们回到文章开头的问题：</p>
+<blockquote>
+<p>从一副扑克牌中抽5张，恰好是同花顺的概率是多少？</p>
+</blockquote>
+<p>现在你可以自己算了： - 总的抽牌方式：<span
+class="math inline">\(\binom{52}{5} = 2,598,960\)</span> -
+同花顺：40种（A2345到10JQKA，4种花色） - 概率：<span
+class="math inline">\(40 / 2,598,960 \approx 0.0000154\)</span></p>
+<p><strong>这，就是组合数学的力量。</strong></p>
+<hr />
+<h3 id="知识脉络总结">知识脉络总结</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">              ┌─────────────┐</span><br><span class="line">              │  计数原理   │</span><br><span class="line">              │ (加减乘法)  │</span><br><span class="line">              └──────┬──────┘</span><br><span class="line">                     │</span><br><span class="line">      ┌──────────────┼──────────────┐</span><br><span class="line">      ▼              ▼              ▼</span><br><span class="line">┌──────────┐   ┌──────────┐   ┌──────────┐</span><br><span class="line">│  排列    │   │  组合    │   │  容斥    │</span><br><span class="line">│ (有序)   │   │ (无序)   │   │ (去重)   │</span><br><span class="line">└────┬─────┘   └────┬─────┘   └────┬─────┘</span><br><span class="line">     │              │              │</span><br><span class="line">     ▼              ▼              ▼</span><br><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│         进阶组合数学                │</span><br><span class="line">│  • 递推关系（斐波那契）             │</span><br><span class="line">│  • 生成函数                         │</span><br><span class="line">│  • 卡特兰数                         │</span><br><span class="line">│  • 整数分拆                         │</span><br><span class="line">└──────────────────┬──────────────────┘</span><br><span class="line">                   │</span><br><span class="line">                   ▼</span><br><span class="line">        ┌─────────────────────┐</span><br><span class="line">        │      概率论          │</span><br><span class="line">        │  P(A) = |A| / |Ω|   │</span><br><span class="line">        └─────────────────────┘</span><br></pre></td></tr></table></figure>
+<p><strong>组合数学不仅仅是数数，它是一种思维训练——教我们如何在复杂情况下保持清晰，如何处理重叠和重复，如何从局部推知整体。</strong></p>
+<p>这些思想方法，将伴随你整个概率论的学习之路。</p>
+<hr />
+<p><em>本文是「概率论基础系列」的第一篇，后续我们将探讨概率空间、条件概率、随机变量等核心概念。敬请期待。</em></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" rel="tag"># 组合数学</a>
+              <a href="/tags/%E8%AE%A1%E6%95%B0%E5%8E%9F%E7%90%86/" rel="tag"># 计数原理</a>
+              <a href="/tags/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/" rel="tag"># 排列组合</a>
+              <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag"># 概率论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/02/20/wasteland-lamplighter-maugham-notes/" rel="prev" title="荒原上的点灯人——读毛姆笔记">
+      <i class="fa fa-chevron-left"></i> 荒原上的点灯人——读毛姆笔记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          <script src="https://utteranc.es/client.js"
+        repo="stonejiang208/blog"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AD%A6%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6"><span class="nav-number">1.</span> <span class="nav-text">引言：为什么要学组合数学？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#section"><span class="nav-number">2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%9C%80%E5%9F%BA%E6%9C%AC%E7%9A%84%E8%AE%A1%E6%95%B0%E6%B3%95%E5%88%99"><span class="nav-number">3.</span> <span class="nav-text">第一章：最基本的计数法则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E6%B3%95%E5%8E%9F%E7%90%86%E8%B5%B0%E4%B8%8D%E5%90%8C%E7%9A%84%E8%B7%AF"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 加法原理：走不同的路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%98%E6%B3%95%E5%8E%9F%E7%90%86%E6%AD%A5%E6%AD%A5%E4%B8%BA%E8%90%A5"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 乘法原理：步步为营</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E6%B3%95%E4%B8%8E%E4%B9%98%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.3.</span> <span class="nav-text">1.3 加法与乘法的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%8E%92%E5%88%97%E9%A1%BA%E5%BA%8F%E5%BE%88%E9%87%8D%E8%A6%81"><span class="nav-number">4.</span> <span class="nav-text">第二章：排列——顺序很重要</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8E%92%E5%88%97"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 什么是排列？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E6%8E%92%E5%88%97"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 全排列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E5%88%97vs%E7%BB%84%E5%90%88%E5%88%B0%E5%BA%95%E5%8C%BA%E5%88%AB%E5%9C%A8%E5%93%AA"><span class="nav-number">4.3.</span> <span class="nav-text">2.3 排列vs组合：到底区别在哪？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%BB%84%E5%90%88%E5%8F%AA%E9%97%AE%E7%BB%93%E6%9E%9C%E4%B8%8D%E9%97%AE%E8%BF%87%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">第三章：组合——只问结果，不问过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%BB%84%E5%90%88"><span class="nav-number">5.1.</span> <span class="nav-text">3.1 什么是组合？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%95%B0%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-number">5.2.</span> <span class="nav-text">3.2 组合数的性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E9%A1%B9%E5%BC%8F%E5%AE%9A%E7%90%86"><span class="nav-number">5.3.</span> <span class="nav-text">3.3 二项式定理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%95%B0%E7%9A%84%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8"><span class="nav-number">5.4.</span> <span class="nav-text">3.4 组合数的实际应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86%E5%A4%84%E7%90%86%E9%87%8D%E5%8F%A0%E7%9A%84%E8%89%BA%E6%9C%AF"><span class="nav-number">6.</span> <span class="nav-text">第四章：容斥原理——处理重叠的艺术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E7%9A%84%E8%B5%B7%E6%BA%90"><span class="nav-number">6.1.</span> <span class="nav-text">4.1 问题的起源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86"><span class="nav-number">6.2.</span> <span class="nav-text">4.2 容斥原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="nav-number">6.3.</span> <span class="nav-text">4.3 容斥原理的例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0%E8%BF%9B%E9%98%B6%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6"><span class="nav-number">7.</span> <span class="nav-text">第五章：进阶组合数学</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E6%8E%A8%E5%85%B3%E7%B3%BB%E9%80%92%E5%BD%92%E7%9A%84%E6%99%BA%E6%85%A7"><span class="nav-number">7.1.</span> <span class="nav-text">5.1 递推关系——递归的智慧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E6%97%A0%E5%A3%B0%E7%9A%84%E6%B1%82%E5%92%8C"><span class="nav-number">7.2.</span> <span class="nav-text">5.2 生成函数——无声的求和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0%E4%BC%98%E9%9B%85%E7%9A%84%E5%B9%B3%E8%A1%A1"><span class="nav-number">7.3.</span> <span class="nav-text">5.3 卡特兰数——优雅的平衡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E5%88%86%E6%8B%86%E6%95%B0%E7%9A%84%E5%88%86%E5%89%B2%E8%89%BA%E6%9C%AF"><span class="nav-number">7.4.</span> <span class="nav-text">5.4 整数分拆——数的分割艺术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88%E7%9A%84%E5%85%AB%E5%A4%A7%E6%8A%80%E5%B7%A7"><span class="nav-number">8.</span> <span class="nav-text">第六章：排列组合的八大技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A71%E7%89%B9%E6%AE%8A%E5%85%83%E7%B4%A0%E4%BC%98%E5%85%88%E6%B3%95"><span class="nav-number">8.1.</span> <span class="nav-text">技巧1：特殊元素优先法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A72%E6%8D%86%E7%BB%91%E6%B3%95%E7%9B%B8%E9%82%BB%E9%97%AE%E9%A2%98"><span class="nav-number">8.2.</span> <span class="nav-text">技巧2：捆绑法（相邻问题）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A73%E6%8F%92%E7%A9%BA%E6%B3%95%E4%B8%8D%E7%9B%B8%E9%82%BB%E9%97%AE%E9%A2%98"><span class="nav-number">8.3.</span> <span class="nav-text">技巧3：插空法（不相邻问题）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A74%E9%9A%94%E6%9D%BF%E6%B3%95%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98"><span class="nav-number">8.4.</span> <span class="nav-text">技巧4：隔板法（分配问题）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A75%E9%80%86%E5%90%91%E6%80%9D%E7%BB%B4"><span class="nav-number">8.5.</span> <span class="nav-text">技巧5：逆向思维</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A76%E6%A6%82%E7%8E%87%E8%BD%AC%E5%8C%96"><span class="nav-number">8.6.</span> <span class="nav-text">技巧6：概率转化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A77%E5%88%86%E7%BB%84%E4%B8%8E%E5%88%86%E9%85%8D"><span class="nav-number">8.7.</span> <span class="nav-text">技巧7：分组与分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A78%E6%A3%8B%E7%9B%98%E6%B3%95%E6%8E%92%E5%88%97%E9%99%90%E5%88%B6"><span class="nav-number">8.8.</span> <span class="nav-text">技巧8：棋盘法（排列限制）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6%E4%B8%8E%E6%A6%82%E7%8E%87%E8%AE%BA%E7%9A%84%E6%A1%A5%E6%A2%81"><span class="nav-number">9.</span> <span class="nav-text">结语：组合数学与概率论的桥梁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E8%84%89%E7%BB%9C%E6%80%BB%E7%BB%93"><span class="nav-number">9.1.</span> <span class="nav-text">知识脉络总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Stone</p>
+  <div class="site-description" itemprop="description">数学,阅读和编程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:stone@tao-studio.net" title="E-Mail → mailto:stone@tao-studio.net" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="mailto:stone@tao-studio.net" title="mailto:stone@tao-studio.net" rel="noopener" target="_blank">欢迎互粉</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://terrytao.wordpress.com/" title="https:&#x2F;&#x2F;terrytao.wordpress.com&#x2F;" rel="noopener" target="_blank">陶哲轩的博客</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stone</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">176k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:40</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<script>
+(function() {
+  'use strict';
+
+  // 配置 - 支持开发和生产环境
+  const CONFIG = {
+    // 开发环境配置（本地测试）
+    development: {
+      performanceEndpoint: 'http://localhost:3001',
+      analyticsEndpoint: 'http://localhost:3002/analytics',
+      sampleRate: 1.0, // 100%采样率用于测试
+      debug: true
+    },
+    // 生产环境配置（Railway部署）
+    production: {
+      performanceEndpoint: 'https://blog-performance-monitor.up.railway.app',
+      analyticsEndpoint: 'https://blog-analytics-server.up.railway.app/analytics',
+      sampleRate: 0.1, // 10%采样率
+      debug: false
+    },
+    // 通用配置
+    maxMetricsPerSession: 50,
+    sessionTimeout: 30 * 60 * 1000, // 30分钟
+    localStorageKey: 'performance_metrics_buffer',
+    analyticsLocalStorageKey: 'analytics_events_buffer'
+  };
+
+  // 根据当前环境选择配置
+  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const currentConfig = isDevelopment ? CONFIG.development : CONFIG.production;
+
+  // 性能指标收集器
+  class PerformanceMonitor {
+    constructor() {
+      this.metricsBuffer = [];
+      this.sessionId = this.generateSessionId();
+      this.pageLoadTime = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      if (Math.random() > currentConfig.sampleRate) return;
+
+      this.collectInitialMetrics();
+      this.setupEventListeners();
+      this.setupPeriodicSend();
+      
+      window.addEventListener('beforeunload', () => this.sendMetrics());
+    }
+
+    collectInitialMetrics() {
+      const metrics = {
+        type: 'page_load',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        referrer: document.referrer,
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        connection: this.getConnectionInfo(),
+        deviceMemory: navigator.deviceMemory || 'unknown',
+        hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
+        performance: this.getPerformanceMetrics(),
+        mathjax: this.detectMathJax(),
+        pageLoadTime: Date.now() - this.pageLoadTime
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    getConnectionInfo() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return 'unknown';
+      
+      return {
+        effectiveType: connection.effectiveType,
+        downlink: connection.downlink,
+        rtt: connection.rtt,
+        saveData: connection.saveData
+      };
+    }
+
+    getPerformanceMetrics() {
+      if (!window.performance || !window.performance.timing) return null;
+
+      const timing = window.performance.timing;
+      const navigation = window.performance.navigation || {};
+      
+      return {
+        navigationType: navigation.type || 0,
+        redirectCount: navigation.redirectCount || 0,
+        dnsLookup: timing.domainLookupEnd - timing.domainLookupStart,
+        tcpConnect: timing.connectEnd - timing.connectStart,
+        requestResponse: timing.responseEnd - timing.requestStart,
+        domInteractive: timing.domInteractive - timing.navigationStart,
+        domComplete: timing.domComplete - timing.navigationStart,
+        loadEvent: timing.loadEventEnd - timing.navigationStart,
+        firstPaint: this.getFirstPaint(),
+        firstContentfulPaint: this.getFirstContentfulPaint(),
+        largestContentfulPaint: this.getLargestContentfulPaint(),
+        cumulativeLayoutShift: this.getCumulativeLayoutShift()
+      };
+    }
+
+    getFirstPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fpEntry = entries.find(entry => entry.name === 'first-paint');
+      return fpEntry ? Math.round(fpEntry.startTime) : null;
+    }
+
+    getFirstContentfulPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fcpEntry = entries.find(entry => entry.name === 'first-contentful-paint');
+      return fcpEntry ? Math.round(fcpEntry.startTime) : null;
+    }
+
+    getLargestContentfulPaint() {
+      const entries = performance.getEntriesByType('largest-contentful-paint');
+      if (entries.length === 0) return null;
+      
+      const lcpEntry = entries[entries.length - 1];
+      return Math.round(lcpEntry.startTime);
+    }
+
+    getCumulativeLayoutShift() {
+      let cls = 0;
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (!entry.hadRecentInput) {
+            cls += entry.value;
+          }
+        }
+      });
+      
+      try {
+        observer.observe({ type: 'layout-shift', buffered: true });
+        return Math.round(cls * 100) / 100;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    detectMathJax() {
+      const scripts = Array.from(document.querySelectorAll('script'));
+      const hasMathJaxScript = scripts.some(script => 
+        script.src && script.src.includes('mathjax')
+      );
+      
+      const hasMathJaxElements = document.querySelectorAll('[class*="math"], [class*="MathJax"]').length > 0;
+      
+      return {
+        hasScript: hasMathJaxScript,
+        hasElements: hasMathJaxElements,
+        elementCount: document.querySelectorAll('[class*="math"], [class*="MathJax"]').length
+      };
+    }
+
+    setupEventListeners() {
+      window.addEventListener('error', (event) => {
+        if (event.target && event.target.tagName) {
+          this.collectResourceError(event);
+        }
+      }, true);
+
+      this.setupMathJaxMonitoring();
+      this.setupUserInteractionMonitoring();
+      this.setupNetworkMonitoring();
+    }
+
+    collectResourceError(event) {
+      const metrics = {
+        type: 'resource_error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        errorType: 'resource_load',
+        resourceType: event.target.tagName.toLowerCase(),
+        resourceSrc: event.target.src || event.target.href || 'unknown',
+        errorMessage: event.message || 'Resource load failed'
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    setupMathJaxMonitoring() {
+      if (window.MathJax && window.MathJax.Hub) {
+        window.MathJax.Hub.Register.StartupHook('End', () => {
+          const metrics = {
+            type: 'mathjax_rendered',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            renderTime: Date.now() - this.pageLoadTime,
+            mathElementCount: document.querySelectorAll('.MathJax, .math').length
+          };
+
+          this.addToBuffer(metrics);
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const metrics = {
+            type: 'math_element_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            elementType: target.tagName,
+            elementClass: target.className
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupUserInteractionMonitoring() {
+      let scrollStartTime = null;
+      let scrollTimeout = null;
+
+      window.addEventListener('scroll', () => {
+        if (!scrollStartTime) scrollStartTime = Date.now();
+        
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          if (scrollStartTime) {
+            const scrollDuration = Date.now() - scrollStartTime;
+            const metrics = {
+              type: 'scroll_session',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              url: window.location.href,
+              duration: scrollDuration,
+              scrollY: window.scrollY,
+              viewportHeight: window.innerHeight,
+              documentHeight: document.documentElement.scrollHeight
+            };
+
+            this.addToBuffer(metrics);
+            scrollStartTime = null;
+          }
+        }, 1000);
+      });
+
+      document.addEventListener('click', (event) => {
+        if (Math.random() < 0.01) {
+          const metrics = {
+            type: 'user_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            targetTag: event.target.tagName,
+            targetClass: event.target.className,
+            targetId: event.target.id,
+            x: event.clientX,
+            y: event.clientY
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupNetworkMonitoring() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return;
+
+      connection.addEventListener('change', () => {
+        const metrics = {
+          type: 'network_change',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          url: window.location.href,
+          connection: this.getConnectionInfo()
+        };
+
+        this.addToBuffer(metrics);
+      });
+    }
+
+    setupPeriodicSend() {
+      setInterval(() => {
+        if (this.metricsBuffer.length >= 10) this.sendMetrics();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.sendMetrics();
+      });
+    }
+
+    addToBuffer(metrics) {
+      this.metricsBuffer.push(metrics);
+      
+      if (this.metricsBuffer.length > CONFIG.maxMetricsPerSession) {
+        this.metricsBuffer = this.metricsBuffer.slice(-CONFIG.maxMetricsPerSession);
+      }
+      
+      this.saveToLocalStorage();
+    }
+
+    saveToLocalStorage() {
+      try {
+        const data = {
+          sessionId: this.sessionId,
+          metrics: this.metricsBuffer,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(CONFIG.localStorageKey, JSON.stringify(data));
+      } catch (e) {
+        console.warn('无法保存性能数据到 localStorage:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const data = localStorage.getItem(CONFIG.localStorageKey);
+        if (data) {
+          const parsed = JSON.parse(data);
+          if (Date.now() - parsed.timestamp < CONFIG.sessionTimeout) {
+            this.sessionId = parsed.sessionId;
+            this.metricsBuffer = parsed.metrics || [];
+          } else {
+            localStorage.removeItem(CONFIG.localStorageKey);
+          }
+        }
+      } catch (e) {}
+    }
+
+    sendMetrics() {
+      if (this.metricsBuffer.length === 0) return;
+
+      const dataToSend = [...this.metricsBuffer];
+      this.metricsBuffer = [];
+
+      if (navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(dataToSend)], { type: 'application/json' });
+        navigator.sendBeacon(currentConfig.performanceEndpoint, blob);
+      } else {
+        fetch(currentConfig.performanceEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dataToSend),
+          keepalive: true
+        }).catch(error => {
+          console.warn('性能数据发送失败:', error);
+          this.metricsBuffer = [...dataToSend, ...this.metricsBuffer];
+        });
+      }
+
+      try {
+        localStorage.removeItem(CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    getMobileSpecificMetrics() {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      return {
+        isMobile,
+        isTouchDevice,
+        devicePixelRatio: window.devicePixelRatio || 1,
+        orientation: window.screen.orientation ? window.screen.orientation.type : 'unknown',
+        battery: this.getBatteryInfo()
+      };
+    }
+
+    async getBatteryInfo() {
+      if (!navigator.getBattery) return null;
+      
+      try {
+        const battery = await navigator.getBattery();
+        return {
+          charging: battery.charging,
+          level: battery.level,
+          chargingTime: battery.chargingTime,
+          dischargingTime: battery.dischargingTime
+        };
+      } catch (e) {
+        return null;
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.performanceMonitor = new PerformanceMonitor();
+    });
+  } else {
+    window.performanceMonitor = new PerformanceMonitor();
+  }
+
+})();
+</script>
+
+
+<script>
+(function() {
+  'use strict';
+
+  // 分析配置 - 使用主配置的环境判断
+  const ANALYTICS_CONFIG = {
+    endpoint: currentConfig.analyticsEndpoint,
+    localStorageKey: CONFIG.analyticsLocalStorageKey,
+    sessionTimeout: CONFIG.sessionTimeout,
+    pageViewSampleRate: isDevelopment ? 1.0 : 0.5, // 开发环境100%，生产环境50%
+    eventSampleRate: isDevelopment ? 0.5 : 0.1 // 开发环境50%，生产环境10%
+  };
+
+  class AnalyticsCollector {
+    constructor() {
+      this.sessionId = this.generateSessionId();
+      this.pageViewId = this.generatePageViewId();
+      this.sessionStart = Date.now();
+      this.pageViewStart = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    generatePageViewId() {
+      return 'page_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      this.collectPageView();
+      this.setupEventListeners();
+      this.setupPeriodicFlush();
+      
+      window.addEventListener('beforeunload', () => this.flushData());
+    }
+
+    collectPageView() {
+      if (Math.random() > ANALYTICS_CONFIG.pageViewSampleRate) return;
+
+      const pageView = {
+        type: 'pageview',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        referrer: document.referrer,
+        title: document.title,
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        deviceType: this.getDeviceType(),
+        connectionType: this.getConnectionType(),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        prefersColorScheme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+        prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      };
+
+      this.saveToLocalStorage(pageView);
+    }
+
+    getDeviceType() {
+      const ua = navigator.userAgent;
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)) {
+        return 'mobile';
+      } else if (/Tablet|iPad/i.test(ua)) {
+        return 'tablet';
+      }
+      return 'desktop';
+    }
+
+    getConnectionType() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      return connection ? connection.effectiveType : 'unknown';
+    }
+
+    setupEventListeners() {
+      document.addEventListener('click', (event) => {
+        if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+        const target = event.target;
+        const clickData = {
+          type: 'click',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          target: {
+            tag: target.tagName,
+            id: target.id,
+            className: target.className,
+            text: target.textContent?.substring(0, 100) || '',
+            href: target.href || ''
+          },
+          position: {
+            x: event.clientX,
+            y: event.clientY
+          }
+        };
+
+        this.saveToLocalStorage(clickData);
+      });
+
+      let lastScrollReport = 0;
+      window.addEventListener('scroll', () => {
+        const now = Date.now();
+        if (now - lastScrollReport < 1000) return;
+        
+        const scrollDepth = this.calculateScrollDepth();
+        const scrollData = {
+          type: 'scroll',
+          timestamp: now,
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          scrollY: window.scrollY,
+          scrollDepth: scrollDepth,
+          viewportHeight: window.innerHeight,
+          documentHeight: document.documentElement.scrollHeight
+        };
+
+        this.saveToLocalStorage(scrollData);
+        lastScrollReport = now;
+      });
+
+      this.setupMathInteractionTracking();
+      this.setupSearchTracking();
+      this.setupExternalLinkTracking();
+    }
+
+    calculateScrollDepth() {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      const maxScroll = documentHeight - windowHeight;
+      if (maxScroll <= 0) return 0;
+      
+      return Math.min(100, Math.round((scrollY / maxScroll) * 100));
+    }
+
+    setupMathInteractionTracking() {
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const mathData = {
+            type: 'math_interaction',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            pageViewId: this.pageViewId,
+            url: window.location.href,
+            elementType: target.tagName,
+            mathType: this.getMathType(target)
+          };
+
+          this.saveToLocalStorage(mathData);
+        }
+      });
+    }
+
+    getMathType(element) {
+      const className = element.className || '';
+      if (className.includes('display')) return 'display';
+      if (className.includes('inline')) return 'inline';
+      return 'unknown';
+    }
+
+    setupSearchTracking() {
+      const searchInput = document.querySelector('input[type="search"], input[name="q"], .search-input');
+      if (searchInput) {
+        let searchStartTime = null;
+        
+        searchInput.addEventListener('focus', () => {
+          searchStartTime = Date.now();
+        });
+
+        searchInput.addEventListener('blur', () => {
+          if (searchStartTime && searchInput.value.trim()) {
+            const searchData = {
+              type: 'search',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              query: searchInput.value,
+              duration: Date.now() - searchStartTime
+            };
+
+            this.saveToLocalStorage(searchData);
+          }
+          searchStartTime = null;
+        });
+      }
+    }
+
+    setupExternalLinkTracking() {
+      document.addEventListener('click', (event) => {
+        let target = event.target;
+        while (target && target.tagName !== 'A') {
+          target = target.parentElement;
+        }
+        
+        if (target && target.tagName === 'A' && target.href) {
+          const url = new URL(target.href);
+          const currentUrl = new URL(window.location.href);
+          
+          if (url.hostname !== currentUrl.hostname) {
+            const linkData = {
+              type: 'external_link',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              externalUrl: target.href,
+              linkText: target.textContent?.substring(0, 100) || '',
+              isNewTab: target.target === '_blank'
+            };
+
+            this.saveToLocalStorage(linkData);
+          }
+        }
+      });
+    }
+
+    setupPeriodicFlush() {
+      setInterval(() => {
+        const data = this.loadFromLocalStorage();
+        if (data.length >= 20) this.flushData();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.flushData();
+      });
+    }
+
+    saveToLocalStorage(data) {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        const analyticsData = stored ? JSON.parse(stored) : [];
+        analyticsData.push(data);
+        
+        if (analyticsData.length > 100) {
+          analyticsData.splice(0, analyticsData.length - 100);
+        }
+        
+        localStorage.setItem(ANALYTICS_CONFIG.localStorageKey, JSON.stringify(analyticsData));
+      } catch (e) {
+        console.warn('无法保存分析数据:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    clearLocalStorage() {
+      try {
+        localStorage.removeItem(ANALYTICS_CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    async flushData() {
+      const data = this.loadFromLocalStorage();
+      if (data.length === 0) return;
+
+      try {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+          navigator.sendBeacon(ANALYTICS_CONFIG.endpoint, blob);
+        } else {
+          await fetch(ANALYTICS_CONFIG.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+            keepalive: true
+          });
+        }
+        
+        this.clearLocalStorage();
+      } catch (error) {
+        console.warn('发送分析数据失败:', error);
+      }
+    }
+
+    trackEvent(eventName, properties = {}) {
+      if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+      const eventData = {
+        type: 'custom_event',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        eventName: eventName,
+        properties: properties
+      };
+
+      this.saveToLocalStorage(eventData);
+    }
+
+    trackError(error, context = {}) {
+      const errorData = {
+        type: 'error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        error: {
+          message: error.message,
+          stack: error.stack,
+          name: error.name
+        },
+        context: context
+      };
+
+      this.saveToLocalStorage(errorData);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.analytics = new AnalyticsCollector();
+    });
+  } else {
+    window.analytics = new AnalyticsCollector();
+  }
+
+})();
+</script>
+</body>
+</html>
