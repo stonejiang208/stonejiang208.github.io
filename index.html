@@ -266,6 +266,563 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/25/linear-algebra-linear-programming/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读,编程和投资">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2026/02/25/linear-algebra-linear-programming/" class="post-title-link" itemprop="url">线性代数与线性规划：一场跨越数学王国的梦幻联动</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-02-25 15:00:00 / 修改时间：13:48:50" itemprop="dateCreated datePublished" datetime="2026-02-25T15:00:00+08:00">2026-02-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" itemprop="url" rel="index"><span itemprop="name">线性代数</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">优化理论</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1
+id="线性代数与线性规划一场跨越数学王国的梦幻联动">线性代数与线性规划：一场跨越数学王国的梦幻联动</h1>
+<blockquote>
+<p>你有没有想过，为什么数学课本上那些看似”抽象得发慌”的概念——矩阵、向量、基、秩——实际上可能是你工作中每天都在用的工具？</p>
+<p>今天，让我们用一场”跨学科对话”的方式，把线性代数和线性规划这两位”数学界的扛把子”拉到一起聊聊。相信我，它们之间的关系，比你想的还要精彩。</p>
+</blockquote>
+<h2 id="引言从吃饭问题说起">引言：从”吃饭问题”说起</h2>
+<h3 id="现实世界的选择困难症">现实世界的”选择困难症”</h3>
+<p>想象一下这样的场景：你是一家小作坊的老板，做两种产品：产品A和产品B。</p>
+<ul>
+<li>产品A每件能赚<strong>40块</strong></li>
+<li>产品B每件能赚<strong>35块</strong></li>
+</ul>
+<p>但是你有以下限制：</p>
+<table>
+<thead>
+<tr>
+<th>资源</th>
+<th>消耗量</th>
+<th>可用总量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原材料（公斤）</td>
+<td>A:2, B:3</td>
+<td>60</td>
+</tr>
+<tr>
+<td>机器产能（小时）</td>
+<td>A:4, B:3</td>
+<td>96</td>
+</tr>
+</tbody>
+</table>
+<p>你该生产多少件A、多少件B，才能让<strong>利润最大化</strong>？</p>
+<p>这就是鼎鼎大名的<strong>线性规划（Linear Programming,
+LP）</strong>问题。江湖人称”优化界的老前辈”——它解决的问题是：<strong>在一堆约束条件下，怎么找到最优解</strong>。</p>
+<p>用数学语言说，它的<strong>标准形式</strong>是这样的：</p>
+<p><span class="math display">\[\max \quad 40x_1 + 35x_2\]</span></p>
+<p><span class="math display">\[\text{s.t. } \begin{cases} 2x_1 + 3x_2
+\leq 60 \\ 4x_1 + 3x_2 \leq 96 \\ x_1 \geq 0, \quad x_2 \geq 0
+\end{cases}\]</span></p>
+<p>其中：</p>
+<ul>
+<li><span class="math inline">\(x_1, x_2\)</span>
+是你要决定的<strong>决策变量</strong>（生产多少A和B）</li>
+<li>40, 35 是<strong>目标函数系数</strong>（每件产品的利润）</li>
+<li>约束条件里的2, 3, 4, 3是<strong>约束系数</strong>，60,
+96是<strong>资源上限</strong></li>
+</ul>
+<blockquote>
+<p><strong>小贴士</strong>：线性规划的”线性”二字，指的是——所有关系都是<strong>一次方</strong>的，没有平方、没有对数、没有三角函数。就像你做菜时，“盐=2克+3克”这种简单的加减关系，而不是”盐=盐²”这种幺蛾子。</p>
+</blockquote>
+<hr />
+<h2
+id="第一章线性代数登场让问题穿上制服">第一章：线性代数登场——让问题”穿上制服”</h2>
+<h3 id="向量和矩阵数学世界的集装箱">向量和矩阵：数学世界的”集装箱”</h3>
+<p>刚才那个问题，如果我们用<strong>线性代数</strong>的语言来重新”翻译”一下，会变成什么样？</p>
+<p>首先，请出两位主角：</p>
+<ul>
+<li><strong>向量</strong>：想象成一个”箭头”，或者一串排成队的数字。比如
+<span class="math inline">\((40, 35)\)</span>
+就是记录产品利润的”利润向量”</li>
+<li><strong>矩阵</strong>：想象成一个”表格”，或者一堆向量排成的”方阵”。比如约束条件的系数可以写成一个”约束矩阵”：</li>
+</ul>
+<p><span class="math display">\[A = \begin{bmatrix} 2 &amp; 3 \\ 4 &amp;
+3 \end{bmatrix}\]</span></p>
+<p>这就像是把所有”资源消耗”的规则整理成了一张<strong>使用说明书</strong>。</p>
+<p>用矩阵语言，线性规划可以写成这种”帅气”的<strong>标准形式</strong>：</p>
+<p><span class="math display">\[\max \quad \mathbf{c}^T
+\mathbf{x}\]</span></p>
+<p><span class="math display">\[\text{s.t. } \begin{cases}
+\mathbf{A}\mathbf{x} \leq \mathbf{b} \\ \mathbf{x} \geq 0
+\end{cases}\]</span></p>
+<p>其中：</p>
+<ul>
+<li><span class="math inline">\(\mathbf{c} = \begin{bmatrix} 40 \\ 35
+\end{bmatrix}\)</span> 是利润向量（目标函数系数）</li>
+<li><span class="math inline">\(\mathbf{x} = \begin{bmatrix} x_1 \\ x_2
+\end{bmatrix}\)</span> 是决策向量（要生产多少）</li>
+<li><span class="math inline">\(\mathbf{b} = \begin{bmatrix} 60 \\ 96
+\end{bmatrix}\)</span> 是资源上限向量</li>
+<li><span class="math inline">\(\mathbf{A}\)</span>
+就是上面的约束矩阵</li>
+</ul>
+<blockquote>
+<p><strong>比喻时间</strong>：如果说线性规划是一个”解题游戏”，那么线性代数就是<strong>游戏规则说明书</strong>。矩阵
+<span class="math inline">\(\mathbf{A}\)</span>
+就像是游戏里各个关卡的<strong>地形图</strong>，告诉你每走一步会消耗什么资源。</p>
+</blockquote>
+<hr />
+<h2
+id="第二章矩阵的秩约束团队的凝聚力指标">第二章：矩阵的”秩”——约束团队的”凝聚力指标”</h2>
+<h3 id="什么是秩-团队里有多少独立思考的人">什么是”秩”？——
+团队里有多少”独立思考的人”</h3>
+<p>在线性代数里，<strong>矩阵的秩（Rank）</strong>
+是一个超级重要的概念。</p>
+<p>想象一下，你有一个团队，团队里有 <span
+class="math inline">\(n\)</span>
+个人。如果所有人都<strong>各抒己见</strong>、<strong>意见各不相同</strong>，那么这个团队就有
+<span class="math inline">\(n\)</span>
+种不同的”声音”——这时候我们说团队”满编”，秩 = <span
+class="math inline">\(n\)</span>。</p>
+<p>但如果团队里有几个人<strong>只会跟风</strong>，别人说什么他就说什么，那这个团队的”独立声音”就少了——秩
+&lt; <span class="math inline">\(n\)</span>。</p>
+<p>用数学话说，<strong>秩 = 矩阵中线性无关的列（行）数量</strong>。</p>
+<blockquote>
+<p><strong>例子</strong>：</p>
+<ul>
+<li><span class="math inline">\(A = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp;
+1 \end{bmatrix}\)</span>，两列完全”独立”，<span
+class="math inline">\(\text{rank}(A) = 2\)</span>（满秩）</li>
+<li><span class="math inline">\(B = \begin{bmatrix} 1 &amp; 2 \\ 2 &amp;
+4 \end{bmatrix}\)</span>，第二列 = 2 × 第一列，<span
+class="math inline">\(\text{rank}(B) = 1\)</span>（不满秩）</li>
+</ul>
+</blockquote>
+<h3 id="秩在线性规划中的江湖地位">秩在线性规划中的”江湖地位”</h3>
+<p>在线性规划里，<strong>秩</strong>决定了太多事情：</p>
+<ol type="1">
+<li><strong>判断约束是否多余</strong>：如果约束矩阵的秩 &lt;
+约束数量，说明有些约束是”吃干饭的”，可以被删掉</li>
+<li><strong>确定可行域的”维度”</strong>：如果 <span
+class="math inline">\(\text{rank}(A) =
+m\)</span>（约束数量），那么可行域就是一个 “<span
+class="math inline">\(n-m\)</span> 维的凸多面体”</li>
+<li><strong>判断问题有没有解</strong>：如果 <span
+class="math inline">\(\text{rank}(A) &lt;
+\text{rank}([A|b])\)</span>，那这个线性规划连可行解都没有——因为方程组本身就矛盾</li>
+</ol>
+<blockquote>
+<p><strong>通俗理解</strong>：把约束矩阵想象成一个”资源消耗规则手册”。秩就是这本手册里<strong>真正有用的规则条数</strong>。如果秩
+= 3，但你有5条规则，说明有2条是”废话”（可以被其他规则推导出来）。</p>
+</blockquote>
+<hr />
+<h2
+id="第三章基底和基变量单纯形法的通关秘笈">第三章：基底和基变量——单纯形法的”通关秘笈”</h2>
+<h3 id="基底决策江湖的北斗七星">基底：决策江湖的”北斗七星”</h3>
+<p><strong>基底（Basis）</strong> 是线性代数里另一个核心概念。</p>
+<p>想象你要在一个陌生的城市里描述一个位置。你可以说：“在人民广场往东走300米，再往北走200米。”——这里”人民广场”就是你的<strong>原点</strong>，而”东”和”北”就是两个<strong>基向量</strong>。</p>
+<p>任何位置都可以用这两个基向量的”组合”来表示。这就是<strong>基底</strong>的直观含义：<strong>一组”最少”的向量，通过线性组合可以表示整个空间的所有向量</strong>。</p>
+<blockquote>
+<p><strong>线性无关</strong>：基向量之间不能”互通有无”——没有一个基向量可以表示成其他基向量的组合。就像”东北方向”不能同时是”东+北”的另一种说法。</p>
+</blockquote>
+<h3 id="基底在单纯形法里的角色扮演">基底在单纯形法里的”角色扮演”</h3>
+<p><strong>单纯形法（Simplex Method）</strong>
+是解决线性规划问题的”武林绝学”——由天才数学家丹齐格（George
+Dantzig）在1947年发明。</p>
+<p>它的核心思想是：<strong>最优解一定在可行域的”角点”（顶点）上</strong>。</p>
+<blockquote>
+<p><strong>为什么？请想象</strong>——如果你在一个山谷里找最低点，最低的地方一定是某个”坑”的底部。在线性规划里，可行域是一个凸多面体，最低/最高点一定是某个”角落”。</p>
+</blockquote>
+<p>那问题来了——怎么快速找到这些”角点”？</p>
+<p>答案就是：<strong>选择一组”基”</strong>。</p>
+<p>在线性规划的标准形式 <span class="math inline">\(\mathbf{A}\mathbf{x}
+= \mathbf{b}\)</span> 中：</p>
+<ul>
+<li>我们从矩阵 <span class="math inline">\(\mathbf{A}\)</span> 的 <span
+class="math inline">\(n\)</span> 列中挑出 <span
+class="math inline">\(m\)</span> 列（假设有 <span
+class="math inline">\(m\)</span> 个约束）</li>
+<li>如果这 <span class="math inline">\(m\)</span>
+列<strong>线性无关</strong>，它们就构成了一个<strong>基底</strong></li>
+<li>对应的 <span class="math inline">\(m\)</span>
+个变量称为<strong>基本变量（Basic Variables）</strong></li>
+<li>剩下的 <span class="math inline">\(n-m\)</span>
+个变量设为0，称为<strong>非基本变量</strong></li>
+</ul>
+<p>这时候，基本变量的值可以通过<strong>解方程</strong>得到：</p>
+<p><span class="math display">\[\mathbf{x}_B =
+\mathbf{B}^{-1}\mathbf{b}\]</span></p>
+<p>其中 <span class="math inline">\(\mathbf{B}\)</span>
+就是那些”入选”的列组成的<strong>基矩阵</strong>。</p>
+<blockquote>
+<p><strong>比喻时间</strong>：<br />
+把线性规划想象成一场”选秀节目”。约束矩阵 <span
+class="math inline">\(\mathbf{A}\)</span> 有 <span
+class="math inline">\(n\)</span> 个”选手”（列向量），你要选出 <span
+class="math inline">\(m\)</span> 个”组成出道团队”（基）。</p>
+<p>选人的标准是什么？——<strong>这 <span class="math inline">\(m\)</span>
+个人必须各有特色（线性无关）</strong>，不能全是”同质化选手”。</p>
+<p>选出来之后，这 <span class="math inline">\(m\)</span>
+个人就是”基本变量”，他们的”实力值”（取值）由 <span
+class="math inline">\(\mathbf{B}^{-1}\mathbf{b}\)</span> 决定。</p>
+</blockquote>
+<h3 id="单纯形法-基底的接力游戏">单纯形法 = 基底的”接力游戏”</h3>
+<p>单纯形法的迭代过程，其实就是<strong>不断更换基底</strong>的过程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────┐</span><br><span class="line">│                    单纯形法迭代流程                          │</span><br><span class="line">├─────────────────────────────────────────────────────────────┤</span><br><span class="line">│  步骤1：选择一个初始基（通常是单位矩阵，对应松弛变量）       │</span><br><span class="line">│           ↓                                                  │</span><br><span class="line">│  步骤2：计算当前基可行解 x_B = B⁻¹b                         │</span><br><span class="line">│           ↓                                                  │</span><br><span class="line">│  步骤3：检验最优性（如果所有非基变量系数 ≥ 0，则已最优）     │</span><br><span class="line">│           ↓                                                  │</span><br><span class="line">│  步骤4：选择入基变量（让目标函数增加最多的非基本变量）       │</span><br><span class="line">│           ↓                                                  │</span><br><span class="line">│  步骤5：选择出基变量（保持可行性）                           │</span><br><span class="line">│           ↓                                                  │</span><br><span class="line">│  步骤6：执行旋转运算（Pivot），更新基矩阵                     │</span><br><span class="line">│           ↓                                                  │</span><br><span class="line">│  步骤7：返回步骤2，直到最优                                   │</span><br><span class="line">└─────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意</strong>：每次迭代，矩阵都会做一次”行变换”，这和线性代数里<strong>求逆矩阵</strong>、<strong>解线性方程组</strong>的操作是一模一样的！</p>
+<p>某种程度上说，<strong>单纯形法就是线性代数里高斯消元法的”华丽变装”</strong>。</p>
+</blockquote>
+<hr />
+<h2 id="第四章对偶理论硬币的两面">第四章：对偶理论——硬币的两面</h2>
+<h3 id="什么是对偶-买和卖的故事">什么是”对偶”？—— 买和卖的故事</h3>
+<p><strong>对偶理论（Duality）</strong> 是线性规划里最”哲学”的部分。</p>
+<p>每个线性规划问题，都有一个<strong>“对偶问题”</strong>——就像一枚硬币的两面。</p>
+<p>对于我们之前的例子：</p>
+<p><strong>原问题（Primal）</strong>：</p>
+<p><span class="math display">\[\max \quad 40x_1 + 35x_2\]</span></p>
+<p><span class="math display">\[\text{s.t. } \begin{cases} 2x_1 + 3x_2
+\leq 60 \\ 4x_1 + 3x_2 \leq 96 \\ x_1, x_2 \geq 0
+\end{cases}\]</span></p>
+<p><strong>对偶问题（Dual）</strong>：</p>
+<p><span class="math display">\[\min \quad 60y_1 + 96y_2\]</span></p>
+<p><span class="math display">\[\text{s.t. } \begin{cases} 2y_1 + 4y_2
+\geq 40 \\ 3y_1 + 3y_2 \geq 35 \\ y_1, y_2 \geq 0
+\end{cases}\]</span></p>
+<p>观察一下规律：</p>
+<table>
+<thead>
+<tr>
+<th>原问题</th>
+<th>对偶问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>变量数 = 2</td>
+<td>约束数 = 2</td>
+</tr>
+<tr>
+<td>约束数 = 2</td>
+<td>变量数 = 2</td>
+</tr>
+<tr>
+<td>最大化 (max)</td>
+<td>最小化 (min)</td>
+</tr>
+<tr>
+<td>约束：<span class="math inline">\(\leq\)</span></td>
+<td>约束：<span class="math inline">\(\geq\)</span></td>
+</tr>
+<tr>
+<td>系数矩阵 <span class="math inline">\(A\)</span></td>
+<td>转置 <span class="math inline">\(A^T\)</span></td>
+</tr>
+</tbody>
+</table>
+<h3
+id="对偶变量的经济学含义你的资源值多少钱">对偶变量的经济学含义：你的资源值多少钱？</h3>
+<p>对偶问题里的变量 <span class="math inline">\(y_1,
+y_2\)</span>，有一个响亮的名字——<strong>影子价格（Shadow
+Price）</strong>或者<strong>边际价值</strong>。</p>
+<p>它们代表什么意思？</p>
+<p>想象一下，刚才那个工厂的老板面临一个选择：<strong>是
+自己生产产品</strong>，还是<strong>直接把资源租出去</strong>？</p>
+<ul>
+<li><span class="math inline">\(y_1\)</span>：每公斤原材料的”租金”</li>
+<li><span class="math inline">\(y_2\)</span>：每机器小时的”租金”</li>
+</ul>
+<p>对偶问题的约束在说什么？</p>
+<p><span class="math display">\[2y_1 + 4y_2 \geq 40\]</span></p>
+<p>它的意思是：<strong>生产1件产品A所需的资源，其”租金”至少要等于生产A能赚的钱</strong>（40块）。</p>
+<p>否则，资源持有者宁可把资源租出去，也不会自己生产！</p>
+<p>所以：</p>
+<table>
+<thead>
+<tr>
+<th>问题类型</th>
+<th>回答的核心问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原问题</td>
+<td>“怎么生产最赚钱”（资源配置问题）</td>
+</tr>
+<tr>
+<td>对偶问题</td>
+<td>“资源应该值多少钱”（资源估值问题）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>经典比喻</strong>：<br />
+原问题像是<strong>“怎么花光手里的钱”</strong>，对偶问题像是<strong>“手里的钱应该值多少”</strong>。</p>
+<p><strong>强对偶定理</strong>告诉我们：<strong>最优情况下，你花光钱的方式得到的价值，恰好等于钱本身的价值</strong>。这大概是经济学里最优雅的结论之一。</p>
+</blockquote>
+<hr />
+<h2
+id="第五章灵敏度分析给系统做压力测试">第五章：灵敏度分析——给系统做”压力测试”</h2>
+<h3 id="什么是灵敏度分析">什么是灵敏度分析？</h3>
+<p>线性规划求解后，我们通常会问：<strong>如果参数变了，结果会变多少？</strong></p>
+<p>比如：</p>
+<ul>
+<li>原材料从60公斤变成70公斤，最优利润会增加多少？</li>
+<li>产品A的利润从40变成42，还需不需要调整生产方案？</li>
+</ul>
+<p>这些问题的答案，就藏在<strong>对偶变量</strong>里。</p>
+<p>从矩阵的角度看，假设 <span class="math inline">\(\mathbf{B}\)</span>
+是最优解对应的基矩阵，那么：</p>
+<p><span class="math display">\[\text{利润变化} \approx \mathbf{y}^T
+\Delta \mathbf{b} = (c_B^T B^{-1}) \Delta \mathbf{b}\]</span></p>
+<p>其中 <span class="math inline">\(y = c_B^T B^{-1}\)</span>
+就是<strong>影子价格向量</strong>。</p>
+<blockquote>
+<p><strong>通俗解释</strong>：<br />
+影子价格 <span class="math inline">\(y_i\)</span> 表示”每增加1单位资源
+<span class="math inline">\(b_i\)</span>，目标函数值会增加多少”。</p>
+<p>就像你问：“多给我1公斤原材料，能多赚多少？”——答案就是 <span
+class="math inline">\(y_1\)</span>。</p>
+</blockquote>
+<h3 id="灵敏度分析的安全区间">灵敏度分析的”安全区间”</h3>
+<p>实际上，影子价格只有在<strong>一定范围内</strong>才有效。</p>
+<p>还是刚才的例子：假设 <span class="math inline">\(y_1 =
+10\)</span>（每公斤原材料值10块），但如果原材料突然从60变成1000，这个”边际价值”可能就不适用了——因为那时候你可能已经生产了太多东西，市场已经饱和了。</p>
+<p>这个”一定范围”，就是<strong>敏感性范围（Sensitivity
+Range）</strong>，它可以通过分析 <span
+class="math inline">\(\mathbf{B}^{-1}\)</span> 的各列来确定。</p>
+<hr />
+<h2
+id="第六章知识点全景图把碎片拼成地图">第六章：知识点全景图——把碎片拼成地图</h2>
+<p>让我们用一张图来总结线性代数和线性规划的”知识经络”：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                        线性代数基础                              │</span><br><span class="line">├─────────────────────────────────────────────────────────────────┤</span><br><span class="line">│  向量 ──────→ 决策变量 x                                        │</span><br><span class="line">│  矩阵 ──────→ 约束系数 A                                        │</span><br><span class="line">│  矩阵的秩 ────→ 约束有效性、可行域维度                           │</span><br><span class="line">│  基底 ────────→ 基本变量的选择                                  │</span><br><span class="line">│  逆矩阵 ─────→ 计算基本可行解 B⁻¹b                              │</span><br><span class="line">│  基底变换 ────→ 单纯形法的迭代                                   │</span><br><span class="line">└─────────────────────────────────────────────────────────────────┘</span><br><span class="line">                              ↓</span><br><span class="line">┌─────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                       线性规划理论                               │</span><br><span class="line">├─────────────────────────────────────────────────────────────────┤</span><br><span class="line">│  标准形式 ───→ min cᵀx, s.t. Ax = b, x ≥ 0                     │</span><br><span class="line">│  可行域 ─────→ 约束方程的解空间（凸多面体）                       │</span><br><span class="line">│  最优解 ─────→ 角点（基本可行解）                               │</span><br><span class="line">│  单纯形法 ───→ 基底迭代 + 高斯消元                              │</span><br><span class="line">│  对偶理论 ───→ 资源估值问题 ↔ 生产决策问题                       │</span><br><span class="line">│  影子价格 ───→ 对偶变量 = 资源的边际价值                        │</span><br><span class="line">│  灵敏度分析 → B⁻¹揭示参数变化的边际效应                          │</span><br><span class="line">└─────────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>核心感悟</strong>：<br />
+线性代数不是孤立的知识碎片，而是<strong>线性规划的”底层引擎”</strong>。</p>
+<ul>
+<li><strong>向量空间</strong>的概念帮助我们理解可行域的几何形状<br />
+</li>
+<li><strong>秩</strong>帮助我们判断约束的有效性<br />
+</li>
+<li><strong>基底</strong>让单纯形法的”角点搜索”成为可能<br />
+</li>
+<li><strong>矩阵运算</strong>是所有计算的实际执行者<br />
+</li>
+<li><strong>对偶理论</strong>则从”估值”的角度提供了另一种解题视角</li>
+</ul>
+</blockquote>
+<hr />
+<h2
+id="第七章实战演练完整解一遍刚才的例子">第七章：实战演练——完整解一遍刚才的例子</h2>
+<p>理论说完了，让我们”真刀真枪”地算一遍：</p>
+<p><span class="math display">\[\max \quad 40x_1 + 35x_2\]</span></p>
+<p><span class="math display">\[\text{s.t. } \begin{cases} 2x_1 + 3x_2
+\leq 60 \\ 4x_1 + 3x_2 \leq 96 \\ x_1, x_2 \geq 0
+\end{cases}\]</span></p>
+<h3 id="步骤1引入松弛变量变成等式">步骤1：引入松弛变量，变成等式</h3>
+<p><span class="math display">\[\begin{aligned}
+2x_1 + 3x_2 + s_1 &amp;= 60 \\
+4x_1 + 3x_2 + s_2 &amp;= 96 \\
+x_1, x_2, s_1, s_2 &amp;\geq 0
+\end{aligned}\]</span></p>
+<p>写成矩阵形式：</p>
+<p><span class="math display">\[\begin{bmatrix} 2 &amp; 3 &amp; 1 &amp;
+0 \\ 4 &amp; 3 &amp; 0 &amp; 1 \end{bmatrix} \begin{bmatrix} x_1 \\ x_2
+\\ s_1 \\ s_2 \end{bmatrix} = \begin{bmatrix} 60 \\ 96
+\end{bmatrix}\]</span></p>
+<h3 id="步骤2建立初始单纯形表">步骤2：建立初始单纯形表</h3>
+<table>
+<thead>
+<tr>
+<th>基</th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(s_1\)</span></th>
+<th><span class="math inline">\(s_2\)</span></th>
+<th>RHS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">\(s_1\)</span></td>
+<td>2</td>
+<td>3</td>
+<td>1</td>
+<td>0</td>
+<td>60</td>
+</tr>
+<tr>
+<td><span class="math inline">\(s_2\)</span></td>
+<td>4</td>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>96</td>
+</tr>
+<tr>
+<td><strong>z</strong></td>
+<td>-40</td>
+<td>-35</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意最后一行是 <span
+class="math inline">\(-c\)</span>（因为我们要最大化，转成表格时习惯写成<span
+class="math inline">\(-z\)</span>）</p>
+</blockquote>
+<h3 id="步骤3迭代这里直接给结果">步骤3：迭代（这里直接给结果）</h3>
+<p><strong>最优解</strong>：</p>
+<p><span class="math display">\[x_1 = 18, \quad x_2 = 8, \quad s_1 = 0,
+\quad s_2 = 0\]</span></p>
+<p><strong>最优目标值</strong>：</p>
+<p><span class="math display">\[z = 40 \times 18 + 35 \times 8 = 720 +
+280 = 1000\]</span></p>
+<h3 id="步骤4对偶解影子价格">步骤4：对偶解（影子价格）</h3>
+<p>从最终表可以得到：</p>
+<p><span class="math display">\[y_1 = \frac{10}{3} \approx 3.33, \quad
+y_2 = \frac{25}{3} \approx 8.33\]</span></p>
+<p><strong>解释</strong>：</p>
+<ul>
+<li>每增加1公斤原材料，利润增加约<strong>3.33块</strong></li>
+<li>每增加1机器小时，利润增加约<strong>8.33块</strong></li>
+</ul>
+<hr />
+<h2
+id="第八章延伸阅读这些进阶话题也很有趣">第八章：延伸阅读——这些”进阶话题”也很有趣</h2>
+<p>如果你对线性规划/线性代数这个”交叉地带”感兴趣，以下话题值得关注：</p>
+<h3 id="内点法interior-point-method">1. 内点法（Interior Point
+Method）</h3>
+<p>和单纯形法”走边界”不同，内点法”穿越内部”，在某些大规模问题上效率更高。1984年卡马卡（Karmarkar）算法的出现，曾一度让人们以为单纯形法要”退休”了——但实践中单纯形法依然坚挺。</p>
+<h3 id="整数规划integer-programming">2. 整数规划（Integer
+Programming）</h3>
+<p>如果变量要求是整数（比如多少辆车、多少人），问题会变难很多——这时候单纯形法就不够用了，需要分支定界法等”重型武器”。</p>
+<h3 id="灵敏度分析的矩阵视角">3. 灵敏度分析的矩阵视角</h3>
+<p>通过对 <span class="math inline">\(\mathbf{B}^{-1}\)</span>
+的分析，可以系统地确定每个参数的变化范围——这就是<strong>参数规划</strong>的雏形。</p>
+<h3 id="kkt条件">4. KKT条件</h3>
+<p>非线性优化的”标配”，在线性规划中退化成了<strong>互补松驰条件</strong>——本质上也是对偶理论的延伸。</p>
+<hr />
+<h2 id="学习路线图">学习路线图</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────┐</span><br><span class="line">│                    线性代数 → 线性规划                       │</span><br><span class="line">├─────────────────────────────────────────────────────────────┤</span><br><span class="line">│  第一关：线性代数基础                                        │</span><br><span class="line">│  ├── 向量与向量空间                                           │</span><br><span class="line">│  ├── 矩阵运算（乘法、逆、转置）                               │</span><br><span class="line">│  ├── 线性无关与秩                                            │</span><br><span class="line">│  ├── 基底与坐标                                              │</span><br><span class="line">│  └── 矩阵分解（LU、QR）                                      │</span><br><span class="line">├─────────────────────────────────────────────────────────────┤</span><br><span class="line">│  第二关：线性规划核心                                        │</span><br><span class="line">│  ├── LP标准形式与几何                                        │</span><br><span class="line">│  ├── 单纯形法（表格形式）                                    │</span><br><span class="line">│  ├── 单纯形法（矩阵形式）← ★重点★                            │</span><br><span class="line">│  ├── 对偶理论                                               │</span><br><span class="line">│  └── 影子价格与灵敏度分析                                    │</span><br><span class="line">├─────────────────────────────────────────────────────────────┤</span><br><span class="line">│  第三关：应用深化                                            │</span><br><span class="line">│  ├── 生产计划问题                                           │</span><br><span class="line">│  ├── 运输问题                                               │</span><br><span class="line">│  ├── 投资组合优化                                           │</span><br><span class="line">│  └── 机器学习中的线性规划                                    │</span><br><span class="line">└─────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="结语数学是术思维是道">结语：数学是”术”，思维是”道”</h2>
+<p>回到开头的问题：学线性代数、线性规划，到底有什么用？</p>
+<p>我的答案是：<strong>它们不是孤立的知识，而是理解这个世界的”透镜”。</strong></p>
+<table>
+<thead>
+<tr>
+<th>数学思想</th>
+<th>生活中的应用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>向量空间</td>
+<td>理解”多维度”的竞争力</td>
+</tr>
+<tr>
+<td>矩阵运算</td>
+<td>把握复杂系统的”底层结构”</td>
+</tr>
+<tr>
+<td>基底变换</td>
+<td>学会”换个角度看问题”</td>
+</tr>
+<tr>
+<td>对偶理论</td>
+<td>理解”买卖双赢”的本质</td>
+</tr>
+<tr>
+<td>优化思维</td>
+<td>在约束中寻找最优解</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>借用一位前辈的话：<strong>“数学最大的美感，不在于它能帮我们算出答案，而在于它能帮我们理解问题本身。”</strong></p>
+</blockquote>
+<p>希望这篇文章，能让你对线性代数和线性规划的关系，多那么一点点”哦！原来如此”的领悟。</p>
+<hr />
+<p><em>这就是线性代数与线性规划的故事——一场跨越数学王国的梦幻联动。</em></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/21/reading-meaning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1125,109 +1682,6 @@ id="特征值与特征向量矩阵世界的基因密码">特征值与特征向�
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/12/su-dongpo-reading-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Stone">
-      <meta itemprop="description" content="数学,阅读,编程和投资">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Stone's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2026/02/12/su-dongpo-reading-notes/" class="post-title-link" itemprop="url">从澄迈到赤壁：苏东坡的"永恒之旅"</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2026-02-12 13:00:00" itemprop="dateCreated datePublished" datetime="2026-02-12T13:00:00+08:00">2026-02-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-02-14 19:09:58" itemprop="dateModified" datetime="2026-02-14T19:09:58+08:00">2026-02-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/%E6%96%87%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">文学</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1
-id="从澄迈到赤壁苏东坡的永恒之旅">从澄迈到赤壁：苏东坡的”永恒之旅”</h1>
-<blockquote>
-<p>如果说人生是一场修行，那么苏东坡的词就是这条路上一盏盏明灯。有的灯照见的是迷茫，有的灯照见的是彻悟。而从黄州到海南，正是从迷茫走向彻悟的那段最艰辛、也最动人的路程。</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/12/su-dongpo-reading-notes/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1281,18 +1735,18 @@ id="从澄迈到赤壁苏东坡的永恒之旅">从澄迈到赤壁：苏东坡�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">35</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -1347,12 +1801,12 @@ id="从澄迈到赤壁苏东坡的永恒之旅">从澄迈到赤壁：苏东坡�
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">180k</span>
+    <span title="站点总字数">188k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:44</span>
+    <span title="站点阅读时长">2:51</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
