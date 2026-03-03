@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.tao-studio.net","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"author":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="最小二乘法：200年不过时的”穿糖葫芦”智慧  1801年，一个24岁的年轻人仅用100小时的手算，就预测出了一颗刚发现又丢失的行星位置。天文学家将望远镜对准他指出的方向——那颗行星果然在那里！这个年轻人就是高斯，他用的方法叫做”最小二乘法”。  引言：从”失踪”的行星说起 1801年1月1日，意大利天文学家皮亚齐发现了一颗新行星谷神星。这是人类发现的第一颗小行星，全世界的天文学家和数学家都为之兴">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最小二乘法：200年不过时的&quot;穿糖葫芦&quot;智慧">
+<meta property="og:url" content="http://blog.tao-studio.net/2026/03/03/least-squares-method/index.html">
+<meta property="og:site_name" content="Stone&#39;s Blog">
+<meta property="og:description" content="最小二乘法：200年不过时的”穿糖葫芦”智慧  1801年，一个24岁的年轻人仅用100小时的手算，就预测出了一颗刚发现又丢失的行星位置。天文学家将望远镜对准他指出的方向——那颗行星果然在那里！这个年轻人就是高斯，他用的方法叫做”最小二乘法”。  引言：从”失踪”的行星说起 1801年1月1日，意大利天文学家皮亚齐发现了一颗新行星谷神星。这是人类发现的第一颗小行星，全世界的天文学家和数学家都为之兴">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://example.com/tanghulu.png">
+<meta property="article:published_time" content="2026-03-03T06:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-03T08:28:11.635Z">
+<meta property="article:author" content="Stone">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="统计学">
+<meta property="article:tag" content="最小二乘法">
+<meta property="article:tag" content="线性回归">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://example.com/tanghulu.png">
+
+<link rel="canonical" href="http://blog.tao-studio.net/2026/03/03/least-squares-method/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>最小二乘法：200年不过时的"穿糖葫芦"智慧 | Stone's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Stone's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">blog.tao-studio.net</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/03/03/least-squares-method/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读,编程和投资">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          最小二乘法：200年不过时的"穿糖葫芦"智慧
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-03-03 14:00:00 / 修改时间：16:28:11" itemprop="dateCreated datePublished" datetime="2026-03-03T14:00:00+08:00">2026-03-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">统计学</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1
+id="最小二乘法200年不过时的穿糖葫芦智慧">最小二乘法：200年不过时的”穿糖葫芦”智慧</h1>
+<blockquote>
+<p>1801年，一个24岁的年轻人仅用100小时的手算，就预测出了一颗刚发现又丢失的行星位置。天文学家将望远镜对准他指出的方向——那颗行星果然在那里！这个年轻人就是高斯，他用的方法叫做”最小二乘法”。</p>
+</blockquote>
+<h2 id="引言从失踪的行星说起">引言：从”失踪”的行星说起</h2>
+<p>1801年1月1日，意大利天文学家皮亚齐发现了一颗新行星谷神星。这是人类发现的第一颗小行星，全世界的天文学家和数学家都为之兴奋。</p>
+<p>然而，兴奋只持续了40天。由于谷神星运行到太阳附近，天文学家失去了它的追踪。如果找不到它的轨道，这颗刚发现的行星可能永远消失。</p>
+<p>就在这时，一位24岁的年轻人站了出来。他花了整整100个小时，完全靠手算，竟然准确预测出了谷神星的位置。当天文学家将望远镜对准他指出的方向时，谷神星果然在那里！</p>
+<p>这个年轻人就是<strong>卡尔·弗里德里希·高斯</strong>，数学史上最强的天才之一。他用的方法，就是我们今天要讲的<strong>最小二乘法</strong>（Method
+of Least Squares）。</p>
+<blockquote>
+<p><em>“这是统计学历史上接受最快的一项技术，从发表到成为标准工具只
+——用了十年。”</em> 历史学家斯蒂格勒</p>
+</blockquote>
+<h2 id="section"><span id="more"></span></h2>
+<h2 id="第一章准备工作三把小钥匙">第一章：准备工作——三把”小钥匙”</h2>
+<p>在正式介绍最小二乘法之前，我们需要先准备好三把”小钥匙”。</p>
+<h3 id="均值平均水平">1.1 均值——“平均水平”</h3>
+<p>想象你是班长，要汇报全班同学的数学成绩。你会把所有同学的分数加起来，再除以人数。这就是<strong>均值（Mean）</strong>：</p>
+<p><span class="math display">\[\bar{x} = \frac{x_1 + x_2 + \cdots +
+x_n}{n}\]</span></p>
+<p>这是我们衡量”平均水平”最直觉的方式。</p>
+<h3 id="方差离散程度">1.2 方差——“离散程度”</h3>
+<p>但是，光知道平均值够不够？想象两种情况： - 班级A：所有人都是80分 -
+班级B：有人100分，有人60分，平均也是80分</p>
+<p>两个班的平均水平相同，但”波动”完全不同。怎么描述这种差异？</p>
+<p><strong>方差（Variance）</strong>登场了：</p>
+<p><span class="math display">\[s^2 = \frac{(x_1 - \bar{x})^2 + (x_2 -
+\bar{x})^2 + \cdots + (x_n - \bar{x})^2}{n}\]</span></p>
+<p>为什么要平方？因为差距有正有负（有的高于均值，有的低于均值），直接相加会互相抵消。平方让所有”代价”都变成正的，而且越远的点”惩罚”越重。</p>
+<h3 id="坐标系数据的家">1.3 坐标系——数据的”家”</h3>
+<p>最后，我们把数据画在二维平面上： -
+<strong>X轴</strong>（横轴）：输入变量，比如”学习时间” -
+<strong>Y轴</strong>（纵轴）：输出变量，比如”考试成绩”</p>
+<p>每个同学的学习时间和成绩，就是平面上的一个点。这就是<strong>散点图</strong>。</p>
+<hr />
+<h2
+id="第二章直观理解穿糖葫芦的比喻">第二章：直观理解——穿糖葫芦的比喻</h2>
+<p>好，预备知识讲完了。现在让我们正式进入主题。</p>
+<h3 id="问题怎么把糖葫芦串起来">2.1 问题：怎么把”糖葫芦”串起来？</h3>
+<p>想象你有一串散乱的糖葫芦（数据点），你要用一根竹签（直线）把它们串起来。</p>
+<p><strong>问题来了</strong>：竹签应该怎么摆，才能让这串糖葫芦整体上最”整齐”？</p>
+<p>这里的”整齐”可以有很多理解方式。最小二乘法选择了一种非常直观的理解：</p>
+<blockquote>
+<p>找到一条直线，让所有数据点到这条直线的<strong>距离平方和最小</strong>。</p>
+</blockquote>
+<h3 id="为什么要平方">2.2 为什么要”平方”？</h3>
+<p>你可能会问：为什么要平方？不能直接相加距离吗？</p>
+<p>答案是：<strong>不能！</strong></p>
+<p>因为距离有正有负。想象糖葫芦在竹签上方，距离为正；在竹签下方，距离为负。如果直接相加，正负抵消，可能得到一个很小的数，但实际上数据点离直线很远。</p>
+<figure>
+<img src="https://example.com/tanghulu.png" alt="糖葫芦比喻" />
+<figcaption aria-hidden="true">糖葫芦比喻</figcaption>
+</figure>
+<p>平方有两个好处： 1.
+<strong>都是正的</strong>：平方后，负距离也变成正的 2.
+<strong>惩罚更重</strong>：-3的距离平方后是9，-1的距离平方后是1。离得越远，“惩罚”越重</p>
+<blockquote>
+<p>这就是<strong>最小二乘法</strong>中”最小”和”二乘”（平方）的含义： -
+<strong>二乘</strong>：把距离平方 -
+<strong>最小</strong>：让平方和最小</p>
+</blockquote>
+<hr />
+<h2 id="第三章手把手推导跟数据较真">第三章：手把手推导——跟数据较真</h2>
+<p>光说不练假把式。让我们用一个具体例子，亲手算一遍最小二乘法。</p>
+<h3 id="准备数据">3.1 准备数据</h3>
+<p>假设我们调查了5位同学的学习时间和考试成绩：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">同学</th>
+<th style="text-align: center;">学习时间 X (小时)</th>
+<th style="text-align: center;">成绩 Y (分)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr>
+<td style="text-align: center;">C</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr>
+<td style="text-align: center;">D</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr>
+<td style="text-align: center;">E</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+</tr>
+</tbody>
+</table>
+<p>我们的目标：找到一条直线 <strong>Y = a +
+bX</strong>，能最好地描述这个关系。</p>
+<p>其中： - <strong>b</strong> 是斜率（每多学1小时，成绩提高多少分） -
+<strong>a</strong> 是截距（不学习时，大概能得多少分）</p>
+<h3 id="第一步计算均值">3.2 第一步：计算均值</h3>
+<p>先算出 X 和 Y 的平均值：</p>
+<p><span class="math display">\[X̄ = \frac{1+2+3+4+5}{5} = 3\]</span></p>
+<p><span class="math display">\[Ȳ = \frac{2+4+5+4+5}{5} = 4\]</span></p>
+<h3 id="第二步计算斜率-b">3.3 第二步：计算斜率 b</h3>
+<p>这是最关键的一步：</p>
+<p><span class="math display">\[b = \frac{\sum(x_i - X̄)(y_i -
+Ȳ)}{\sum(x_i - X̄)^2}\]</span></p>
+<p>让我们一步步算：</p>
+<p><strong>分子部分</strong>（每个点的 x 偏差 × y 偏差）： - (1-3)(2-4)
+= (-2)(-2) = 4 - (2-3)(4-4) = (-1)(0) = 0 - (3-3)(5-4) = (0)(1) = 0 -
+(4-3)(4-4) = (1)(0) = 0 - (5-3)(5-4) = (2)(1) = 2</p>
+<p>分子 = 4 + 0 + 0 + 0 + 2 = <strong>6</strong></p>
+<p><strong>分母部分</strong>（每个点的 x 偏差平方）： - (1-3)² = 4 -
+(2-3)² = 1 - (3-3)² = 0 - (4-3)² = 1 - (5-3)² = 4</p>
+<p>分母 = 4 + 1 + 0 + 1 + 4 = <strong>10</strong></p>
+<p><span class="math display">\[b = \frac{6}{10} = 0.6\]</span></p>
+<p><strong>解读</strong>：每多学1小时，成绩提高0.6分。</p>
+<h3 id="第三步计算截距-a">3.4 第三步：计算截距 a</h3>
+<p><span class="math display">\[a = Ȳ - b \cdot X̄ = 4 - 0.6 \times 3 = 4
+- 1.8 = 2.2\]</span></p>
+<h3 id="最终结果">3.5 最终结果</h3>
+<p><strong>Y = 2.2 + 0.6X</strong></p>
+<p>这就是我们的<strong>最佳拟合直线</strong>！</p>
+<h3 id="验证一下">3.6 验证一下</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">学习时间 X</th>
+<th style="text-align: center;">实际成绩 Y</th>
+<th style="text-align: center;">预测成绩 Ŷ = 2.2 + 0.6X</th>
+<th style="text-align: center;">误差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2.8</td>
+<td style="text-align: center;">-0.8</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3.4</td>
+<td style="text-align: center;">0.6</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">4.0</td>
+<td style="text-align: center;">1.0</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4.6</td>
+<td style="text-align: center;">-0.6</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">-0.2</td>
+</tr>
+</tbody>
+</table>
+<p>所有误差的平方和 = (-0.8)² + 0.6² + 1.0² + (-0.6)² + (-0.2)² = 0.64 +
+0.36 + 1.00 + 0.36 + 0.04 = <strong>2.4</strong></p>
+<p>可以证明，这个结果已经是”误差平方和最小”的了！</p>
+<hr />
+<h2
+id="第四章几何视角正交投影的秘密">第四章：几何视角——正交投影的秘密</h2>
+<p>如果你已经学过一点线性代数，让我带你看看最小二乘法更深层的含义。</p>
+<h3 id="从向量空间的角度">4.1 从向量空间的角度</h3>
+<p>想象每个数据点是一个高维空间中的向量。我们的任务是找到一个”最接近”这些数据点的直线（子空间）。</p>
+<p><strong>关键洞察</strong>：最小二乘法要做的，就是把原始数据点<strong>投影</strong>到这条直线上，使得投影点与原始点的距离平方和最小。</p>
+<h3 id="什么是正交投影">4.2 什么是正交投影？</h3>
+<p>想象一盏灯垂直照向地面（正交），你的影子就是你的正交投影。</p>
+<p>在最小二乘法中：</p>
+<blockquote>
+<p>当投影完成时，<strong>误差向量</strong>（原始点 -
+投影点）与直线<strong>垂直</strong>！</p>
+</blockquote>
+<p>这就是”正交投影”的含义——误差与拟合线正交。</p>
+<h3 id="代数表达">4.3 代数表达</h3>
+<p>用数学语言说，最小二乘法的正规方程是：</p>
+<p><span class="math display">\[X^T(X\beta - y) = 0\]</span></p>
+<p>这个方程在说：<strong>残差与每个自变量都正交</strong>。</p>
+<p>这意味着： - 拟合直线已经尽可能地”靠近”所有数据点 -
+没有办法通过旋转直线来减小误差了</p>
+<blockquote>
+<p>最小二乘法 ≈ 在子空间中寻找最近点 ≈ 正交投影</p>
+</blockquote>
+<h3 id="这个视角为什么重要">4.4 这个视角为什么重要？</h3>
+<ol type="1">
+<li>它揭示了最小二乘法的几何本质</li>
+<li>它可以自然地推广到多元回归（多个自变量）</li>
+<li>它与线性代数中的”最佳近似”问题完全等价</li>
+<li>它让我们理解，为什么某些情况下最小二乘法会”失效”（共线性）</li>
+</ol>
+<hr />
+<h2 id="第五章历史故事高斯-vs-勒让德">第五章：历史故事——高斯 vs
+勒让德</h2>
+<p>现在让我们聊聊最小二乘法的”黑历史”。</p>
+<h3 id="勒让德的公开发表">5.1 勒让德的公开发表</h3>
+<p>1805年，法国数学家<strong>勒让德</strong>在附录中首次发表了最小二乘法。他描述了如何用这个方法拟合直线到观测数据中。</p>
+<p>他的方法简洁明了，迅速被天文学家和测量学家采用。</p>
+<h3 id="高斯的声称">5.2 高斯的”声称”</h3>
+<p>4年后的1809年，高斯出版了《天体运动理论》。在这本著作中，他声称自己早在1795年（当时只有18岁！）就发现了这个方法。</p>
+<p>高斯不仅使用了最小二乘法，还给出了更深刻的数学推导——包括正态分布与最小二乘法的联系。</p>
+<h3 id="谁是真正的发明者">5.3 谁是”真正”的发明者？</h3>
+<p>历史学家争论了几百年。根据现有证据：</p>
+<ul>
+<li><strong>高斯很可能确实更早发现</strong>，但没有公开发表</li>
+<li><strong>勒让德是第一个公开发表的人</strong></li>
+<li>勒让德的推导是纯代数的，高斯的推导更深入，连接了最小二乘法和概率论</li>
+</ul>
+<p>最终，两人都被公认为”发明者”。这场争论类似于牛顿和莱布尼茨关于微积分的争论——有时伟大的思想会同时被多人发现。</p>
+<blockquote>
+<p>有趣的是，高斯本人后来承认，他当年觉得这个方法”太显然了”，不值得专门发表……</p>
+</blockquote>
+<hr />
+<h2
+id="第六章实际应用你身边的最小二乘法">第六章：实际应用——你身边的最小二乘法</h2>
+<p>最小二乘法看似简单，却是现代科技的重要基石。</p>
+<h3 id="天气预报">6.1 天气预报</h3>
+<p>气象学家用最小二乘法建立气温、气压、湿度与天气变化的关系模型。你看到的”明天降水概率”，背后可能有最小二乘法的贡献。</p>
+<h3 id="金融分析">6.2 金融分析</h3>
+<ul>
+<li>股票价格与市场指数的关系</li>
+<li>利率与通胀的关系</li>
+<li>公司财务指标与股价的关系</li>
+</ul>
+<h3 id="医学研究">6.3 医学研究</h3>
+<ul>
+<li>药物剂量与疗效的关系</li>
+<li>年龄、性别、体重与血压的关系</li>
+<li>吸烟时间与肺功能的关系</li>
+</ul>
+<h3 id="机器学习">6.4 机器学习</h3>
+<p><strong>线性回归</strong>是机器学习中最基础的算法，而最小二乘法就是线性回归的核心。</p>
+<p>无论是你手机上的推荐系统，还是GPT这样的大语言模型，在它们的底层，都有着最小二乘法的影子。</p>
+<blockquote>
+<p>可以毫不夸张地说：<strong>你身边几乎所有”根据过去数据预测未来”的场景，背后都可能有最小二乘法的身影。</strong></p>
+</blockquote>
+<hr />
+<h2 id="第七章python实践动手试试">第七章：Python实践——动手试试</h2>
+<p>让我们用Python来实际运行一下最小二乘法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据：学习时间 vs 考试成绩</span></span><br><span class="line">x = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">y = np.array([<span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法1：直接用numpy的polyfit (一次多项式 = 直线)</span></span><br><span class="line">b, a = np.polyfit(x, y, <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;使用 polyfit: Y = <span class="subst">&#123;a:<span class="number">.1</span>f&#125;</span> + <span class="subst">&#123;b:<span class="number">.1</span>f&#125;</span>X&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2：手动实现公式</span></span><br><span class="line">x_mean = np.mean(x)</span><br><span class="line">y_mean = np.mean(y)</span><br><span class="line">b_manual = np.<span class="built_in">sum</span>((x - x_mean) * (y - y_mean)) / np.<span class="built_in">sum</span>((x - x_mean)**<span class="number">2</span>)</span><br><span class="line">a_manual = y_mean - b_manual * x_mean</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;手动计算: Y = <span class="subst">&#123;a_manual:<span class="number">.1</span>f&#125;</span> + <span class="subst">&#123;b_manual:<span class="number">.1</span>f&#125;</span>X&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测：学习6小时</span></span><br><span class="line">predicted = a + b * <span class="number">6</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;预测学习6小时的成绩: <span class="subst">&#123;predicted:<span class="number">.1</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化</span></span><br><span class="line">plt.figure(figsize=(<span class="number">8</span>, <span class="number">6</span>))</span><br><span class="line">plt.scatter(x, y, color=<span class="string">&#x27;red&#x27;</span>, s=<span class="number">100</span>, label=<span class="string">&#x27;实际数据&#x27;</span>, zorder=<span class="number">5</span>)</span><br><span class="line">plt.plot(x, a + b*x, color=<span class="string">&#x27;blue&#x27;</span>, linewidth=<span class="number">2</span>, label=<span class="string">&#x27;拟合直线&#x27;</span>)</span><br><span class="line">plt.scatter([<span class="number">6</span>], [predicted], color=<span class="string">&#x27;green&#x27;</span>, s=<span class="number">100</span>, marker=<span class="string">&#x27;*&#x27;</span>, </span><br><span class="line">            label=<span class="string">f&#x27;预测 (6小时, <span class="subst">&#123;predicted:<span class="number">.1</span>f&#125;</span>分)&#x27;</span>, zorder=<span class="number">5</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;学习时间 (小时)&#x27;</span>, fontsize=<span class="number">12</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;考试成绩 (分)&#x27;</span>, fontsize=<span class="number">12</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;最小二乘法线性回归示例&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.grid(<span class="literal">True</span>, alpha=<span class="number">0.3</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">使用 polyfit: Y = 2.2 + 0.6X</span><br><span class="line">手动计算: Y = 2.2 + 0.6X</span><br><span class="line">预测学习6小时的成绩: 5.8</span><br></pre></td></tr></table></figure>
+<p>完美！和我们的手工计算一致。</p>
+<hr />
+<h2 id="总结为什么200年后它仍重要">总结：为什么200年后它仍重要？</h2>
+<p>1805年发明至今，最小二乘法已经220岁了。</p>
+<p><strong>为什么它仍是统计学最重要的方法？</strong></p>
+<ol type="1">
+<li><strong>简单高效</strong>：有闭合解，计算速度快</li>
+<li><strong>理论优美</strong>：在正态分布假设下，它是最优的（最小方差无偏估计）</li>
+<li><strong>承上启下</strong>：它是理解所有复杂回归模型的基础</li>
+<li><strong>广泛应用</strong>：从航天到医学，从金融到AI，无所不在</li>
+</ol>
+<blockquote>
+<p>高斯在18岁时发明的这个”小工具”，至今仍是每个数据科学家、工程师、研究人员的必备武器。</p>
+</blockquote>
+<p>下次当你看到天气预报、股票预测、或者任何”预测未来”的应用时，请记住——它们的背后，可能都藏着200年前那个”穿糖葫芦”的智慧。</p>
+<hr />
+<p><em>参考来源：高斯与勒让德的原始论文、Statistics by Jim、Stigler
+(1981) “Gauss and the Invention of Least Squares”</em></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag"># 数学</a>
+              <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" rel="tag"># 统计学</a>
+              <a href="/tags/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95/" rel="tag"># 最小二乘法</a>
+              <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" rel="tag"># 线性回归</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/02/25/zi-gong-shi-ji-note/" rel="prev" title="子贡一出，五国变色">
+      <i class="fa fa-chevron-left"></i> 子贡一出，五国变色
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          <script src="https://utteranc.es/client.js"
+        repo="stonejiang208/blog"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95200%E5%B9%B4%E4%B8%8D%E8%BF%87%E6%97%B6%E7%9A%84%E7%A9%BF%E7%B3%96%E8%91%AB%E8%8A%A6%E6%99%BA%E6%85%A7"><span class="nav-number">1.</span> <span class="nav-text">最小二乘法：200年不过时的”穿糖葫芦”智慧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80%E4%BB%8E%E5%A4%B1%E8%B8%AA%E7%9A%84%E8%A1%8C%E6%98%9F%E8%AF%B4%E8%B5%B7"><span class="nav-number">1.1.</span> <span class="nav-text">引言：从”失踪”的行星说起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#section"><span class="nav-number">1.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C%E4%B8%89%E6%8A%8A%E5%B0%8F%E9%92%A5%E5%8C%99"><span class="nav-number">1.3.</span> <span class="nav-text">第一章：准备工作——三把”小钥匙”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%87%E5%80%BC%E5%B9%B3%E5%9D%87%E6%B0%B4%E5%B9%B3"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.1 均值——“平均水平”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%B7%AE%E7%A6%BB%E6%95%A3%E7%A8%8B%E5%BA%A6"><span class="nav-number">1.3.2.</span> <span class="nav-text">1.2 方差——“离散程度”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AE%B6"><span class="nav-number">1.3.3.</span> <span class="nav-text">1.3 坐标系——数据的”家”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E7%A9%BF%E7%B3%96%E8%91%AB%E8%8A%A6%E7%9A%84%E6%AF%94%E5%96%BB"><span class="nav-number">1.4.</span> <span class="nav-text">第二章：直观理解——穿糖葫芦的比喻</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%80%8E%E4%B9%88%E6%8A%8A%E7%B3%96%E8%91%AB%E8%8A%A6%E4%B8%B2%E8%B5%B7%E6%9D%A5"><span class="nav-number">1.4.1.</span> <span class="nav-text">2.1 问题：怎么把”糖葫芦”串起来？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%B9%B3%E6%96%B9"><span class="nav-number">1.4.2.</span> <span class="nav-text">2.2 为什么要”平方”？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0%E6%89%8B%E6%8A%8A%E6%89%8B%E6%8E%A8%E5%AF%BC%E8%B7%9F%E6%95%B0%E6%8D%AE%E8%BE%83%E7%9C%9F"><span class="nav-number">1.5.</span> <span class="nav-text">第三章：手把手推导——跟数据较真</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE"><span class="nav-number">1.5.1.</span> <span class="nav-text">3.1 准备数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%E8%AE%A1%E7%AE%97%E5%9D%87%E5%80%BC"><span class="nav-number">1.5.2.</span> <span class="nav-text">3.2 第一步：计算均值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%E8%AE%A1%E7%AE%97%E6%96%9C%E7%8E%87-b"><span class="nav-number">1.5.3.</span> <span class="nav-text">3.3 第二步：计算斜率 b</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%E8%AE%A1%E7%AE%97%E6%88%AA%E8%B7%9D-a"><span class="nav-number">1.5.4.</span> <span class="nav-text">3.4 第三步：计算截距 a</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C"><span class="nav-number">1.5.5.</span> <span class="nav-text">3.5 最终结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E4%B8%80%E4%B8%8B"><span class="nav-number">1.5.6.</span> <span class="nav-text">3.6 验证一下</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%87%A0%E4%BD%95%E8%A7%86%E8%A7%92%E6%AD%A3%E4%BA%A4%E6%8A%95%E5%BD%B1%E7%9A%84%E7%A7%98%E5%AF%86"><span class="nav-number">1.6.</span> <span class="nav-text">第四章：几何视角——正交投影的秘密</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4%E7%9A%84%E8%A7%92%E5%BA%A6"><span class="nav-number">1.6.1.</span> <span class="nav-text">4.1 从向量空间的角度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%AD%A3%E4%BA%A4%E6%8A%95%E5%BD%B1"><span class="nav-number">1.6.2.</span> <span class="nav-text">4.2 什么是正交投影？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E6%95%B0%E8%A1%A8%E8%BE%BE"><span class="nav-number">1.6.3.</span> <span class="nav-text">4.3 代数表达</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%99%E4%B8%AA%E8%A7%86%E8%A7%92%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81"><span class="nav-number">1.6.4.</span> <span class="nav-text">4.4 这个视角为什么重要？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0%E5%8E%86%E5%8F%B2%E6%95%85%E4%BA%8B%E9%AB%98%E6%96%AF-vs-%E5%8B%92%E8%AE%A9%E5%BE%B7"><span class="nav-number">1.7.</span> <span class="nav-text">第五章：历史故事——高斯 vs
+勒让德</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8B%92%E8%AE%A9%E5%BE%B7%E7%9A%84%E5%85%AC%E5%BC%80%E5%8F%91%E8%A1%A8"><span class="nav-number">1.7.1.</span> <span class="nav-text">5.1 勒让德的公开发表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E6%96%AF%E7%9A%84%E5%A3%B0%E7%A7%B0"><span class="nav-number">1.7.2.</span> <span class="nav-text">5.2 高斯的”声称”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%81%E6%98%AF%E7%9C%9F%E6%AD%A3%E7%9A%84%E5%8F%91%E6%98%8E%E8%80%85"><span class="nav-number">1.7.3.</span> <span class="nav-text">5.3 谁是”真正”的发明者？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E4%BD%A0%E8%BA%AB%E8%BE%B9%E7%9A%84%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95"><span class="nav-number">1.8.</span> <span class="nav-text">第六章：实际应用——你身边的最小二乘法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A9%E6%B0%94%E9%A2%84%E6%8A%A5"><span class="nav-number">1.8.1.</span> <span class="nav-text">6.1 天气预报</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%91%E8%9E%8D%E5%88%86%E6%9E%90"><span class="nav-number">1.8.2.</span> <span class="nav-text">6.2 金融分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%BB%E5%AD%A6%E7%A0%94%E7%A9%B6"><span class="nav-number">1.8.3.</span> <span class="nav-text">6.3 医学研究</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.8.4.</span> <span class="nav-text">6.4 机器学习</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0python%E5%AE%9E%E8%B7%B5%E5%8A%A8%E6%89%8B%E8%AF%95%E8%AF%95"><span class="nav-number">1.9.</span> <span class="nav-text">第七章：Python实践——动手试试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E4%B8%BA%E4%BB%80%E4%B9%88200%E5%B9%B4%E5%90%8E%E5%AE%83%E4%BB%8D%E9%87%8D%E8%A6%81"><span class="nav-number">1.10.</span> <span class="nav-text">总结：为什么200年后它仍重要？</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Stone</p>
+  <div class="site-description" itemprop="description">数学,阅读,编程和投资</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:stone@tao-studio.net" title="E-Mail → mailto:stone@tao-studio.net" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="mailto:stone@tao-studio.net" title="mailto:stone@tao-studio.net" rel="noopener" target="_blank">欢迎互粉</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://terrytao.wordpress.com/" title="https:&#x2F;&#x2F;terrytao.wordpress.com&#x2F;" rel="noopener" target="_blank">陶哲轩的博客</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stone</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">193k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:55</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<script>
+(function() {
+  'use strict';
+
+  // 配置 - 支持开发和生产环境
+  const CONFIG = {
+    // 开发环境配置（本地测试）
+    development: {
+      performanceEndpoint: 'http://localhost:3001',
+      analyticsEndpoint: 'http://localhost:3002/analytics',
+      sampleRate: 1.0, // 100%采样率用于测试
+      debug: true
+    },
+    // 生产环境配置（Railway部署）
+    production: {
+      performanceEndpoint: 'https://blog-performance-monitor.up.railway.app',
+      analyticsEndpoint: 'https://blog-analytics-server.up.railway.app/analytics',
+      sampleRate: 0.1, // 10%采样率
+      debug: false
+    },
+    // 通用配置
+    maxMetricsPerSession: 50,
+    sessionTimeout: 30 * 60 * 1000, // 30分钟
+    localStorageKey: 'performance_metrics_buffer',
+    analyticsLocalStorageKey: 'analytics_events_buffer'
+  };
+
+  // 根据当前环境选择配置
+  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const currentConfig = isDevelopment ? CONFIG.development : CONFIG.production;
+
+  // 性能指标收集器
+  class PerformanceMonitor {
+    constructor() {
+      this.metricsBuffer = [];
+      this.sessionId = this.generateSessionId();
+      this.pageLoadTime = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      if (Math.random() > currentConfig.sampleRate) return;
+
+      this.collectInitialMetrics();
+      this.setupEventListeners();
+      this.setupPeriodicSend();
+      
+      window.addEventListener('beforeunload', () => this.sendMetrics());
+    }
+
+    collectInitialMetrics() {
+      const metrics = {
+        type: 'page_load',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        referrer: document.referrer,
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        connection: this.getConnectionInfo(),
+        deviceMemory: navigator.deviceMemory || 'unknown',
+        hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
+        performance: this.getPerformanceMetrics(),
+        mathjax: this.detectMathJax(),
+        pageLoadTime: Date.now() - this.pageLoadTime
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    getConnectionInfo() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return 'unknown';
+      
+      return {
+        effectiveType: connection.effectiveType,
+        downlink: connection.downlink,
+        rtt: connection.rtt,
+        saveData: connection.saveData
+      };
+    }
+
+    getPerformanceMetrics() {
+      if (!window.performance || !window.performance.timing) return null;
+
+      const timing = window.performance.timing;
+      const navigation = window.performance.navigation || {};
+      
+      return {
+        navigationType: navigation.type || 0,
+        redirectCount: navigation.redirectCount || 0,
+        dnsLookup: timing.domainLookupEnd - timing.domainLookupStart,
+        tcpConnect: timing.connectEnd - timing.connectStart,
+        requestResponse: timing.responseEnd - timing.requestStart,
+        domInteractive: timing.domInteractive - timing.navigationStart,
+        domComplete: timing.domComplete - timing.navigationStart,
+        loadEvent: timing.loadEventEnd - timing.navigationStart,
+        firstPaint: this.getFirstPaint(),
+        firstContentfulPaint: this.getFirstContentfulPaint(),
+        largestContentfulPaint: this.getLargestContentfulPaint(),
+        cumulativeLayoutShift: this.getCumulativeLayoutShift()
+      };
+    }
+
+    getFirstPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fpEntry = entries.find(entry => entry.name === 'first-paint');
+      return fpEntry ? Math.round(fpEntry.startTime) : null;
+    }
+
+    getFirstContentfulPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fcpEntry = entries.find(entry => entry.name === 'first-contentful-paint');
+      return fcpEntry ? Math.round(fcpEntry.startTime) : null;
+    }
+
+    getLargestContentfulPaint() {
+      const entries = performance.getEntriesByType('largest-contentful-paint');
+      if (entries.length === 0) return null;
+      
+      const lcpEntry = entries[entries.length - 1];
+      return Math.round(lcpEntry.startTime);
+    }
+
+    getCumulativeLayoutShift() {
+      let cls = 0;
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (!entry.hadRecentInput) {
+            cls += entry.value;
+          }
+        }
+      });
+      
+      try {
+        observer.observe({ type: 'layout-shift', buffered: true });
+        return Math.round(cls * 100) / 100;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    detectMathJax() {
+      const scripts = Array.from(document.querySelectorAll('script'));
+      const hasMathJaxScript = scripts.some(script => 
+        script.src && script.src.includes('mathjax')
+      );
+      
+      const hasMathJaxElements = document.querySelectorAll('[class*="math"], [class*="MathJax"]').length > 0;
+      
+      return {
+        hasScript: hasMathJaxScript,
+        hasElements: hasMathJaxElements,
+        elementCount: document.querySelectorAll('[class*="math"], [class*="MathJax"]').length
+      };
+    }
+
+    setupEventListeners() {
+      window.addEventListener('error', (event) => {
+        if (event.target && event.target.tagName) {
+          this.collectResourceError(event);
+        }
+      }, true);
+
+      this.setupMathJaxMonitoring();
+      this.setupUserInteractionMonitoring();
+      this.setupNetworkMonitoring();
+    }
+
+    collectResourceError(event) {
+      const metrics = {
+        type: 'resource_error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        errorType: 'resource_load',
+        resourceType: event.target.tagName.toLowerCase(),
+        resourceSrc: event.target.src || event.target.href || 'unknown',
+        errorMessage: event.message || 'Resource load failed'
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    setupMathJaxMonitoring() {
+      if (window.MathJax && window.MathJax.Hub) {
+        window.MathJax.Hub.Register.StartupHook('End', () => {
+          const metrics = {
+            type: 'mathjax_rendered',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            renderTime: Date.now() - this.pageLoadTime,
+            mathElementCount: document.querySelectorAll('.MathJax, .math').length
+          };
+
+          this.addToBuffer(metrics);
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const metrics = {
+            type: 'math_element_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            elementType: target.tagName,
+            elementClass: target.className
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupUserInteractionMonitoring() {
+      let scrollStartTime = null;
+      let scrollTimeout = null;
+
+      window.addEventListener('scroll', () => {
+        if (!scrollStartTime) scrollStartTime = Date.now();
+        
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          if (scrollStartTime) {
+            const scrollDuration = Date.now() - scrollStartTime;
+            const metrics = {
+              type: 'scroll_session',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              url: window.location.href,
+              duration: scrollDuration,
+              scrollY: window.scrollY,
+              viewportHeight: window.innerHeight,
+              documentHeight: document.documentElement.scrollHeight
+            };
+
+            this.addToBuffer(metrics);
+            scrollStartTime = null;
+          }
+        }, 1000);
+      });
+
+      document.addEventListener('click', (event) => {
+        if (Math.random() < 0.01) {
+          const metrics = {
+            type: 'user_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            targetTag: event.target.tagName,
+            targetClass: event.target.className,
+            targetId: event.target.id,
+            x: event.clientX,
+            y: event.clientY
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupNetworkMonitoring() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return;
+
+      connection.addEventListener('change', () => {
+        const metrics = {
+          type: 'network_change',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          url: window.location.href,
+          connection: this.getConnectionInfo()
+        };
+
+        this.addToBuffer(metrics);
+      });
+    }
+
+    setupPeriodicSend() {
+      setInterval(() => {
+        if (this.metricsBuffer.length >= 10) this.sendMetrics();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.sendMetrics();
+      });
+    }
+
+    addToBuffer(metrics) {
+      this.metricsBuffer.push(metrics);
+      
+      if (this.metricsBuffer.length > CONFIG.maxMetricsPerSession) {
+        this.metricsBuffer = this.metricsBuffer.slice(-CONFIG.maxMetricsPerSession);
+      }
+      
+      this.saveToLocalStorage();
+    }
+
+    saveToLocalStorage() {
+      try {
+        const data = {
+          sessionId: this.sessionId,
+          metrics: this.metricsBuffer,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(CONFIG.localStorageKey, JSON.stringify(data));
+      } catch (e) {
+        console.warn('无法保存性能数据到 localStorage:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const data = localStorage.getItem(CONFIG.localStorageKey);
+        if (data) {
+          const parsed = JSON.parse(data);
+          if (Date.now() - parsed.timestamp < CONFIG.sessionTimeout) {
+            this.sessionId = parsed.sessionId;
+            this.metricsBuffer = parsed.metrics || [];
+          } else {
+            localStorage.removeItem(CONFIG.localStorageKey);
+          }
+        }
+      } catch (e) {}
+    }
+
+    sendMetrics() {
+      if (this.metricsBuffer.length === 0) return;
+
+      const dataToSend = [...this.metricsBuffer];
+      this.metricsBuffer = [];
+
+      if (navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(dataToSend)], { type: 'application/json' });
+        navigator.sendBeacon(currentConfig.performanceEndpoint, blob);
+      } else {
+        fetch(currentConfig.performanceEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dataToSend),
+          keepalive: true
+        }).catch(error => {
+          console.warn('性能数据发送失败:', error);
+          this.metricsBuffer = [...dataToSend, ...this.metricsBuffer];
+        });
+      }
+
+      try {
+        localStorage.removeItem(CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    getMobileSpecificMetrics() {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      return {
+        isMobile,
+        isTouchDevice,
+        devicePixelRatio: window.devicePixelRatio || 1,
+        orientation: window.screen.orientation ? window.screen.orientation.type : 'unknown',
+        battery: this.getBatteryInfo()
+      };
+    }
+
+    async getBatteryInfo() {
+      if (!navigator.getBattery) return null;
+      
+      try {
+        const battery = await navigator.getBattery();
+        return {
+          charging: battery.charging,
+          level: battery.level,
+          chargingTime: battery.chargingTime,
+          dischargingTime: battery.dischargingTime
+        };
+      } catch (e) {
+        return null;
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.performanceMonitor = new PerformanceMonitor();
+    });
+  } else {
+    window.performanceMonitor = new PerformanceMonitor();
+  }
+
+})();
+</script>
+
+
+<script>
+(function() {
+  'use strict';
+
+  // 分析配置 - 使用主配置的环境判断
+  const ANALYTICS_CONFIG = {
+    endpoint: currentConfig.analyticsEndpoint,
+    localStorageKey: CONFIG.analyticsLocalStorageKey,
+    sessionTimeout: CONFIG.sessionTimeout,
+    pageViewSampleRate: isDevelopment ? 1.0 : 0.5, // 开发环境100%，生产环境50%
+    eventSampleRate: isDevelopment ? 0.5 : 0.1 // 开发环境50%，生产环境10%
+  };
+
+  class AnalyticsCollector {
+    constructor() {
+      this.sessionId = this.generateSessionId();
+      this.pageViewId = this.generatePageViewId();
+      this.sessionStart = Date.now();
+      this.pageViewStart = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    generatePageViewId() {
+      return 'page_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      this.collectPageView();
+      this.setupEventListeners();
+      this.setupPeriodicFlush();
+      
+      window.addEventListener('beforeunload', () => this.flushData());
+    }
+
+    collectPageView() {
+      if (Math.random() > ANALYTICS_CONFIG.pageViewSampleRate) return;
+
+      const pageView = {
+        type: 'pageview',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        referrer: document.referrer,
+        title: document.title,
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        deviceType: this.getDeviceType(),
+        connectionType: this.getConnectionType(),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        prefersColorScheme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+        prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      };
+
+      this.saveToLocalStorage(pageView);
+    }
+
+    getDeviceType() {
+      const ua = navigator.userAgent;
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)) {
+        return 'mobile';
+      } else if (/Tablet|iPad/i.test(ua)) {
+        return 'tablet';
+      }
+      return 'desktop';
+    }
+
+    getConnectionType() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      return connection ? connection.effectiveType : 'unknown';
+    }
+
+    setupEventListeners() {
+      document.addEventListener('click', (event) => {
+        if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+        const target = event.target;
+        const clickData = {
+          type: 'click',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          target: {
+            tag: target.tagName,
+            id: target.id,
+            className: target.className,
+            text: target.textContent?.substring(0, 100) || '',
+            href: target.href || ''
+          },
+          position: {
+            x: event.clientX,
+            y: event.clientY
+          }
+        };
+
+        this.saveToLocalStorage(clickData);
+      });
+
+      let lastScrollReport = 0;
+      window.addEventListener('scroll', () => {
+        const now = Date.now();
+        if (now - lastScrollReport < 1000) return;
+        
+        const scrollDepth = this.calculateScrollDepth();
+        const scrollData = {
+          type: 'scroll',
+          timestamp: now,
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          scrollY: window.scrollY,
+          scrollDepth: scrollDepth,
+          viewportHeight: window.innerHeight,
+          documentHeight: document.documentElement.scrollHeight
+        };
+
+        this.saveToLocalStorage(scrollData);
+        lastScrollReport = now;
+      });
+
+      this.setupMathInteractionTracking();
+      this.setupSearchTracking();
+      this.setupExternalLinkTracking();
+    }
+
+    calculateScrollDepth() {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      const maxScroll = documentHeight - windowHeight;
+      if (maxScroll <= 0) return 0;
+      
+      return Math.min(100, Math.round((scrollY / maxScroll) * 100));
+    }
+
+    setupMathInteractionTracking() {
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const mathData = {
+            type: 'math_interaction',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            pageViewId: this.pageViewId,
+            url: window.location.href,
+            elementType: target.tagName,
+            mathType: this.getMathType(target)
+          };
+
+          this.saveToLocalStorage(mathData);
+        }
+      });
+    }
+
+    getMathType(element) {
+      const className = element.className || '';
+      if (className.includes('display')) return 'display';
+      if (className.includes('inline')) return 'inline';
+      return 'unknown';
+    }
+
+    setupSearchTracking() {
+      const searchInput = document.querySelector('input[type="search"], input[name="q"], .search-input');
+      if (searchInput) {
+        let searchStartTime = null;
+        
+        searchInput.addEventListener('focus', () => {
+          searchStartTime = Date.now();
+        });
+
+        searchInput.addEventListener('blur', () => {
+          if (searchStartTime && searchInput.value.trim()) {
+            const searchData = {
+              type: 'search',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              query: searchInput.value,
+              duration: Date.now() - searchStartTime
+            };
+
+            this.saveToLocalStorage(searchData);
+          }
+          searchStartTime = null;
+        });
+      }
+    }
+
+    setupExternalLinkTracking() {
+      document.addEventListener('click', (event) => {
+        let target = event.target;
+        while (target && target.tagName !== 'A') {
+          target = target.parentElement;
+        }
+        
+        if (target && target.tagName === 'A' && target.href) {
+          const url = new URL(target.href);
+          const currentUrl = new URL(window.location.href);
+          
+          if (url.hostname !== currentUrl.hostname) {
+            const linkData = {
+              type: 'external_link',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              externalUrl: target.href,
+              linkText: target.textContent?.substring(0, 100) || '',
+              isNewTab: target.target === '_blank'
+            };
+
+            this.saveToLocalStorage(linkData);
+          }
+        }
+      });
+    }
+
+    setupPeriodicFlush() {
+      setInterval(() => {
+        const data = this.loadFromLocalStorage();
+        if (data.length >= 20) this.flushData();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.flushData();
+      });
+    }
+
+    saveToLocalStorage(data) {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        const analyticsData = stored ? JSON.parse(stored) : [];
+        analyticsData.push(data);
+        
+        if (analyticsData.length > 100) {
+          analyticsData.splice(0, analyticsData.length - 100);
+        }
+        
+        localStorage.setItem(ANALYTICS_CONFIG.localStorageKey, JSON.stringify(analyticsData));
+      } catch (e) {
+        console.warn('无法保存分析数据:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    clearLocalStorage() {
+      try {
+        localStorage.removeItem(ANALYTICS_CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    async flushData() {
+      const data = this.loadFromLocalStorage();
+      if (data.length === 0) return;
+
+      try {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+          navigator.sendBeacon(ANALYTICS_CONFIG.endpoint, blob);
+        } else {
+          await fetch(ANALYTICS_CONFIG.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+            keepalive: true
+          });
+        }
+        
+        this.clearLocalStorage();
+      } catch (error) {
+        console.warn('发送分析数据失败:', error);
+      }
+    }
+
+    trackEvent(eventName, properties = {}) {
+      if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+      const eventData = {
+        type: 'custom_event',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        eventName: eventName,
+        properties: properties
+      };
+
+      this.saveToLocalStorage(eventData);
+    }
+
+    trackError(error, context = {}) {
+      const errorData = {
+        type: 'error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        error: {
+          message: error.message,
+          stack: error.stack,
+          name: error.name
+        },
+        context: context
+      };
+
+      this.saveToLocalStorage(errorData);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.analytics = new AnalyticsCollector();
+    });
+  } else {
+    window.analytics = new AnalyticsCollector();
+  }
+
+})();
+</script>
+</body>
+</html>
