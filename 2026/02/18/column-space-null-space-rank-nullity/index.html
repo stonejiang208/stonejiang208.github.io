@@ -28,7 +28,7 @@
 <meta property="og:description" content="列空间、零空间与零-秩定理：分析线性系统的”三叉戟”  如果说线性方程组是一片迷雾森林，那么列空间和零空间就是照亮前路的双灯塔。而零-秩定理，则是连接这两座灯塔的坚固桥梁。它们共同构成了一个”铁三角”，让你能够游刃有余地分析任何线性系统。  引言：面对线性系统，你需要一个”导航仪” 想象你是一个城市规划师，面前有一张复杂的交通网络图。你需要回答几个关键问题：  可达性：从某个地点出发，能到达哪些区">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-02-18T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-02-18T01:02:50.837Z">
+<meta property="article:modified_time" content="2026-03-15T18:29:29.517Z">
 <meta property="article:author" content="Stone">
 <meta property="article:tag" content="数学">
 <meta property="article:tag" content="线性代数">
@@ -189,10 +189,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2026-02-18 12:00:00 / 修改时间：09:02:50" itemprop="dateCreated datePublished" datetime="2026-02-18T12:00:00+08:00">2026-02-18</time>
+              <time title="创建时间：2026-02-18 12:00:00" itemprop="dateCreated datePublished" datetime="2026-02-18T12:00:00+08:00">2026-02-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-03-16 02:29:29" itemprop="dateModified" datetime="2026-03-16T02:29:29+08:00">2026-03-16</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -290,18 +296,18 @@ class="math inline">\(\text{Col}(A)\)</span>，是所有列向量的<strong>线�
 \mathbf{b}\)</span>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>情况</th>
 <th>结论</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><span class="math inline">\(\mathbf{b} \in
 \text{Col}(A)\)</span></td>
 <td>系统<strong>有解</strong>（至少一个解）</td>
 </tr>
-<tr>
+<tr class="even">
 <td><span class="math inline">\(\mathbf{b} \notin
 \text{Col}(A)\)</span></td>
 <td>系统<strong>无解</strong>（矛盾）</td>
@@ -325,19 +331,19 @@ class="math inline">\(\text{Col}(A)\)</span>，是所有列向量的<strong>线�
 <p><strong>📊 主元列 vs 非主元列</strong></p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>类型</th>
 <th>特征</th>
 <th>角色</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>主元列</td>
 <td>包含主元的列</td>
 <td>列空间的”领队”，独立贡献</td>
 </tr>
-<tr>
+<tr class="even">
 <td>非主元列</td>
 <td>可表示为主元列的线性组合</td>
 <td>“跟班”，可以由领队推导出来</td>
@@ -356,19 +362,19 @@ class="math inline">\(\mathbb{R}^n\)</span> 中（<span
 class="math inline">\(n\)</span> 是列数）。</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>空间</th>
 <th>所在空间</th>
 <th>维度</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>列空间 <span class="math inline">\(\text{Col}(A)\)</span></td>
 <td><span class="math inline">\(\mathbb{R}^m\)</span></td>
 <td><span class="math inline">\(\text{rank}(A)\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>行空间 <span class="math inline">\(\text{Row}(A)\)</span></td>
 <td><span class="math inline">\(\mathbb{R}^n\)</span></td>
 <td><span class="math inline">\(\text{rank}(A)\)</span></td>
@@ -440,19 +446,19 @@ class="math inline">\(\text{Null}(A)\)</span>：你可以额外加某些”中�
 <p>方程：<span class="math inline">\(x_1 + 2x_2 + 4x_3 = 0\)</span></p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>变量类型</th>
 <th>变量</th>
 <th>关系</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>主变量</td>
 <td><span class="math inline">\(x_1\)</span></td>
 <td><span class="math inline">\(x_1 = -2x_2 - 4x_3\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>自由变量</td>
 <td><span class="math inline">\(x_2, x_3\)</span></td>
 <td>任意取值</td>
@@ -471,19 +477,19 @@ class="math inline">\(\text{Null}(A)\)</span>：你可以额外加某些”中�
 <col style="width: 64%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>矩阵类型</th>
 <th>零空间的几何形状</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>满秩方阵 (<span class="math inline">\(n \times n\)</span>, rank =
 <span class="math inline">\(n\)</span>)</td>
 <td>只包含零向量 <span
 class="math inline">\(\{\mathbf{0}\}\)</span>（只有”不动”这一种选择）</td>
 </tr>
-<tr>
+<tr class="even">
 <td>秩亏矩阵 (rank &lt; <span class="math inline">\(n\)</span>)</td>
 <td>穿过原点的直线/平面/超平面</td>
 </tr>
@@ -527,7 +533,7 @@ class="math inline">\(\text{nullity}(A)\)</span>
 总员工数\]</span></p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>情况</th>
 <th>rank</th>
 <th>nullity</th>
@@ -535,19 +541,19 @@ class="math inline">\(\text{nullity}(A)\)</span>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>满编高效</td>
 <td><span class="math inline">\(n\)</span></td>
 <td>0</td>
 <td>每个员工都重要，没有冗余</td>
 </tr>
-<tr>
+<tr class="even">
 <td>有冗余</td>
 <td><span class="math inline">\(&lt; n\)</span></td>
 <td><span class="math inline">\(&gt; 0\)</span></td>
 <td>有些员工是”可替代的”</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>极度冗余</td>
 <td>很小</td>
 <td>接近 <span class="math inline">\(n\)</span></td>
@@ -603,33 +609,33 @@ class="math inline">\(A\mathbf{x} = \mathbf{b}\)</span>
 <col style="width: 31%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>步骤</th>
 <th>检查项</th>
 <th>结论</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>1</td>
 <td><span class="math inline">\(\mathbf{b} \in
 \text{Col}(A)\)</span>？</td>
 <td>是 → 有解；否 → 无解</td>
 </tr>
-<tr>
+<tr class="even">
 <td>2</td>
 <td>如果有解，解是否唯一？</td>
 <td><span class="math inline">\(\text{Null}(A) =
 \{\mathbf{0}\}\)</span>（即 <span class="math inline">\(\text{rank}(A) =
 n\)</span>）则唯一</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>3</td>
 <td>通解的结构是什么？</td>
 <td><span class="math inline">\(\mathbf{x} = \mathbf{x}_p +
 \text{Null}(A)\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>4</td>
 <td>有多少个”自由选择”？</td>
 <td><span class="math inline">\(\text{dim}(\text{Null}(A)) = n -
@@ -641,18 +647,18 @@ n\)</span>）则唯一</td>
 <p><strong>🎭 情况一：唯一解</strong></p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>条件</th>
 <th>含义</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><span class="math inline">\(\mathbf{b} \in
 \text{Col}(A)\)</span></td>
 <td>有解</td>
 </tr>
-<tr>
+<tr class="even">
 <td><span class="math inline">\(\text{rank}(A) = n\)</span></td>
 <td>零空间只有零向量</td>
 </tr>
@@ -666,18 +672,18 @@ class="math inline">\(A\mathbf{x} = \mathbf{b}\)</span>
 <p><strong>🎭 情况二：无穷多解</strong></p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>条件</th>
 <th>含义</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><span class="math inline">\(\mathbf{b} \in
 \text{Col}(A)\)</span></td>
 <td>有解</td>
 </tr>
-<tr>
+<tr class="even">
 <td><span class="math inline">\(\text{rank}(A) &lt; n\)</span></td>
 <td>零空间有非零向量</td>
 </tr>
@@ -688,13 +694,13 @@ class="math inline">\(A\mathbf{x} = \mathbf{b}\)</span>
 <p><strong>🎭 情况三：无解</strong></p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>条件</th>
 <th>含义</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><span class="math inline">\(\mathbf{b} \notin
 \text{Col}(A)\)</span></td>
 <td>无解</td>
@@ -713,7 +719,7 @@ class="math inline">\(A\mathbf{x} = \mathbf{b}\)</span>
 <col style="width: 21%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>子空间</th>
 <th>定义</th>
 <th>所在空间</th>
@@ -721,26 +727,26 @@ class="math inline">\(A\mathbf{x} = \mathbf{b}\)</span>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>列空间 <span class="math inline">\(\text{Col}(A)\)</span></td>
 <td><span class="math inline">\(A\)</span> 的列的张成</td>
 <td><span class="math inline">\(\mathbb{R}^m\)</span></td>
 <td><span class="math inline">\(\text{rank}(A)\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>零空间 <span class="math inline">\(\text{Null}(A)\)</span></td>
 <td><span class="math inline">\(A\mathbf{x} = \mathbf{0}\)</span>
 的解</td>
 <td><span class="math inline">\(\mathbb{R}^n\)</span></td>
 <td><span class="math inline">\(n - \text{rank}(A)\)</span></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>行空间 <span class="math inline">\(\text{Row}(A)\)</span></td>
 <td><span class="math inline">\(A\)</span> 的行的张成</td>
 <td><span class="math inline">\(\mathbb{R}^n\)</span></td>
 <td><span class="math inline">\(\text{rank}(A)\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>左零空间 <span class="math inline">\(\text{Null}(A^T)\)</span></td>
 <td><span class="math inline">\(A^T\mathbf{y} = \mathbf{0}\)</span>
 的解</td>
@@ -867,25 +873,25 @@ id="第六章与特征值的对话从三叉戟到基因密码">第六章：与�
 <col style="width: 40%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>概念</th>
 <th>关注点</th>
 <th>问题类型</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>特征值/特征向量</td>
 <td><span class="math inline">\(A\mathbf{v} =
 \lambda\mathbf{v}\)</span></td>
 <td>变换的”不变方向”</td>
 </tr>
-<tr>
+<tr class="even">
 <td>列空间</td>
 <td><span class="math inline">\(A\mathbf{x}\)</span> 的所有可能输出</td>
 <td>能到达哪里</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>零空间</td>
 <td><span class="math inline">\(A\mathbf{x} = \mathbf{0}\)</span>
 的解</td>
@@ -897,34 +903,34 @@ id="第六章与特征值的对话从三叉戟到基因密码">第六章：与�
 <p><strong>📊 各类矩阵的列空间和零空间</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>矩阵类型</th>
 <th>列空间</th>
 <th>零空间</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>满秩方阵 <span class="math inline">\(A\)</span></td>
 <td><span class="math inline">\(\mathbb{R}^n\)</span></td>
 <td><span class="math inline">\(\{\mathbf{0}\}\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>秩亏矩阵 <span class="math inline">\(A\)</span></td>
 <td>维数 &lt; <span class="math inline">\(n\)</span> 的子空间</td>
 <td>非零子空间</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>可逆矩阵 <span class="math inline">\(A\)</span></td>
 <td><span class="math inline">\(\mathbb{R}^n\)</span></td>
 <td><span class="math inline">\(\{\mathbf{0}\}\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>奇异矩阵 <span class="math inline">\(A\)</span></td>
 <td>维数 &lt; <span class="math inline">\(n\)</span></td>
 <td>非零子空间</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>对称矩阵 <span class="math inline">\(A\)</span></td>
 <td><span class="math inline">\(\text{Col}(A) =
 \text{Row}(A)\)</span></td>
@@ -964,33 +970,33 @@ id="第七章知识脉络三叉戟在线性代数中的地位">第七章：知�
 <col style="width: 77%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>概念</th>
 <th>与”三叉戟”的关系</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>行列式</td>
 <td><span class="math inline">\(\det(A) = 0 \iff \text{Null}(A) \neq
 \{\mathbf{0}\}\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>逆矩阵</td>
 <td><span class="math inline">\(A\)</span> 可逆 <span
 class="math inline">\(\iff \text{Col}(A) = \mathbb{R}^n \iff
 \text{Null}(A) = \{\mathbf{0}\}\)</span></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>特征值</td>
 <td><span class="math inline">\(\lambda = 0\)</span> 的重数 = <span
 class="math inline">\(\text{nullity}(A)\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>条件数</td>
 <td>与列空间和零空间的”取向”有关</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>最小二乘</td>
 <td>投影到列空间的最佳近似</td>
 </tr>
@@ -999,29 +1005,29 @@ class="math inline">\(\text{nullity}(A)\)</span></td>
 <h3 id="三叉戟的超能力">7.3 “三叉戟”的”超能力”</h3>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>应用领域</th>
 <th>“三叉戟”的作用</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>工程</td>
 <td>分析电路网络、结构力学</td>
 </tr>
-<tr>
+<tr class="even">
 <td>物理</td>
 <td>量子力学的态空间分析</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>计算机</td>
 <td>图像压缩（SVD）、网络流</td>
 </tr>
-<tr>
+<tr class="even">
 <td>统计</td>
 <td>回归分析、主成分分析</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>经济</td>
 <td>投入产出模型、均衡分析</td>
 </tr>
@@ -1038,25 +1044,25 @@ id="总结为什么列空间零空间和零-秩定理是统一框架">总结：�
 <col style="width: 50%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>概念</th>
 <th>本质</th>
 <th>回答的问题</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>列空间</strong></td>
 <td><span class="math inline">\(A\mathbf{x}\)</span> 的所有可能输出</td>
 <td><strong>b 能到达吗？</strong>（解的存在性）</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>零空间</strong></td>
 <td><span class="math inline">\(A\mathbf{x} = \mathbf{0}\)</span>
 的解集</td>
 <td><strong>有多少种走法？</strong>（解的结构）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>零-秩定理</strong></td>
 <td>rank + nullity = n</td>
 <td><strong>两者有何联系？</strong>（维度守恒）</td>
@@ -1082,29 +1088,29 @@ id="总结为什么列空间零空间和零-秩定理是统一框架">总结：�
 <h2 id="延伸阅读">延伸阅读</h2>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>主题</th>
 <th>推荐深入内容</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>四个基本子空间</td>
 <td>Gilbert Strang, “Introduction to Linear Algebra”</td>
 </tr>
-<tr>
+<tr class="even">
 <td>SVD与子空间</td>
 <td>“Matrix Computations” by Golub &amp; Van Loan</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>线性变换的几何意义</td>
 <td>3Blue1Brown的线性代数视频</td>
 </tr>
-<tr>
+<tr class="even">
 <td>最小二乘法与投影</td>
 <td>正规方程组的几何推导</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>泛函分析中的子空间</td>
 <td>希尔伯特空间的闭子空间理论</td>
 </tr>
@@ -1200,18 +1206,18 @@ id="总结为什么列空间零空间和零-秩定理是统一框架">总结：�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-count">91</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

@@ -28,7 +28,7 @@
 <meta property="og:description" content="OpenDDS QoS 策略完整指南 概述 Quality of Service (QoS) 策略是 OpenDDS 中控制实体行为的关键机制。本指南基于 OpenDDS 官方文档和源代码分析，提供完整的 QoS 策略分类、适用性分析和配置指南。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-28T04:51:06.000Z">
-<meta property="article:modified_time" content="2026-02-21T03:52:17.620Z">
+<meta property="article:modified_time" content="2026-03-15T18:29:29.449Z">
 <meta property="article:author" content="Stone">
 <meta property="article:tag" content="OpenDDS">
 <meta name="twitter:card" content="summary">
@@ -193,7 +193,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-02-21 11:52:17" itemprop="dateModified" datetime="2026-02-21T11:52:17+08:00">2026-02-21</time>
+                <time title="修改时间：2026-03-16 02:29:29" itemprop="dateModified" datetime="2026-03-16T02:29:29+08:00">2026-03-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -251,7 +251,7 @@
 <col style="width: 17%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>策略名称</th>
 <th>适用实体</th>
 <th>默认值</th>
@@ -261,7 +261,7 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>Reliability QoS</strong></td>
 <td>Topic, DataWriter, DataReader</td>
 <td>DataWriter: RELIABLE<br>其他: BEST_EFFORT</td>
@@ -269,7 +269,7 @@
 <td>影响关联</td>
 <td>控制数据传输的可靠性（尽力而为 vs 可靠）</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>History QoS</strong></td>
 <td>Topic, DataWriter, DataReader</td>
 <td>KEEP_LAST, depth=1</td>
@@ -277,7 +277,7 @@
 <td>不影响关联</td>
 <td>控制实例历史记录的保留策略</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Resource Limits QoS</strong></td>
 <td>Topic, DataWriter, DataReader</td>
 <td>无限制</td>
@@ -298,7 +298,7 @@
 <col style="width: 17%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>策略名称</th>
 <th>适用实体</th>
 <th>默认值</th>
@@ -308,7 +308,7 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>Deadline QoS</strong></td>
 <td>Topic, DataWriter, DataReader</td>
 <td>无限期</td>
@@ -316,7 +316,7 @@
 <td>影响关联</td>
 <td>设置数据发布/订阅的截止期限</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Latency Budget QoS</strong></td>
 <td>Topic, DataWriter, DataReader</td>
 <td>零延迟</td>
@@ -324,7 +324,7 @@
 <td>影响关联</td>
 <td>指定延迟预算，用于监控目的</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Transport Priority QoS</strong></td>
 <td>Topic, DataWriter</td>
 <td>0</td>
@@ -332,7 +332,7 @@
 <td>不影响关联</td>
 <td>控制传输优先级（线程和 DiffServ）</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Time Based Filter QoS</strong></td>
 <td>DataReader</td>
 <td>零间隔</td>
@@ -353,7 +353,7 @@
 <col style="width: 17%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>策略名称</th>
 <th>适用实体</th>
 <th>默认值</th>
@@ -363,7 +363,7 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>Durability QoS</strong></td>
 <td>Topic, DataWriter, DataReader</td>
 <td>VOLATILE</td>
@@ -371,7 +371,7 @@
 <td>影响关联</td>
 <td>控制数据的持久性级别</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Durability Service QoS</strong></td>
 <td>Topic, DataWriter</td>
 <td>零清理延迟</td>
@@ -379,7 +379,7 @@
 <td>不影响关联</td>
 <td>配置持久性服务的缓存参数</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Lifespan QoS</strong></td>
 <td>Topic, DataWriter</td>
 <td>无限期</td>
@@ -400,7 +400,7 @@
 <col style="width: 17%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>策略名称</th>
 <th>适用实体</th>
 <th>默认值</th>
@@ -410,7 +410,7 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>Liveliness QoS</strong></td>
 <td>Topic, DataWriter, DataReader</td>
 <td>AUTOMATIC, 无限期</td>
@@ -418,7 +418,7 @@
 <td>影响关联</td>
 <td>控制活跃性检测机制</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Partition QoS</strong></td>
 <td>Publisher, Subscriber</td>
 <td>空序列</td>
@@ -426,7 +426,7 @@
 <td>影响关联</td>
 <td>创建逻辑分区进行隔离</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Ownership QoS</strong></td>
 <td>Topic, DataWriter, DataReader</td>
 <td>SHARED</td>
@@ -434,7 +434,7 @@
 <td>影响关联</td>
 <td>控制实例的所有权模式</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Ownership Strength QoS</strong></td>
 <td>DataWriter</td>
 <td>0</td>
@@ -455,7 +455,7 @@
 <col style="width: 17%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>策略名称</th>
 <th>适用实体</th>
 <th>默认值</th>
@@ -465,7 +465,7 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>Destination Order QoS</strong></td>
 <td>Topic, DataWriter, DataReader</td>
 <td>BY_RECEPTION_TIMESTAMP</td>
@@ -473,7 +473,7 @@
 <td>影响关联</td>
 <td>控制样本的排序方式</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Presentation QoS</strong></td>
 <td>Publisher, Subscriber</td>
 <td>INSTANCE, false, false</td>
@@ -481,7 +481,7 @@
 <td>影响关联</td>
 <td>控制数据表示的顺序和范围</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Writer Data Lifecycle QoS</strong></td>
 <td>DataWriter</td>
 <td>true</td>
@@ -489,7 +489,7 @@
 <td>不影响关联</td>
 <td>控制写入器实例的生命周期</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Reader Data Lifecycle QoS</strong></td>
 <td>DataReader</td>
 <td>无限期</td>
@@ -510,7 +510,7 @@
 <col style="width: 17%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>策略名称</th>
 <th>适用实体</th>
 <th>默认值</th>
@@ -520,7 +520,7 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>User Data QoS</strong></td>
 <td>DomainParticipant, DataWriter, DataReader</td>
 <td>空序列</td>
@@ -528,7 +528,7 @@
 <td>不影响关联</td>
 <td>附加用户自定义数据到实体</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Topic Data QoS</strong></td>
 <td>Topic</td>
 <td>空序列</td>
@@ -536,7 +536,7 @@
 <td>不影响关联</td>
 <td>附加用户自定义数据到主题</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Group Data QoS</strong></td>
 <td>Publisher, Subscriber</td>
 <td>空序列</td>
@@ -557,7 +557,7 @@
 <col style="width: 17%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>策略名称</th>
 <th>适用实体</th>
 <th>默认值</th>
@@ -567,7 +567,7 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>Entity Factory QoS</strong></td>
 <td>DomainParticipantFactory, DomainParticipant, Publisher,
 Subscriber</td>
@@ -576,7 +576,7 @@ Subscriber</td>
 <td>不影响关联</td>
 <td>控制实体创建时是否自动启用</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Property QoS</strong></td>
 <td>DomainParticipant</td>
 <td>空序列</td>
@@ -597,7 +597,7 @@ Subscriber</td>
 <col style="width: 17%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>策略名称</th>
 <th>适用实体</th>
 <th>默认值</th>
@@ -607,7 +607,7 @@ Subscriber</td>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>Data Representation QoS</strong></td>
 <td>DataWriter, DataReader</td>
 <td>传输相关</td>
@@ -615,7 +615,7 @@ Subscriber</td>
 <td>影响关联</td>
 <td>定义数据编码表示方式</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Type Consistency Enforcement QoS</strong></td>
 <td>DataReader</td>
 <td>ALLOW_TYPE_COERCION</td>
@@ -637,7 +637,7 @@ Subscriber</td>
 <col style="width: 14%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>QoS 策略</th>
 <th>DomainParticipant</th>
 <th>Publisher</th>
@@ -648,7 +648,7 @@ Subscriber</td>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>User Data</td>
 <td>✓</td>
 <td></td>
@@ -657,7 +657,7 @@ Subscriber</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Group Data</td>
 <td></td>
 <td>✓</td>
@@ -666,7 +666,7 @@ Subscriber</td>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Topic Data</td>
 <td></td>
 <td></td>
@@ -675,7 +675,7 @@ Subscriber</td>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td>Partition</td>
 <td></td>
 <td>✓</td>
@@ -684,7 +684,7 @@ Subscriber</td>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Durability</td>
 <td></td>
 <td></td>
@@ -693,7 +693,7 @@ Subscriber</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Durability Service</td>
 <td></td>
 <td></td>
@@ -702,7 +702,7 @@ Subscriber</td>
 <td>✓</td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Deadline</td>
 <td></td>
 <td></td>
@@ -711,7 +711,7 @@ Subscriber</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Latency Budget</td>
 <td></td>
 <td></td>
@@ -720,7 +720,7 @@ Subscriber</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Liveliness</td>
 <td></td>
 <td></td>
@@ -729,7 +729,7 @@ Subscriber</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Reliability</td>
 <td></td>
 <td></td>
@@ -738,7 +738,7 @@ Subscriber</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Destination Order</td>
 <td></td>
 <td></td>
@@ -747,7 +747,7 @@ Subscriber</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="even">
 <td>History</td>
 <td></td>
 <td></td>
@@ -756,7 +756,7 @@ Subscriber</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Resource Limits</td>
 <td></td>
 <td></td>
@@ -765,7 +765,7 @@ Subscriber</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Transport Priority</td>
 <td></td>
 <td></td>
@@ -774,7 +774,7 @@ Subscriber</td>
 <td>✓</td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Lifespan</td>
 <td></td>
 <td></td>
@@ -783,7 +783,7 @@ Subscriber</td>
 <td>✓</td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td>Ownership</td>
 <td></td>
 <td></td>
@@ -792,7 +792,7 @@ Subscriber</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Ownership Strength</td>
 <td></td>
 <td></td>
@@ -801,7 +801,7 @@ Subscriber</td>
 <td>✓</td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td>Presentation</td>
 <td></td>
 <td>✓</td>
@@ -810,7 +810,7 @@ Subscriber</td>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Time Based Filter</td>
 <td></td>
 <td></td>
@@ -819,7 +819,7 @@ Subscriber</td>
 <td></td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Writer Data Lifecycle</td>
 <td></td>
 <td></td>
@@ -828,7 +828,7 @@ Subscriber</td>
 <td>✓</td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Reader Data Lifecycle</td>
 <td></td>
 <td></td>
@@ -837,7 +837,7 @@ Subscriber</td>
 <td></td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Entity Factory</td>
 <td>✓</td>
 <td>✓</td>
@@ -846,7 +846,7 @@ Subscriber</td>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Property</td>
 <td>✓</td>
 <td></td>
@@ -855,7 +855,7 @@ Subscriber</td>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td>Data Representation</td>
 <td></td>
 <td></td>
@@ -864,7 +864,7 @@ Subscriber</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Type Consistency Enforcement</td>
 <td></td>
 <td></td>
@@ -967,55 +967,55 @@ QoS 兼容性规则 - 测试故障恢复场景</p>
 <col style="width: 21%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>QoS 策略</th>
 <th>兼容性规则</th>
 <th>说明</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>Liveliness</strong></td>
 <td>Writer.kind ≥ Reader.kind<br>Writer.lease_duration ≤
 Reader.lease_duration</td>
 <td>写入器必须提供不低于读取器要求的活跃性级别</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Reliability</strong></td>
 <td>Writer.kind ≥ Reader.kind</td>
 <td>可靠读取器只能关联可靠写入器</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Durability</strong></td>
 <td>Writer.kind ≥ Reader.kind</td>
 <td>写入器必须提供不低于读取器要求的持久性级别</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Deadline</strong></td>
 <td>Reader.period ≥ Writer.period</td>
 <td>读取器截止期限必须大于等于写入器截止期限</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Latency Budget</strong></td>
 <td>Writer.duration ≥ Reader.duration</td>
 <td>写入器延迟预算必须大于等于读取器延迟预算</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Destination Order</strong></td>
 <td>Writer.kind ≥ Reader.kind</td>
 <td>写入器排序方式必须不低于读取器要求</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Ownership</strong></td>
 <td>Writer.kind == Reader.kind</td>
 <td>所有权模式必须相同</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Partition</strong></td>
 <td>至少有一个分区名称匹配</td>
 <td>使用通配符进行匹配</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Presentation</strong></td>
 <td>Writer.access_scope ≥ Reader.access_scope<br>Writer.coherent_access
 ≤ Reader.coherent_access<br>Writer.ordered_access ≤
@@ -1151,18 +1151,18 @@ QoS，可以实现：</p>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-count">91</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

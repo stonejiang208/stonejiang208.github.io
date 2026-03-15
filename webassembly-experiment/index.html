@@ -28,7 +28,7 @@
 <meta property="og:description" content="WebAssembly数学渲染实验 本页面用于测试WebAssembly加速的数学公式渲染方案，对比传统MathJax与KaTeX的性能差异。 实验目标  测试KaTeX的WebAssembly渲染性能 对比MathJax与KaTeX的加载时间 验证复杂公式的渲染质量 评估移动端兼容性  测试环境  浏览器: Chrome 120+, Firefox 115+, Safari 17+ 设备: 桌面">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-02-02T12:00:00.000Z">
-<meta property="article:modified_time" content="2026-02-02T05:57:05.099Z">
+<meta property="article:modified_time" content="2026-03-15T18:29:30.863Z">
 <meta property="article:author" content="Stone">
 <meta property="article:tag" content="WebAssembly">
 <meta property="article:tag" content="KaTeX">
@@ -238,7 +238,7 @@ mc^2\)</span></li>
 <h3 id="加载时间对比">加载时间对比</h3>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>公式数量</th>
 <th>MathJax (ms)</th>
 <th>KaTeX (ms)</th>
@@ -246,19 +246,19 @@ mc^2\)</span></li>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>10个简单公式</td>
 <td>1200</td>
 <td>350</td>
 <td>70%</td>
 </tr>
-<tr>
+<tr class="even">
 <td>50个混合公式</td>
 <td>2800</td>
 <td>650</td>
 <td>77%</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>100个复杂公式</td>
 <td>4500</td>
 <td>1200</td>
@@ -269,24 +269,24 @@ mc^2\)</span></li>
 <h3 id="内存使用对比">内存使用对比</h3>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>指标</th>
 <th>MathJax</th>
 <th>KaTeX</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>初始内存</td>
 <td>15MB</td>
 <td>8MB</td>
 </tr>
-<tr>
+<tr class="even">
 <td>渲染后内存</td>
 <td>25MB</td>
 <td>12MB</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>GPU使用</td>
 <td>中等</td>
 <td>低</td>
@@ -297,39 +297,39 @@ mc^2\)</span></li>
 <h3 id="浏览器支持">浏览器支持</h3>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>浏览器</th>
 <th>MathJax</th>
 <th>KaTeX</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Chrome 120+</td>
 <td>✅</td>
 <td>✅</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Firefox 115+</td>
 <td>✅</td>
 <td>✅</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Safari 17+</td>
 <td>✅</td>
 <td>✅</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Edge 120+</td>
 <td>✅</td>
 <td>✅</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>移动端Chrome</td>
 <td>✅</td>
 <td>✅</td>
 </tr>
-<tr>
+<tr class="even">
 <td>移动端Safari</td>
 <td>✅</td>
 <td>✅</td>
@@ -480,18 +480,18 @@ WebAssembly</strong>方案在性能方面具有明显优势：</p>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-count">91</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

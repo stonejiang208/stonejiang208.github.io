@@ -28,7 +28,7 @@
 <meta property="og:description" content="“伴随等于逆”：矩阵世界中最优雅的承诺  在矩阵的众多性质中，有一个承诺堪称”完美”——它说：“我既不放大也不缩小，既不扭曲也不变形，我只是换个角度看世界。”  这个承诺，就是酉矩阵（复）或正交矩阵（实）的核心性质： \[\mathbf{U}^H \mathbf{U} &#x3D; \mathbf{I} \quad \text{或} \quad \mathbf{Q}^T \mathbf{Q} &#x3D; \math">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-02-09T04:59:00.000Z">
-<meta property="article:modified_time" content="2026-02-10T05:12:51.665Z">
+<meta property="article:modified_time" content="2026-03-15T18:29:30.020Z">
 <meta property="article:author" content="Stone">
 <meta property="article:tag" content="数学">
 <meta property="article:tag" content="线性代数">
@@ -196,7 +196,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-02-10 13:12:51" itemprop="dateModified" datetime="2026-02-10T13:12:51+08:00">2026-02-10</time>
+                <time title="修改时间：2026-03-16 02:29:30" itemprop="dateModified" datetime="2026-03-16T02:29:30+08:00">2026-03-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -273,33 +273,33 @@ class="math inline">\(\mathbf{Q}\)</span>
 <col style="width: 33%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>变换类型</th>
 <th>是否保持</th>
 <th>正交矩阵</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>长度</td>
 <td>✅ 完全保持</td>
 <td><span class="math inline">\(\|\mathbf{Q}\mathbf{v}\| =
 \|\mathbf{v}\|\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>角度</td>
 <td>✅ 完全保持</td>
 <td><span class="math inline">\(\langle\mathbf{Q}\mathbf{u},
 \mathbf{Q}\mathbf{v}\rangle = \langle\mathbf{u},
 \mathbf{v}\rangle\)</span></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>距离</td>
 <td>✅ 完全保持</td>
 <td><span class="math inline">\(d(\mathbf{Q}\mathbf{u},
 \mathbf{Q}\mathbf{v}) = d(\mathbf{u}, \mathbf{v})\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>体积</td>
 <td>✅ 保持绝对值</td>
 <td><span class="math inline">\(\det(\mathbf{Q}) = \pm 1\)</span></td>
@@ -320,30 +320,30 @@ class="math inline">\(\mathbf{Q}\)</span>
 <col style="width: 45%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>类型</th>
 <th>定义</th>
 <th>几何意义</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>旋转矩阵</td>
 <td><span class="math inline">\(\det(\mathbf{Q}) = +1\)</span></td>
 <td>纯旋转，保持手性</td>
 </tr>
-<tr>
+<tr class="even">
 <td>反射矩阵</td>
 <td><span class="math inline">\(\det(\mathbf{Q}) = -1\)</span></td>
 <td>镜像翻转，改变手性</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Householder</td>
 <td><span class="math inline">\(\mathbf{H} = \mathbf{I} -
 2\mathbf{u}\mathbf{u}^T\)</span></td>
 <td>镜面反射</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Givens</td>
 <td>2×2旋转的扩展</td>
 <td>逐元素旋转</td>
@@ -368,31 +368,31 @@ id="第二章酉矩阵复数世界中的完美变换">第二章：酉矩阵—�
 <col style="width: 36%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>概念</th>
 <th>实数域</th>
 <th>复数域</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>矩阵名称</td>
 <td>正交矩阵</td>
 <td>酉矩阵</td>
 </tr>
-<tr>
+<tr class="even">
 <td>记号</td>
 <td><span class="math inline">\(\mathbf{Q}^T\)</span></td>
 <td><span class="math inline">\(\mathbf{U}^H\)</span></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>定义方程</td>
 <td><span class="math inline">\(\mathbf{Q}^T \mathbf{Q} =
 \mathbf{I}\)</span></td>
 <td><span class="math inline">\(\mathbf{U}^H \mathbf{U} =
 \mathbf{I}\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>核心操作</td>
 <td>转置</td>
 <td>共轭转置</td>
@@ -493,24 +493,24 @@ class="math display">\[\mathbf{U}^{-1} = \mathbf{U}^H\]</span></p>
 <p><strong>📊 对比表</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>操作</th>
 <th>普通矩阵</th>
 <th>酉/正交矩阵</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>求逆</td>
 <td>复杂、可能不稳定</td>
 <td>只需转置/共轭转置，稳定</td>
 </tr>
-<tr>
+<tr class="even">
 <td>条件数</td>
 <td>可能很大</td>
 <td>永远是1</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>分解</td>
 <td>可能数值困难</td>
 <td>稳定、快速</td>
@@ -540,29 +540,29 @@ class="math inline">\(\kappa(\mathbf{A})^2\)</span>，但用QR分解直接解决
 <p><strong>📐 QR分解的两种实现</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>方法</th>
 <th>特点</th>
 <th>正交性保证</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Gram-Schmidt</td>
 <td>直观，但数值不稳定</td>
 <td>理论上正交</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Modified Gram-Schmidt</td>
 <td>稍微改善</td>
 <td>近似正交</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Householder</td>
 <td>数值稳定，<span class="math inline">\(O(n^2)\)</span></td>
 <td>精确正交</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Givens旋转</td>
 <td>稀疏矩阵友好，<span class="math inline">\(O(n^2)\)</span></td>
 <td>精确正交</td>
@@ -655,22 +655,22 @@ class="math display">\[|\psi(t)\rangle =
 <p><strong>🔑 量子力学中的酉性</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>要求</th>
 <th>为什么需要酉性？</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>概率守恒</td>
 <td><span class="math inline">\(\langle\psi|\psi\rangle = 1\)</span>
 必须保持</td>
 </tr>
-<tr>
+<tr class="even">
 <td>幺正性</td>
 <td>信息不丢失，可逆演化</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>可观测量的埃尔米特性</td>
 <td><span class="math inline">\(\langle\psi|\hat{A}|\psi\rangle\)</span>
 为实数</td>
@@ -707,29 +707,29 @@ class="math inline">\(\sum|x_i|^2 = \sum|X_i|^2\)</span></li>
 <p><strong>3D旋转矩阵</strong>都是正交矩阵！</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>旋转轴</th>
 <th>矩阵类型</th>
 <th>行列式</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>X轴旋转</td>
 <td>正交矩阵</td>
 <td>+1</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Y轴旋转</td>
 <td>正交矩阵</td>
 <td>+1</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Z轴旋转</td>
 <td>正交矩阵</td>
 <td>+1</td>
 </tr>
-<tr>
+<tr class="even">
 <td>镜像</td>
 <td>正交矩阵</td>
 <td>-1</td>
@@ -760,25 +760,25 @@ class="math inline">\(\mathbf{V}\)</span>
 <p><strong>🎯 PCA中正交性的作用</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>好处</th>
 <th>解释</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>去相关</td>
 <td>变换后的变量协方差为对角矩阵</td>
 </tr>
-<tr>
+<tr class="even">
 <td>最大方差</td>
 <td>第一主成分是方差最大的方向</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>最小重构误差</td>
 <td>低维投影的误差最小</td>
 </tr>
-<tr>
+<tr class="even">
 <td>数值稳定</td>
 <td>正交变换不放大噪声</td>
 </tr>
@@ -791,34 +791,34 @@ class="math inline">\(\mathbf{V}\)</span>
 <p><strong>🎯 几乎所有稳定的线性代数算法都依赖正交/酉矩阵</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>算法</th>
 <th>正交/酉部分</th>
 <th>稳定性贡献</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>QR分解</td>
 <td>Q矩阵</td>
 <td>条件数不恶化</td>
 </tr>
-<tr>
+<tr class="even">
 <td>最小二乘</td>
 <td>Q矩阵</td>
 <td>避免正规方程的数值问题</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>约化到Hessenberg</td>
 <td>Householder</td>
 <td>减少后续计算的复杂度</td>
 </tr>
-<tr>
+<tr class="even">
 <td>特征值算法</td>
 <td>酉相似变换</td>
 <td>QR算法稳定的基础</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>SVD</td>
 <td>U, V矩阵</td>
 <td>最佳低秩近似的保证</td>
@@ -837,39 +837,39 @@ id="第六章知识脉络从伴随等于逆看线性代数的统一性">第六�
 <h3 id="与其他重要矩阵的关系">6.2 与其他重要矩阵的关系</h3>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>矩阵类型</th>
 <th>定义</th>
 <th>与正交/酉的关系</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>正交矩阵</td>
 <td><span class="math inline">\(Q^T Q = I\)</span></td>
 <td>本身</td>
 </tr>
-<tr>
+<tr class="even">
 <td>酉矩阵</td>
 <td><span class="math inline">\(U^H U = I\)</span></td>
 <td>复数推广</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>对称矩阵</td>
 <td><span class="math inline">\(A^T = A\)</span></td>
 <td>若正交 → 对角（谱定理）</td>
 </tr>
-<tr>
+<tr class="even">
 <td>埃尔米特矩阵</td>
 <td><span class="math inline">\(A^H = A\)</span></td>
 <td>若酉相似 → 实对角</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>正规矩阵</td>
 <td><span class="math inline">\(A^H A = A A^H\)</span></td>
 <td>酉可对角化</td>
 </tr>
-<tr>
+<tr class="even">
 <td>旋转矩阵</td>
 <td>行列式为+1的正交矩阵</td>
 <td>正交矩阵的子集</td>
@@ -879,34 +879,34 @@ id="第六章知识脉络从伴随等于逆看线性代数的统一性">第六�
 <h3 id="矩阵性格的对比">6.3 矩阵”性格”的对比</h3>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>矩阵类型</th>
 <th>“性格”</th>
 <th>对向量的作用</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>正交/酉</td>
 <td>“完美主义者”</td>
 <td>只旋转/反射，保持一切度量</td>
 </tr>
-<tr>
+<tr class="even">
 <td>对称/埃尔米特</td>
 <td>“诚实者”</td>
 <td>特征值全为实数，可正交对角化</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>正规矩阵</td>
 <td>“平衡者”</td>
 <td>可酉对角化</td>
 </tr>
-<tr>
+<tr class="even">
 <td>幂等矩阵</td>
 <td>“知足者”</td>
 <td><span class="math inline">\(P^2 = P\)</span>（投影）</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>幂零矩阵</td>
 <td>“虚无者”</td>
 <td><span class="math inline">\(N^k = 0\)</span>（最终消失）</td>
@@ -925,31 +925,31 @@ id="第七章深入理解从代数到几何的跨越">第七章：深入理解�
 <col style="width: 37%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>实数</th>
 <th>复数</th>
 <th>矩阵</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>模为1的复数：<span class="math inline">\(e^{i\theta}\)</span></td>
 <td>酉矩阵：<span class="math inline">\(\mathbf{U}\)</span></td>
 <td><span class="math inline">\(\mathbf{U}^H \mathbf{U} =
 I\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>乘法：<span class="math inline">\(z_1 z_2\)</span></td>
 <td>矩阵乘法：<span class="math inline">\(\mathbf{U}_1
 \mathbf{U}_2\)</span></td>
 <td>仍是酉矩阵</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>共轭：<span class="math inline">\(\bar{z}\)</span></td>
 <td>共轭转置：<span class="math inline">\(\mathbf{U}^H\)</span></td>
 <td>逆矩阵</td>
 </tr>
-<tr>
+<tr class="even">
 <td>辐角：<span class="math inline">\(\theta\)</span></td>
 <td>特征值：<span class="math inline">\(e^{i\theta_j}\)</span></td>
 <td>旋转角度</td>
@@ -963,7 +963,7 @@ class="math inline">\(U(n)\)</span></h3>
 <p><strong>🎭 正交群与酉群</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>群</th>
 <th>定义</th>
 <th>维度</th>
@@ -971,25 +971,25 @@ class="math inline">\(U(n)\)</span></h3>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><span class="math inline">\(O(n)\)</span></td>
 <td><span class="math inline">\(n \times n\)</span> 正交矩阵</td>
 <td><span class="math inline">\(n(n-1)/2\)</span></td>
 <td>不连通（det = ±1）</td>
 </tr>
-<tr>
+<tr class="even">
 <td><span class="math inline">\(SO(n)\)</span></td>
 <td>行列式为+1的正交矩阵</td>
 <td><span class="math inline">\(n(n-1)/2\)</span></td>
 <td>连通</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><span class="math inline">\(U(n)\)</span></td>
 <td><span class="math inline">\(n \times n\)</span> 酉矩阵</td>
 <td><span class="math inline">\(n^2\)</span></td>
 <td>连通</td>
 </tr>
-<tr>
+<tr class="even">
 <td><span class="math inline">\(SU(n)\)</span></td>
 <td>行列式为1的酉矩阵</td>
 <td><span class="math inline">\(n^2-1\)</span></td>
@@ -1011,38 +1011,38 @@ class="math inline">\(U(n)\)</span></h3>
 <col style="width: 36%" />
 </colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>量子门</th>
 <th>矩阵形式</th>
 <th>酉性验证</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Hadamard</td>
 <td><span class="math inline">\(H =
 \frac{1}{\sqrt{2}}\begin{pmatrix}1&amp;1\\1&amp;-1\end{pmatrix}\)</span></td>
 <td><span class="math inline">\(H^H H = I\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>Pauli-X</td>
 <td><span
 class="math inline">\(\begin{pmatrix}0&amp;1\\1&amp;0\end{pmatrix}\)</span></td>
 <td><span class="math inline">\(X^H X = I\)</span></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Pauli-Y</td>
 <td><span
 class="math inline">\(\begin{pmatrix}0&amp;-i\\i&amp;0\end{pmatrix}\)</span></td>
 <td><span class="math inline">\(Y^H Y = I\)</span></td>
 </tr>
-<tr>
+<tr class="even">
 <td>Pauli-Z</td>
 <td><span
 class="math inline">\(\begin{pmatrix}1&amp;0\\0&amp;-1\end{pmatrix}\)</span></td>
 <td><span class="math inline">\(Z^H Z = I\)</span></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>CNOT</td>
 <td>4×4矩阵</td>
 <td><span class="math inline">\(CNOT^H CNOT = I\)</span></td>
@@ -1069,19 +1069,19 @@ I\)</span>），但它是<strong>反射</strong>而非旋转！</p>
 <p><strong>📊 区分</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>类型</th>
 <th>行列式</th>
 <th>保持手性</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>旋转</td>
 <td>+1</td>
 <td>✅ 是</td>
 </tr>
-<tr>
+<tr class="even">
 <td>反射</td>
 <td>-1</td>
 <td>❌ 否</td>
@@ -1131,39 +1131,39 @@ id="第九章实践指南如何在实际工作中使用正交酉矩阵">第九�
 <p><strong>🎯 不同场景的正交化方法选择</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>场景</th>
 <th>推荐方法</th>
 <th>原因</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>稠密矩阵QR</td>
 <td>Householder</td>
 <td><span class="math inline">\(O(n^2)\)</span>，数值稳定</td>
 </tr>
-<tr>
+<tr class="even">
 <td>稀疏矩阵QR</td>
 <td>Givens旋转</td>
 <td>保持稀疏性</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>最小二乘</td>
 <td>QR分解</td>
 <td>比正规方程更稳定</td>
 </tr>
-<tr>
+<tr class="even">
 <td>特征值问题</td>
 <td>约化到Hessenberg</td>
 <td>减少复杂度</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>实时系统</td>
 <td>Givens旋转</td>
 <td>可增量更新</td>
 </tr>
-<tr>
+<tr class="even">
 <td>并行计算</td>
 <td>Householder</td>
 <td>向量化友好</td>
@@ -1180,37 +1180,37 @@ id="总结为什么伴随等于逆如此强大">总结：为什么”伴随等�
 <h3 id="核心要点回顾">🎯 核心要点回顾</h3>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>方面</th>
 <th>“伴随等于逆”带来的好处</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>理论</strong></td>
 <td>保持内积、长度、角度、距离</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>几何</strong></td>
 <td>刚性变换，不扭曲形状</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>代数</strong></td>
 <td>谱定理、矩阵分解的基础</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>数值</strong></td>
 <td>条件数=1，误差不放大</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>计算</strong></td>
 <td>逆矩阵”免费获取”，只需转置</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>物理</strong></td>
 <td>量子演化的基本要求</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>工程</strong></td>
 <td>稳定、高效、可逆的算法基础</td>
 </tr>
@@ -1232,29 +1232,29 @@ class="math inline">\(\mathbf{U}\)</span>，承诺： - 不放大任何向量 -
 <h2 id="延伸阅读建议">延伸阅读建议</h2>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>主题</th>
 <th>推荐深入内容</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>数值线性代数</td>
 <td>Golub &amp; Van Loan, “Matrix Computations”</td>
 </tr>
-<tr>
+<tr class="even">
 <td>矩阵分析</td>
 <td>Horn &amp; Johnson, “Matrix Analysis”</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>量子计算</td>
 <td>Nielsen &amp; Chuang, “Quantum Computation”</td>
 </tr>
-<tr>
+<tr class="even">
 <td>李群与李代数</td>
 <td>Hall, “Lie Groups, Lie Algebras”</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>信号处理</td>
 <td>Oppenheim, “Discrete-Time Signal Processing”</td>
 </tr>
@@ -1357,18 +1357,18 @@ SVD分解：正交矩阵的”超级英雄”</span></a></li></ol></li><li class
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-count">91</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
