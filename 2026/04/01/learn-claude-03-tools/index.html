@@ -20,21 +20,21 @@
     var CONFIG = {"hostname":"blog.tao-studio.net","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"author":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="从头学 Claude Code（三）—— 看看它的工具箱  本系列适合零基础新手，手把手带你掌握 AI 编程助手   上节回顾 上一讲我们把 Claude Code 这位”编程实习生”请进了门。这一讲，我们来熟悉它的工具箱。 就像你的实习生有一堆趁手的工具，Claude Code 也有它的”十八般武艺”。  1. 先知道怎么”叫它来” 交互模式 vs 非交互模式 12345678# 方式一：叫到身">
+  <meta name="description" content="Claude Code 有八大核心工具：Glob（找文件）、Grep（搜内容）、Read（读文件）、Edit（改代码）、Write（写文件）、Bash（跑命令）、WebSearch（搜索）、WebFetch（抓网页）。这些工具就是它的&quot;手&quot;和&quot;眼睛&quot;。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从头学 Claude Code（三）它的工具箱里有什么？">
 <meta property="og:url" content="http://blog.tao-studio.net/2026/04/01/learn-claude-03-tools/index.html">
 <meta property="og:site_name" content="Stone&#39;s Blog">
-<meta property="og:description" content="从头学 Claude Code（三）—— 看看它的工具箱  本系列适合零基础新手，手把手带你掌握 AI 编程助手   上节回顾 上一讲我们把 Claude Code 这位”编程实习生”请进了门。这一讲，我们来熟悉它的工具箱。 就像你的实习生有一堆趁手的工具，Claude Code 也有它的”十八般武艺”。  1. 先知道怎么”叫它来” 交互模式 vs 非交互模式 12345678# 方式一：叫到身">
+<meta property="og:description" content="Claude Code 有八大核心工具：Glob（找文件）、Grep（搜内容）、Read（读文件）、Edit（改代码）、Write（写文件）、Bash（跑命令）、WebSearch（搜索）、WebFetch（抓网页）。这些工具就是它的&quot;手&quot;和&quot;眼睛&quot;。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-04-01T05:30:00.000Z">
-<meta property="article:modified_time" content="2026-04-01T08:53:40.776Z">
+<meta property="article:modified_time" content="2026-04-01T09:51:48.626Z">
 <meta property="article:author" content="Stone">
 <meta property="article:tag" content="AI">
-<meta property="article:tag" content="工具">
 <meta property="article:tag" content="Claude Code">
 <meta property="article:tag" content="编程助手">
 <meta property="article:tag" content="教程">
+<meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://blog.tao-studio.net/2026/04/01/learn-claude-03-tools/">
@@ -191,7 +191,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2026-04-01 13:30:00 / 修改时间：16:53:40" itemprop="dateCreated datePublished" datetime="2026-04-01T13:30:00+08:00">2026-04-01</time>
+              <time title="创建时间：2026-04-01 13:30:00 / 修改时间：17:51:48" itemprop="dateCreated datePublished" datetime="2026-04-01T13:30:00+08:00">2026-04-01</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -226,6 +226,7 @@
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>3 分钟</span>
             </span>
+            <div class="post-description">Claude Code 有八大核心工具：Glob（找文件）、Grep（搜内容）、Read（读文件）、Edit（改代码）、Write（写文件）、Bash（跑命令）、WebSearch（搜索）、WebFetch（抓网页）。这些工具就是它的"手"和"眼睛"。</div>
 
         </div>
       </header>
@@ -242,6 +243,7 @@
 <p>本系列适合零基础新手，手把手带你掌握 AI 编程助手</p>
 </blockquote>
 <hr />
+<span id="more"></span>
 <h2 id="上节回顾">上节回顾</h2>
 <p>上一讲我们把 Claude Code
 这位”编程实习生”请进了门。这一讲，我们来熟悉它的<strong>工具箱</strong>。</p>
@@ -479,10 +481,10 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/AI/" rel="tag"># AI</a>
-              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
               <a href="/tags/Claude-Code/" rel="tag"># Claude Code</a>
               <a href="/tags/%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B/" rel="tag"># 编程助手</a>
               <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
           </div>
 
         
