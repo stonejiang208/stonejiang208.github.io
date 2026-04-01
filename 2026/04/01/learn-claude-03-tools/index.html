@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.tao-studio.net","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"author":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="从头学 Claude Code（三）—— 看看它的工具箱  本系列适合零基础新手，手把手带你掌握 AI 编程助手   上节回顾 上一讲我们把 Claude Code 这位”编程实习生”请进了门。这一讲，我们来熟悉它的工具箱。 就像你的实习生有一堆趁手的工具，Claude Code 也有它的”十八般武艺”。  1. 先知道怎么”叫它来” 交互模式 vs 非交互模式 12345678# 方式一：叫到身">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从头学 Claude Code（三）它的工具箱里有什么？">
+<meta property="og:url" content="http://blog.tao-studio.net/2026/04/01/learn-claude-03-tools/index.html">
+<meta property="og:site_name" content="Stone&#39;s Blog">
+<meta property="og:description" content="从头学 Claude Code（三）—— 看看它的工具箱  本系列适合零基础新手，手把手带你掌握 AI 编程助手   上节回顾 上一讲我们把 Claude Code 这位”编程实习生”请进了门。这一讲，我们来熟悉它的工具箱。 就像你的实习生有一堆趁手的工具，Claude Code 也有它的”十八般武艺”。  1. 先知道怎么”叫它来” 交互模式 vs 非交互模式 12345678# 方式一：叫到身">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-01T05:30:00.000Z">
+<meta property="article:modified_time" content="2026-04-01T08:53:40.776Z">
+<meta property="article:author" content="Stone">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="Claude Code">
+<meta property="article:tag" content="编程助手">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.tao-studio.net/2026/04/01/learn-claude-03-tools/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>从头学 Claude Code（三）它的工具箱里有什么？ | Stone's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Stone's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">blog.tao-studio.net</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/04/01/learn-claude-03-tools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读,编程和投资">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从头学 Claude Code（三）它的工具箱里有什么？
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-04-01 13:30:00 / 修改时间：16:53:40" itemprop="dateCreated datePublished" datetime="2026-04-01T13:30:00+08:00">2026-04-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BC%96%E7%A8%8B%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程教程</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BC%96%E7%A8%8B%E6%95%99%E7%A8%8B/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="从头学-claude-code三-看看它的工具箱">从头学 Claude Code（三）——
+看看它的工具箱</h1>
+<blockquote>
+<p>本系列适合零基础新手，手把手带你掌握 AI 编程助手</p>
+</blockquote>
+<hr />
+<h2 id="上节回顾">上节回顾</h2>
+<p>上一讲我们把 Claude Code
+这位”编程实习生”请进了门。这一讲，我们来熟悉它的<strong>工具箱</strong>。</p>
+<p>就像你的实习生有一堆趁手的工具，Claude Code
+也有它的”十八般武艺”。</p>
+<hr />
+<h2 id="先知道怎么叫它来">1. 先知道怎么”叫它来”</h2>
+<h3 id="交互模式-vs-非交互模式">交互模式 vs 非交互模式</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方式一：叫到身边细聊（交互模式）</span></span><br><span class="line">claude</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式二：布置任务让它做（一次性执行）</span></span><br><span class="line">claude --<span class="built_in">print</span> <span class="string">&quot;帮我看看这个文件有什么问题&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式三：指定它用什么&quot;脑子&quot;（选模型）</span></span><br><span class="line">claude --model claude-sonnet-4-6 --<span class="built_in">print</span> <span class="string">&quot;任务&quot;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>比喻</strong>：就像叫外卖 - <code>claude</code> =
+把厨师叫到家里做饭（交互模式） - <code>claude --print</code> =
+直接点外卖，做好送到家（非交互）</p>
+</blockquote>
+<h3 id="怎么让它走">怎么”让它走”？</h3>
+<p>在交互模式中： - <code>/exit</code> —— “好了，你可以走了” -
+<code>/clear</code> —— “清空桌子，我们重来” - <code>Ctrl + C</code> ——
+“紧急刹车！停一下！”</p>
+<hr />
+<h2 id="核心工具详解">2. 核心工具详解</h2>
+<h3 id="工具一glob-找文件">🔍 工具一：Glob —— 找文件</h3>
+<blockquote>
+<p>就像你在柜子前喊：“帮我找那个蓝色的文件夹！”</p>
+</blockquote>
+<p><strong>功能</strong>：按模式搜索文件路径</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例：在当前目录找所有 .js 文件</span></span><br><span class="line">Glob(pattern=<span class="string">&quot;**/*.js&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找 src 目录下的组件</span></span><br><span class="line">Glob(pattern=<span class="string">&quot;src/components/**/*&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>适用场景</strong>：你知道文件就在这个项目里，但不知道在哪儿。</p>
+<hr />
+<h3 id="工具二grep-搜内容">🔎 工具二：Grep —— 搜内容</h3>
+<blockquote>
+<p>就像让实习生翻遍所有书，找出提到”密码”的那几页。</p>
+</blockquote>
+<p><strong>功能</strong>：在文件中搜索特定内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例：搜索 &quot;function login&quot; 在哪些文件出现</span></span><br><span class="line">Grep(pattern=<span class="string">&quot;function login&quot;</span>, path=<span class="string">&quot;./src&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只看文件名</span></span><br><span class="line">Grep(pattern=<span class="string">&quot;TODO&quot;</span>, output_mode=<span class="string">&quot;files_with_matches&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>适用场景</strong>：你知道要找什么，但不知道在哪个文件。</p>
+<hr />
+<h3 id="工具三read-读文件">📖 工具三：Read —— 读文件</h3>
+<blockquote>
+<p>就像说：“把这个文件念给我听听。”</p>
+</blockquote>
+<p><strong>功能</strong>：读取文件内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例：读取单个文件</span></span><br><span class="line">Read(file_path=<span class="string">&quot;./src/main.js&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取指定行范围（就像翻到第10-30页）</span></span><br><span class="line">Read(file_path=<span class="string">&quot;./src/main.js&quot;</span>, offset=<span class="number">10</span>, limit=<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>适用场景</strong>：想看看某个文件里写的是什么。</p>
+<hr />
+<h3 id="工具四edit-改代码">✏️ 工具四：Edit —— 改代码</h3>
+<blockquote>
+<p>就像说：“把第三行那个 ‘old’ 改成 ‘new’。”</p>
+</blockquote>
+<p><strong>功能</strong>：精确修改文件中的特定内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Edit(</span><br><span class="line">  file_path=<span class="string">&quot;./src/main.js&quot;</span>,</span><br><span class="line">  old_string=<span class="string">&quot;const name = &#x27;old&#x27;;&quot;</span>,</span><br><span class="line">  new_string=<span class="string">&quot;const name = &#x27;new&#x27;;&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p><strong>适用场景</strong>：已知要改什么，在哪个文件，第几行。</p>
+<blockquote>
+<p>⚠️ <strong>注意</strong>：Edit
+就像”精准手术刀”，只改指定的地方，不会误伤其他内容。</p>
+</blockquote>
+<hr />
+<h3 id="工具五write-写文件">📝 工具五：Write —— 写文件</h3>
+<blockquote>
+<p>就像说：“帮我写一份新的报告。”</p>
+</blockquote>
+<p><strong>功能</strong>：创建新文件或完整重写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Write(</span><br><span class="line">  file_path=<span class="string">&quot;./src/utils/helper.js&quot;</span>,</span><br><span class="line">  content=<span class="string">&quot;export function formatDate(date) &#123; ... &#125;&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>⚠️ <strong>警告</strong>：Write
+就像”重写本”，如果文件已存在，<strong>会覆盖</strong>！使用前要想清楚。</p>
+</blockquote>
+<hr />
+<h3 id="工具六bash-跑命令">🖥️ 工具六：Bash —— 跑命令</h3>
+<blockquote>
+<p>就像说：“帮我执行一下 <code>npm install</code>。”</p>
+</blockquote>
+<p><strong>功能</strong>：运行 shell 命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例：安装 npm 依赖</span></span><br><span class="line">Bash(<span class="built_in">command</span>=<span class="string">&quot;npm install&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行测试</span></span><br><span class="line">Bash(<span class="built_in">command</span>=<span class="string">&quot;npm run test&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Git 操作</span></span><br><span class="line">Bash(<span class="built_in">command</span>=<span class="string">&quot;git status&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>适用场景</strong>：需要执行终端命令。</p>
+<hr />
+<h3 id="工具七websearch-查资料">🌐 工具七：WebSearch —— 查资料</h3>
+<blockquote>
+<p>就像说：“帮我搜一下这个问题怎么解决。”</p>
+</blockquote>
+<p><strong>功能</strong>：搜索互联网</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WebSearch(query=<span class="string">&quot;Python async await tutorial&quot;</span>)</span><br></pre></td></tr></table></figure>
+<hr />
+<h3 id="工具八webfetch-抓网页">🌐 工具八：WebFetch —— 抓网页</h3>
+<blockquote>
+<p>就像说：“把那个网页的内容抓给我看看。”</p>
+</blockquote>
+<p><strong>功能</strong>：获取特定网页内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WebFetch(url=<span class="string">&quot;https://docs.example.com/api&quot;</span>, prompt=<span class="string">&quot;提取关键信息&quot;</span>)</span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="工具选择指南什么时候用什么">3.
+工具选择指南：什么时候用什么？</h2>
+<table>
+<thead>
+<tr class="header">
+<th>场景</th>
+<th>工具</th>
+<th>比喻</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>不知道文件在哪</td>
+<td>Glob</td>
+<td>“帮我找蓝色文件夹”</td>
+</tr>
+<tr class="even">
+<td>不知道代码在哪</td>
+<td>Grep</td>
+<td>“帮我搜’登录’这个词”</td>
+</tr>
+<tr class="odd">
+<td>只想看不想改</td>
+<td>Read</td>
+<td>“把这个读给我听”</td>
+</tr>
+<tr class="even">
+<td>小改动</td>
+<td>Edit</td>
+<td>“把这一行改一下”</td>
+</tr>
+<tr class="odd">
+<td>创建新文件</td>
+<td>Write</td>
+<td>“帮我写个新文件”</td>
+</tr>
+<tr class="even">
+<td>运行命令</td>
+<td>Bash</td>
+<td>“帮我执行这个”</td>
+</tr>
+<tr class="odd">
+<td>查资料</td>
+<td>WebSearch</td>
+<td>“帮我搜一下”</td>
+</tr>
+<tr class="even">
+<td>抓网页</td>
+<td>WebFetch</td>
+<td>“把网页内容抓来”</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="进阶工具">4. 进阶工具</h2>
+<h3 id="agent-启动专家">🎯 Agent —— 启动专家</h3>
+<blockquote>
+<p>就像说：“帮我找个更专业的人来。”</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Agent(</span><br><span class="line">  description=<span class="string">&quot;代码探索&quot;</span>,</span><br><span class="line">  prompt=<span class="string">&quot;帮我分析这个项目的架构&quot;</span>,</span><br><span class="line">  subagent_type=<span class="string">&quot;Explore&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="task-系列-任务管理">📋 Task 系列 —— 任务管理</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建任务</span></span><br><span class="line">TaskCreate(subject=<span class="string">&quot;完成登录功能&quot;</span>, description=<span class="string">&quot;包含前端和后端&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看任务列表</span></span><br><span class="line">TaskList()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新任务</span></span><br><span class="line">TaskUpdate(taskId=<span class="string">&quot;1&quot;</span>, status=<span class="string">&quot;completed&quot;</span>)</span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="实操练习">5. 实操练习</h2>
+<ol type="1">
+<li><strong>找文件</strong>：用 Glob 找项目中所有 <code>.vue</code>
+文件</li>
+<li><strong>搜内容</strong>：用 Grep 搜索一个你熟悉的函数名</li>
+<li><strong>读代码</strong>：用 Read 查看任意文件的前 20 行</li>
+<li><strong>改代码</strong>：尝试用 Edit 修改一行代码</li>
+<li><strong>跑命令</strong>：用 Bash 运行 <code>ls -la</code> 命令</li>
+</ol>
+<hr />
+<h2 id="本节小结">本节小结</h2>
+<table>
+<thead>
+<tr class="header">
+<th>工具</th>
+<th>功能</th>
+<th>就像…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Glob</td>
+<td>找文件</td>
+<td>“帮我找蓝色文件夹”</td>
+</tr>
+<tr class="even">
+<td>Grep</td>
+<td>搜内容</td>
+<td>“帮我搜’登录’这个词”</td>
+</tr>
+<tr class="odd">
+<td>Read</td>
+<td>读文件</td>
+<td>“把这个念给我听”</td>
+</tr>
+<tr class="even">
+<td>Edit</td>
+<td>改代码</td>
+<td>“把这一行改一下”</td>
+</tr>
+<tr class="odd">
+<td>Write</td>
+<td>写文件</td>
+<td>“帮我写个新文件”</td>
+</tr>
+<tr class="even">
+<td>Bash</td>
+<td>跑命令</td>
+<td>“帮我执行这个”</td>
+</tr>
+<tr class="odd">
+<td>WebSearch</td>
+<td>搜索</td>
+<td>“帮我查一下”</td>
+</tr>
+<tr class="even">
+<td>WebFetch</td>
+<td>抓网页</td>
+<td>“把网页内容抓来”</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 <strong>记住</strong>：这些工具就是 Claude Code
+的”手”和”眼睛”，它通过这些工具来帮你干活。</p>
+</blockquote>
+<hr />
+<h2 id="下节预告">下节预告</h2>
+<blockquote>
+<p>下一讲：学会怎么和这个”实习生”高效沟通——提示技巧</p>
+</blockquote>
+<hr />
+<p><em>有问题？评论区见！如果觉得有帮助，点个赞再走~</em></p>
+<hr />
+<p><strong>标签</strong>: #Claude Code #AI编程 #编程助手 #工具教程</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/Claude-Code/" rel="tag"># Claude Code</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B/" rel="tag"># 编程助手</a>
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/04/01/learn-claude-02-install/" rel="prev" title="从头学 Claude Code（二）把它请进门——环境安装">
+      <i class="fa fa-chevron-left"></i> 从头学 Claude Code（二）把它请进门——环境安装
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2026/04/01/learn-claude-04-communication/" rel="next" title="从头学 Claude Code（四）怎么和它说话？——高效沟通技巧">
+      从头学 Claude Code（四）怎么和它说话？——高效沟通技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          <script src="https://utteranc.es/client.js"
+        repo="stonejiang208/blog"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8E%E5%A4%B4%E5%AD%A6-claude-code%E4%B8%89-%E7%9C%8B%E7%9C%8B%E5%AE%83%E7%9A%84%E5%B7%A5%E5%85%B7%E7%AE%B1"><span class="nav-number">1.</span> <span class="nav-text">从头学 Claude Code（三）——
+看看它的工具箱</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E8%8A%82%E5%9B%9E%E9%A1%BE"><span class="nav-number">1.1.</span> <span class="nav-text">上节回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E7%9F%A5%E9%81%93%E6%80%8E%E4%B9%88%E5%8F%AB%E5%AE%83%E6%9D%A5"><span class="nav-number">1.2.</span> <span class="nav-text">1. 先知道怎么”叫它来”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F-vs-%E9%9D%9E%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">交互模式 vs 非交互模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E8%AE%A9%E5%AE%83%E8%B5%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text">怎么”让它走”？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%A5%E5%85%B7%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.3.</span> <span class="nav-text">2. 核心工具详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E4%B8%80glob-%E6%89%BE%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.1.</span> <span class="nav-text">🔍 工具一：Glob —— 找文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E4%BA%8Cgrep-%E6%90%9C%E5%86%85%E5%AE%B9"><span class="nav-number">1.3.2.</span> <span class="nav-text">🔎 工具二：Grep —— 搜内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E4%B8%89read-%E8%AF%BB%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.3.</span> <span class="nav-text">📖 工具三：Read —— 读文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E5%9B%9Bedit-%E6%94%B9%E4%BB%A3%E7%A0%81"><span class="nav-number">1.3.4.</span> <span class="nav-text">✏️ 工具四：Edit —— 改代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E4%BA%94write-%E5%86%99%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.5.</span> <span class="nav-text">📝 工具五：Write —— 写文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E5%85%ADbash-%E8%B7%91%E5%91%BD%E4%BB%A4"><span class="nav-number">1.3.6.</span> <span class="nav-text">🖥️ 工具六：Bash —— 跑命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E4%B8%83websearch-%E6%9F%A5%E8%B5%84%E6%96%99"><span class="nav-number">1.3.7.</span> <span class="nav-text">🌐 工具七：WebSearch —— 查资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E5%85%ABwebfetch-%E6%8A%93%E7%BD%91%E9%A1%B5"><span class="nav-number">1.3.8.</span> <span class="nav-text">🌐 工具八：WebFetch —— 抓网页</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E9%80%89%E6%8B%A9%E6%8C%87%E5%8D%97%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E7%94%A8%E4%BB%80%E4%B9%88"><span class="nav-number">1.4.</span> <span class="nav-text">3.
+工具选择指南：什么时候用什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7"><span class="nav-number">1.5.</span> <span class="nav-text">4. 进阶工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#agent-%E5%90%AF%E5%8A%A8%E4%B8%93%E5%AE%B6"><span class="nav-number">1.5.1.</span> <span class="nav-text">🎯 Agent —— 启动专家</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#task-%E7%B3%BB%E5%88%97-%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="nav-number">1.5.2.</span> <span class="nav-text">📋 Task 系列 —— 任务管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E6%93%8D%E7%BB%83%E4%B9%A0"><span class="nav-number">1.6.</span> <span class="nav-text">5. 实操练习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E8%8A%82%E5%B0%8F%E7%BB%93"><span class="nav-number">1.7.</span> <span class="nav-text">本节小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%8A%82%E9%A2%84%E5%91%8A"><span class="nav-number">1.8.</span> <span class="nav-text">下节预告</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Stone</p>
+  <div class="site-description" itemprop="description">数学,阅读,编程和投资</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:stone@tao-studio.net" title="E-Mail → mailto:stone@tao-studio.net" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="mailto:stone@tao-studio.net" title="mailto:stone@tao-studio.net" rel="noopener" target="_blank">欢迎互粉</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://terrytao.wordpress.com/" title="https:&#x2F;&#x2F;terrytao.wordpress.com&#x2F;" rel="noopener" target="_blank">陶哲轩的博客</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stone</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">231k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:30</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+(function() {
+  'use strict';
+
+  // 配置 - 支持开发和生产环境
+  const CONFIG = {
+    // 开发环境配置（本地测试）
+    development: {
+      performanceEndpoint: 'http://localhost:3001',
+      analyticsEndpoint: 'http://localhost:3002/analytics',
+      sampleRate: 1.0, // 100%采样率用于测试
+      debug: true
+    },
+    // 生产环境配置（Railway部署）
+    production: {
+      performanceEndpoint: 'https://blog-performance-monitor.up.railway.app',
+      analyticsEndpoint: 'https://blog-analytics-server.up.railway.app/analytics',
+      sampleRate: 0.1, // 10%采样率
+      debug: false
+    },
+    // 通用配置
+    maxMetricsPerSession: 50,
+    sessionTimeout: 30 * 60 * 1000, // 30分钟
+    localStorageKey: 'performance_metrics_buffer',
+    analyticsLocalStorageKey: 'analytics_events_buffer'
+  };
+
+  // 根据当前环境选择配置
+  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const currentConfig = isDevelopment ? CONFIG.development : CONFIG.production;
+
+  // 性能指标收集器
+  class PerformanceMonitor {
+    constructor() {
+      this.metricsBuffer = [];
+      this.sessionId = this.generateSessionId();
+      this.pageLoadTime = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      if (Math.random() > currentConfig.sampleRate) return;
+
+      this.collectInitialMetrics();
+      this.setupEventListeners();
+      this.setupPeriodicSend();
+      
+      window.addEventListener('beforeunload', () => this.sendMetrics());
+    }
+
+    collectInitialMetrics() {
+      const metrics = {
+        type: 'page_load',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        referrer: document.referrer,
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        connection: this.getConnectionInfo(),
+        deviceMemory: navigator.deviceMemory || 'unknown',
+        hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
+        performance: this.getPerformanceMetrics(),
+        mathjax: this.detectMathJax(),
+        pageLoadTime: Date.now() - this.pageLoadTime
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    getConnectionInfo() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return 'unknown';
+      
+      return {
+        effectiveType: connection.effectiveType,
+        downlink: connection.downlink,
+        rtt: connection.rtt,
+        saveData: connection.saveData
+      };
+    }
+
+    getPerformanceMetrics() {
+      if (!window.performance || !window.performance.timing) return null;
+
+      const timing = window.performance.timing;
+      const navigation = window.performance.navigation || {};
+      
+      return {
+        navigationType: navigation.type || 0,
+        redirectCount: navigation.redirectCount || 0,
+        dnsLookup: timing.domainLookupEnd - timing.domainLookupStart,
+        tcpConnect: timing.connectEnd - timing.connectStart,
+        requestResponse: timing.responseEnd - timing.requestStart,
+        domInteractive: timing.domInteractive - timing.navigationStart,
+        domComplete: timing.domComplete - timing.navigationStart,
+        loadEvent: timing.loadEventEnd - timing.navigationStart,
+        firstPaint: this.getFirstPaint(),
+        firstContentfulPaint: this.getFirstContentfulPaint(),
+        largestContentfulPaint: this.getLargestContentfulPaint(),
+        cumulativeLayoutShift: this.getCumulativeLayoutShift()
+      };
+    }
+
+    getFirstPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fpEntry = entries.find(entry => entry.name === 'first-paint');
+      return fpEntry ? Math.round(fpEntry.startTime) : null;
+    }
+
+    getFirstContentfulPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fcpEntry = entries.find(entry => entry.name === 'first-contentful-paint');
+      return fcpEntry ? Math.round(fcpEntry.startTime) : null;
+    }
+
+    getLargestContentfulPaint() {
+      const entries = performance.getEntriesByType('largest-contentful-paint');
+      if (entries.length === 0) return null;
+      
+      const lcpEntry = entries[entries.length - 1];
+      return Math.round(lcpEntry.startTime);
+    }
+
+    getCumulativeLayoutShift() {
+      let cls = 0;
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (!entry.hadRecentInput) {
+            cls += entry.value;
+          }
+        }
+      });
+      
+      try {
+        observer.observe({ type: 'layout-shift', buffered: true });
+        return Math.round(cls * 100) / 100;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    detectMathJax() {
+      const scripts = Array.from(document.querySelectorAll('script'));
+      const hasMathJaxScript = scripts.some(script => 
+        script.src && script.src.includes('mathjax')
+      );
+      
+      const hasMathJaxElements = document.querySelectorAll('[class*="math"], [class*="MathJax"]').length > 0;
+      
+      return {
+        hasScript: hasMathJaxScript,
+        hasElements: hasMathJaxElements,
+        elementCount: document.querySelectorAll('[class*="math"], [class*="MathJax"]').length
+      };
+    }
+
+    setupEventListeners() {
+      window.addEventListener('error', (event) => {
+        if (event.target && event.target.tagName) {
+          this.collectResourceError(event);
+        }
+      }, true);
+
+      this.setupMathJaxMonitoring();
+      this.setupUserInteractionMonitoring();
+      this.setupNetworkMonitoring();
+    }
+
+    collectResourceError(event) {
+      const metrics = {
+        type: 'resource_error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        errorType: 'resource_load',
+        resourceType: event.target.tagName.toLowerCase(),
+        resourceSrc: event.target.src || event.target.href || 'unknown',
+        errorMessage: event.message || 'Resource load failed'
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    setupMathJaxMonitoring() {
+      if (window.MathJax && window.MathJax.Hub) {
+        window.MathJax.Hub.Register.StartupHook('End', () => {
+          const metrics = {
+            type: 'mathjax_rendered',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            renderTime: Date.now() - this.pageLoadTime,
+            mathElementCount: document.querySelectorAll('.MathJax, .math').length
+          };
+
+          this.addToBuffer(metrics);
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const metrics = {
+            type: 'math_element_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            elementType: target.tagName,
+            elementClass: target.className
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupUserInteractionMonitoring() {
+      let scrollStartTime = null;
+      let scrollTimeout = null;
+
+      window.addEventListener('scroll', () => {
+        if (!scrollStartTime) scrollStartTime = Date.now();
+        
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          if (scrollStartTime) {
+            const scrollDuration = Date.now() - scrollStartTime;
+            const metrics = {
+              type: 'scroll_session',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              url: window.location.href,
+              duration: scrollDuration,
+              scrollY: window.scrollY,
+              viewportHeight: window.innerHeight,
+              documentHeight: document.documentElement.scrollHeight
+            };
+
+            this.addToBuffer(metrics);
+            scrollStartTime = null;
+          }
+        }, 1000);
+      });
+
+      document.addEventListener('click', (event) => {
+        if (Math.random() < 0.01) {
+          const metrics = {
+            type: 'user_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            targetTag: event.target.tagName,
+            targetClass: event.target.className,
+            targetId: event.target.id,
+            x: event.clientX,
+            y: event.clientY
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupNetworkMonitoring() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return;
+
+      connection.addEventListener('change', () => {
+        const metrics = {
+          type: 'network_change',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          url: window.location.href,
+          connection: this.getConnectionInfo()
+        };
+
+        this.addToBuffer(metrics);
+      });
+    }
+
+    setupPeriodicSend() {
+      setInterval(() => {
+        if (this.metricsBuffer.length >= 10) this.sendMetrics();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.sendMetrics();
+      });
+    }
+
+    addToBuffer(metrics) {
+      this.metricsBuffer.push(metrics);
+      
+      if (this.metricsBuffer.length > CONFIG.maxMetricsPerSession) {
+        this.metricsBuffer = this.metricsBuffer.slice(-CONFIG.maxMetricsPerSession);
+      }
+      
+      this.saveToLocalStorage();
+    }
+
+    saveToLocalStorage() {
+      try {
+        const data = {
+          sessionId: this.sessionId,
+          metrics: this.metricsBuffer,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(CONFIG.localStorageKey, JSON.stringify(data));
+      } catch (e) {
+        console.warn('无法保存性能数据到 localStorage:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const data = localStorage.getItem(CONFIG.localStorageKey);
+        if (data) {
+          const parsed = JSON.parse(data);
+          if (Date.now() - parsed.timestamp < CONFIG.sessionTimeout) {
+            this.sessionId = parsed.sessionId;
+            this.metricsBuffer = parsed.metrics || [];
+          } else {
+            localStorage.removeItem(CONFIG.localStorageKey);
+          }
+        }
+      } catch (e) {}
+    }
+
+    sendMetrics() {
+      if (this.metricsBuffer.length === 0) return;
+
+      const dataToSend = [...this.metricsBuffer];
+      this.metricsBuffer = [];
+
+      if (navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(dataToSend)], { type: 'application/json' });
+        navigator.sendBeacon(currentConfig.performanceEndpoint, blob);
+      } else {
+        fetch(currentConfig.performanceEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dataToSend),
+          keepalive: true
+        }).catch(error => {
+          console.warn('性能数据发送失败:', error);
+          this.metricsBuffer = [...dataToSend, ...this.metricsBuffer];
+        });
+      }
+
+      try {
+        localStorage.removeItem(CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    getMobileSpecificMetrics() {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      return {
+        isMobile,
+        isTouchDevice,
+        devicePixelRatio: window.devicePixelRatio || 1,
+        orientation: window.screen.orientation ? window.screen.orientation.type : 'unknown',
+        battery: this.getBatteryInfo()
+      };
+    }
+
+    async getBatteryInfo() {
+      if (!navigator.getBattery) return null;
+      
+      try {
+        const battery = await navigator.getBattery();
+        return {
+          charging: battery.charging,
+          level: battery.level,
+          chargingTime: battery.chargingTime,
+          dischargingTime: battery.dischargingTime
+        };
+      } catch (e) {
+        return null;
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.performanceMonitor = new PerformanceMonitor();
+    });
+  } else {
+    window.performanceMonitor = new PerformanceMonitor();
+  }
+
+})();
+</script>
+
+
+<script>
+(function() {
+  'use strict';
+
+  // 分析配置 - 使用主配置的环境判断
+  const ANALYTICS_CONFIG = {
+    endpoint: currentConfig.analyticsEndpoint,
+    localStorageKey: CONFIG.analyticsLocalStorageKey,
+    sessionTimeout: CONFIG.sessionTimeout,
+    pageViewSampleRate: isDevelopment ? 1.0 : 0.5, // 开发环境100%，生产环境50%
+    eventSampleRate: isDevelopment ? 0.5 : 0.1 // 开发环境50%，生产环境10%
+  };
+
+  class AnalyticsCollector {
+    constructor() {
+      this.sessionId = this.generateSessionId();
+      this.pageViewId = this.generatePageViewId();
+      this.sessionStart = Date.now();
+      this.pageViewStart = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    generatePageViewId() {
+      return 'page_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      this.collectPageView();
+      this.setupEventListeners();
+      this.setupPeriodicFlush();
+      
+      window.addEventListener('beforeunload', () => this.flushData());
+    }
+
+    collectPageView() {
+      if (Math.random() > ANALYTICS_CONFIG.pageViewSampleRate) return;
+
+      const pageView = {
+        type: 'pageview',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        referrer: document.referrer,
+        title: document.title,
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        deviceType: this.getDeviceType(),
+        connectionType: this.getConnectionType(),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        prefersColorScheme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+        prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      };
+
+      this.saveToLocalStorage(pageView);
+    }
+
+    getDeviceType() {
+      const ua = navigator.userAgent;
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)) {
+        return 'mobile';
+      } else if (/Tablet|iPad/i.test(ua)) {
+        return 'tablet';
+      }
+      return 'desktop';
+    }
+
+    getConnectionType() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      return connection ? connection.effectiveType : 'unknown';
+    }
+
+    setupEventListeners() {
+      document.addEventListener('click', (event) => {
+        if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+        const target = event.target;
+        const clickData = {
+          type: 'click',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          target: {
+            tag: target.tagName,
+            id: target.id,
+            className: target.className,
+            text: target.textContent?.substring(0, 100) || '',
+            href: target.href || ''
+          },
+          position: {
+            x: event.clientX,
+            y: event.clientY
+          }
+        };
+
+        this.saveToLocalStorage(clickData);
+      });
+
+      let lastScrollReport = 0;
+      window.addEventListener('scroll', () => {
+        const now = Date.now();
+        if (now - lastScrollReport < 1000) return;
+        
+        const scrollDepth = this.calculateScrollDepth();
+        const scrollData = {
+          type: 'scroll',
+          timestamp: now,
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          scrollY: window.scrollY,
+          scrollDepth: scrollDepth,
+          viewportHeight: window.innerHeight,
+          documentHeight: document.documentElement.scrollHeight
+        };
+
+        this.saveToLocalStorage(scrollData);
+        lastScrollReport = now;
+      });
+
+      this.setupMathInteractionTracking();
+      this.setupSearchTracking();
+      this.setupExternalLinkTracking();
+    }
+
+    calculateScrollDepth() {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      const maxScroll = documentHeight - windowHeight;
+      if (maxScroll <= 0) return 0;
+      
+      return Math.min(100, Math.round((scrollY / maxScroll) * 100));
+    }
+
+    setupMathInteractionTracking() {
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const mathData = {
+            type: 'math_interaction',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            pageViewId: this.pageViewId,
+            url: window.location.href,
+            elementType: target.tagName,
+            mathType: this.getMathType(target)
+          };
+
+          this.saveToLocalStorage(mathData);
+        }
+      });
+    }
+
+    getMathType(element) {
+      const className = element.className || '';
+      if (className.includes('display')) return 'display';
+      if (className.includes('inline')) return 'inline';
+      return 'unknown';
+    }
+
+    setupSearchTracking() {
+      const searchInput = document.querySelector('input[type="search"], input[name="q"], .search-input');
+      if (searchInput) {
+        let searchStartTime = null;
+        
+        searchInput.addEventListener('focus', () => {
+          searchStartTime = Date.now();
+        });
+
+        searchInput.addEventListener('blur', () => {
+          if (searchStartTime && searchInput.value.trim()) {
+            const searchData = {
+              type: 'search',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              query: searchInput.value,
+              duration: Date.now() - searchStartTime
+            };
+
+            this.saveToLocalStorage(searchData);
+          }
+          searchStartTime = null;
+        });
+      }
+    }
+
+    setupExternalLinkTracking() {
+      document.addEventListener('click', (event) => {
+        let target = event.target;
+        while (target && target.tagName !== 'A') {
+          target = target.parentElement;
+        }
+        
+        if (target && target.tagName === 'A' && target.href) {
+          const url = new URL(target.href);
+          const currentUrl = new URL(window.location.href);
+          
+          if (url.hostname !== currentUrl.hostname) {
+            const linkData = {
+              type: 'external_link',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              externalUrl: target.href,
+              linkText: target.textContent?.substring(0, 100) || '',
+              isNewTab: target.target === '_blank'
+            };
+
+            this.saveToLocalStorage(linkData);
+          }
+        }
+      });
+    }
+
+    setupPeriodicFlush() {
+      setInterval(() => {
+        const data = this.loadFromLocalStorage();
+        if (data.length >= 20) this.flushData();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.flushData();
+      });
+    }
+
+    saveToLocalStorage(data) {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        const analyticsData = stored ? JSON.parse(stored) : [];
+        analyticsData.push(data);
+        
+        if (analyticsData.length > 100) {
+          analyticsData.splice(0, analyticsData.length - 100);
+        }
+        
+        localStorage.setItem(ANALYTICS_CONFIG.localStorageKey, JSON.stringify(analyticsData));
+      } catch (e) {
+        console.warn('无法保存分析数据:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    clearLocalStorage() {
+      try {
+        localStorage.removeItem(ANALYTICS_CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    async flushData() {
+      const data = this.loadFromLocalStorage();
+      if (data.length === 0) return;
+
+      try {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+          navigator.sendBeacon(ANALYTICS_CONFIG.endpoint, blob);
+        } else {
+          await fetch(ANALYTICS_CONFIG.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+            keepalive: true
+          });
+        }
+        
+        this.clearLocalStorage();
+      } catch (error) {
+        console.warn('发送分析数据失败:', error);
+      }
+    }
+
+    trackEvent(eventName, properties = {}) {
+      if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+      const eventData = {
+        type: 'custom_event',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        eventName: eventName,
+        properties: properties
+      };
+
+      this.saveToLocalStorage(eventData);
+    }
+
+    trackError(error, context = {}) {
+      const errorData = {
+        type: 'error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        error: {
+          message: error.message,
+          stack: error.stack,
+          name: error.name
+        },
+        context: context
+      };
+
+      this.saveToLocalStorage(errorData);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.analytics = new AnalyticsCollector();
+    });
+  } else {
+    window.analytics = new AnalyticsCollector();
+  }
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.tao-studio.net","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"author":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="从头学 Claude Code（九）—— 请个监理来挑毛病：代码审查实战  本系列适合零基础新手，手把手带你掌握 AI 编程助手   上节回顾 上一讲我们学了添加新功能，相当于”装修房子”。这一讲，我们来学代码审查，就像请了个”工程监理”来检查质量。  1. 什么是代码审查？ 想象一下：  你家装修完了，要不要请个监理来检查一下？ - 水电有没有安全隐患？ - 防水有没有做好？ - 甲醛有没有超标">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从头学 Claude Code（九）请个监理来挑毛病——代码审查实战">
+<meta property="og:url" content="http://blog.tao-studio.net/2026/04/01/learn-claude-09-review/index.html">
+<meta property="og:site_name" content="Stone&#39;s Blog">
+<meta property="og:description" content="从头学 Claude Code（九）—— 请个监理来挑毛病：代码审查实战  本系列适合零基础新手，手把手带你掌握 AI 编程助手   上节回顾 上一讲我们学了添加新功能，相当于”装修房子”。这一讲，我们来学代码审查，就像请了个”工程监理”来检查质量。  1. 什么是代码审查？ 想象一下：  你家装修完了，要不要请个监理来检查一下？ - 水电有没有安全隐患？ - 防水有没有做好？ - 甲醛有没有超标">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-01T06:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-01T08:59:15.044Z">
+<meta property="article:author" content="Stone">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Claude Code">
+<meta property="article:tag" content="编程助手">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="代码审查">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.tao-studio.net/2026/04/01/learn-claude-09-review/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>从头学 Claude Code（九）请个监理来挑毛病——代码审查实战 | Stone's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Stone's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">blog.tao-studio.net</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/04/01/learn-claude-09-review/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读,编程和投资">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从头学 Claude Code（九）请个监理来挑毛病——代码审查实战
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-04-01 14:00:00 / 修改时间：16:59:15" itemprop="dateCreated datePublished" datetime="2026-04-01T14:00:00+08:00">2026-04-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BC%96%E7%A8%8B%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程教程</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BC%96%E7%A8%8B%E6%95%99%E7%A8%8B/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="从头学-claude-code九-请个监理来挑毛病代码审查实战">从头学 Claude
+Code（九）—— 请个监理来挑毛病：代码审查实战</h1>
+<blockquote>
+<p>本系列适合零基础新手，手把手带你掌握 AI 编程助手</p>
+</blockquote>
+<hr />
+<h2 id="上节回顾">上节回顾</h2>
+<p>上一讲我们学了添加新功能，相当于”装修房子”。这一讲，我们来学<strong>代码审查</strong>，就像请了个”工程监理”来检查质量。</p>
+<hr />
+<h2 id="什么是代码审查">1. 什么是代码审查？</h2>
+<p>想象一下：</p>
+<blockquote>
+<p>你家装修完了，要不要请个<strong>监理</strong>来检查一下？ -
+水电有没有安全隐患？ - 防水有没有做好？ - 甲醛有没有超标？</p>
+</blockquote>
+<p>代码审查就是这个道理——<strong>写完代码，请个人来挑毛病</strong>。</p>
+<p>用 Claude Code 审查 = 让 AI 帮你做”工程监理”，它能帮你发现： - 🔴
+<strong>问题</strong>：Bug、逻辑错误 - 🟠
+<strong>风险</strong>：安全漏洞、性能问题 - 🟡
+<strong>改进</strong>：代码规范、可读性、可维护性</p>
+<hr />
+<h2 id="审查场景什么时候需要监理">2. 审查场景：什么时候需要监理？</h2>
+<table>
+<thead>
+<tr class="header">
+<th>场景</th>
+<th>目的</th>
+<th>推荐模式</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>自己的代码</td>
+<td>改进质量</td>
+<td>只读或默认</td>
+</tr>
+<tr class="even">
+<td>团队成员代码</td>
+<td>代码评审</td>
+<td>只读</td>
+</tr>
+<tr class="odd">
+<td>开源项目</td>
+<td>学习或贡献</td>
+<td>只读</td>
+</tr>
+<tr class="even">
+<td>重构前</td>
+<td>了解风险</td>
+<td>只读</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 就像请监理：自己家的房子可以自己检查，请人检查更专业</p>
+</blockquote>
+<hr />
+<h2 id="审查类型全面检查还是专项检查">3.
+审查类型：全面检查还是专项检查？</h2>
+<h3 id="类型一快速审查就像巡逻保安">类型一：快速审查——就像巡逻保安</h3>
+<p>适用场景：时间紧迫，只看关键问题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">快速审查 src/utils/auth.js，主要关注：</span><br><span class="line">1. 安全性问题（有没有小偷能进来的洞）</span><br><span class="line">2. 明显的逻辑错误（结构有没有问题）</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像保安巡逻：“看看有没有异常，没问题我就走了”</p>
+</blockquote>
+<hr />
+<h3 id="类型二全面审查就像验房师">类型二：全面审查——就像验房师</h3>
+<p>适用场景：重要代码，仔细检查</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">全面审查 src/api/user.js，检查：</span><br><span class="line">1. 安全性（有没有漏洞、小偷能不能进来）</span><br><span class="line">2. 性能（有没有浪费材料、效率低不低）</span><br><span class="line">3. 代码规范（干得漂不漂亮、整不整洁）</span><br><span class="line">4. 错误处理（出了问题能不能补救）</span><br><span class="line">5. 测试覆盖（有没有质检合格证）</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像验房师：“水电、防水、甲醛、面积…一项一项查”</p>
+</blockquote>
+<hr />
+<h3
+id="类型三专项审查就像请专科医生">类型三：专项审查——就像请专科医生</h3>
+<p>适用场景：关注特定方面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">审查 src/components/Form.vue 的：</span><br><span class="line">- 可访问性（残障人士能不能用）</span><br><span class="line">- 表单验证逻辑（数据干不干净）</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像鼻子不舒服去看耳鼻喉科，不是一般体检</p>
+</blockquote>
+<hr />
+<h2 id="审查流程4a监理的工作流程">4. 审查流程（4A）：监理的工作流程</h2>
+<h3 id="第一步analyze---看图纸">第一步：Analyze - 看图纸</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">审查 src/controllers/user.js 代码</span><br></pre></td></tr></table></figure>
+<p>Claude 会： - 阅读代码——看看施工图 - 理解逻辑——了解设计方案 -
+识别模式——看看用的是啥工艺</p>
+<blockquote>
+<p>就像监理先看看设计图纸，了解要检查什么</p>
+</blockquote>
+<hr />
+<h3 id="第二步architect---定检查项">第二步：Architect - 定检查项</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">好的，请从以下角度审查：</span><br><span class="line">- 安全性（结构安全）</span><br><span class="line">- 性能（材料浪费）</span><br><span class="line">- 可维护性（以后好不好修）</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像监理说：“这次我要检查水电、防水、承重墙…”</p>
+</blockquote>
+<hr />
+<h3 id="第三步apply---逐项检查">第三步：Apply - 逐项检查</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">请详细列出发现的问题</span><br></pre></td></tr></table></figure>
+<p>Claude 会一项一项检查，记录每个问题。</p>
+<blockquote>
+<p>就像监理拿着小锤敲墙面、用电笔测电路…</p>
+</blockquote>
+<hr />
+<h3 id="第四步assert---出报告">第四步：Assert - 出报告</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">生成审查报告，格式如下：</span><br><span class="line">## 问题列表</span><br><span class="line">1. [严重] 问题描述 - 文件:行号</span><br><span class="line">2. [中等] 问题描述</span><br><span class="line"></span><br><span class="line">## 建议改进</span><br><span class="line">1. ...</span><br><span class="line"></span><br><span class="line">## 总体评价</span><br><span class="line">- 代码质量：7/10</span><br><span class="line">- 可维护性：8/10</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像监理写出验房报告：“发现3个问题，建议…”</p>
+</blockquote>
+<hr />
+<h2 id="常见审查问题清单监理都在查什么">5.
+常见审查问题清单：监理都在查什么？</h2>
+<h3 id="安全性问题防盗门锁好了没">🔴 安全性问题——防盗门锁好了没？</h3>
+<table>
+<thead>
+<tr class="header">
+<th>问题</th>
+<th>检查点</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SQL 注入</td>
+<td>是否直接拼接 SQL（有没有让小偷进来的洞）</td>
+</tr>
+<tr class="even">
+<td>XSS</td>
+<td>是否转义用户输入（有没有下毒的机会）</td>
+</tr>
+<tr class="odd">
+<td>敏感信息</td>
+<td>是否暴露 API 密钥、密码（银行卡密码有没有乱放）</td>
+</tr>
+<tr class="even">
+<td>权限控制</td>
+<td>是否有越权漏洞（防盗门能不能被撬开）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="性能问题材料有没有浪费">🟠 性能问题——材料有没有浪费？</h3>
+<table>
+<thead>
+<tr class="header">
+<th>问题</th>
+<th>检查点</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>N+1 查询</td>
+<td>循环中是否有数据库查询（一个一个买材料和统一采购的区别）</td>
+</tr>
+<tr class="even">
+<td>内存泄漏</td>
+<td>是否有未释放的资源（东西用完有没有放回原处）</td>
+</tr>
+<tr class="odd">
+<td>重复计算</td>
+<td>是否有可以缓存的计算（同样的活有没有重复做）</td>
+</tr>
+<tr class="even">
+<td>大数据处理</td>
+<td>是否分页处理（一次搬一百箱和分十次搬的区别）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="代码规范活干得整不整洁">🟡 代码规范——活干得整不整洁？</h3>
+<table>
+<thead>
+<tr class="header">
+<th>问题</th>
+<th>检查点</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>命名</td>
+<td>变量/函数名是否清晰（标签贴对了没）</td>
+</tr>
+<tr class="even">
+<td>注释</td>
+<td>复杂逻辑是否有说明（有没有操作手册）</td>
+</tr>
+<tr class="odd">
+<td>长度</td>
+<td>函数是否过长（一个人干完还是分工合作）</td>
+</tr>
+<tr class="even">
+<td>重复</td>
+<td>是否有重复代码可抽取（有没有同样的活在不同地方干）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="错误处理出了问题怎么办">🟢 错误处理——出了问题怎么办？</h3>
+<table>
+<thead>
+<tr class="header">
+<th>问题</th>
+<th>检查点</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>空值处理</td>
+<td>是否有 null 检查（有没有准备好备胎）</td>
+</tr>
+<tr class="even">
+<td>异常捕获</td>
+<td>是否有 try-catch（有没有安全气囊）</td>
+</tr>
+<tr class="odd">
+<td>用户提示</td>
+<td>错误是否友好展示（出了问题说不说得清）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="审查报告示例">6. 审查报告示例</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 代码审查报告 - XX小区XX栋</span><br><span class="line"></span><br><span class="line">## 基本信息</span><br><span class="line">楼栋：src/api/user.js</span><br><span class="line">层数：156行</span><br><span class="line">检查时间：2026-04-01</span><br><span class="line"></span><br><span class="line">## 问题列表</span><br><span class="line"></span><br><span class="line">### 🔴 严重问题 (2个)</span><br><span class="line"></span><br><span class="line">1. [安全] SQL 注入风险 - 第 23 行</span><br><span class="line">   ```javascript</span><br><span class="line">   const query = `SELECT * FROM users WHERE name = &#x27;$&#123;name&#125;&#x27;`</span><br></pre></td></tr></table></figure>
+<p>相当于：窗户没关，小偷可以直接进来
+建议：装防盗窗（使用参数化查询）</p>
+<ol start="2" type="1">
+<li>[安全] 敏感信息泄露 - 第 45 行 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;API_KEY:&#x27;</span>, apiKey)</span><br></pre></td></tr></table></figure>
+相当于：把银行卡密码贴在门上 建议：撕掉，用环境变量</li>
+</ol>
+<h3 id="中等问题-3个">🟡 中等问题 (3个)</h3>
+<ol start="3" type="1">
+<li>[性能] N+1 查询风险 - 第 67-72 行</li>
+<li>[规范] 函数过长（86 行）- 第 30-115 行</li>
+<li>[错误] 缺少空值检查 - 第 28 行</li>
+</ol>
+<h3 id="建议-2个">🟢 建议 (2个)</h3>
+<ol start="6" type="1">
+<li>[改进] 可以抽取重复代码</li>
+<li>[文档] 建议添加 JSDoc 注释</li>
+</ol>
+<h2 id="总体评分">总体评分</h2>
+<ul>
+<li>安全性：4/10 ⚠️ （不及格，要紧！）</li>
+<li>性能：7/10 （还行）</li>
+<li>可维护性：6/10 （刚刚及格）</li>
+<li>代码规范：7/10 （还行）</li>
+</ul>
+<h2 id="建议优先级">建议优先级</h2>
+<ol type="1">
+<li>🔴 修复 SQL 注入（先修防盗窗！）</li>
+<li>🔴 删除敏感信息（别把密码贴门上）</li>
+<li>🟠 优化查询逻辑（少跑腿）</li>
+<li>🟠 重构过长函数（分工合作） <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">## 7. 审查技巧：怎么让监理更专业</span><br><span class="line"></span><br><span class="line">### 技巧一：使用只读模式</span><br><span class="line"></span><br></pre></td></tr></table></figure> claude –plan –print “审查
+src/utils/auth.js 的安全性” <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">只读模式确保：</span><br><span class="line">- 不会意外修改代码——就像监理只看不动手</span><br><span class="line">- 专注于分析——全身心检查</span><br><span class="line"></span><br><span class="line">&gt; 就像说：&quot;你就看看，不要动任何东西啊&quot;</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">### 技巧二：指定审查重点</span><br><span class="line"></span><br></pre></td></tr></table></figure> 重点审查：</li>
+<li>安全性（必须查）</li>
+<li>性能（如果时间允许）</li>
+<li>其他（可选） <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt; 就像说：&quot;这次主要查水电，其他顺带看看&quot;</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">### 技巧三：获取修复建议</span><br><span class="line"></span><br></pre></td></tr></table></figure> 不仅指出问题，还请给出修复代码
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt; 就像说：&quot;指出问题不够，你得告诉我怎么修&quot;</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">### 技巧四：追问细节</span><br><span class="line"></span><br></pre></td></tr></table></figure> 关于第 23 行的 SQL 注入，能详细解释一下风险吗？ ```</li>
+</ol>
+<blockquote>
+<p>就像问：“这个洞有多大危害？小偷能进来偷什么？”</p>
+</blockquote>
+<hr />
+<h2 id="本节小结">本节小结</h2>
+<ul>
+<li><strong>审查类型</strong>：快速（巡逻）、全面（验房）、专项（专科）</li>
+<li><strong>审查重点</strong>：安全（防盗）、性能（省料）、规范（整洁）、错误处理（救生圈）</li>
+<li><strong>输出报告</strong>：问题列表 + 评分 + 建议</li>
+<li><strong>使用技巧</strong>：只读模式 + 指定重点 + 追问细节</li>
+</ul>
+<blockquote>
+<p>💡 <strong>记住</strong>：代码审查就像请监理——花小钱省大麻烦！</p>
+</blockquote>
+<hr />
+<h2 id="下节预告">下节预告</h2>
+<blockquote>
+<p>下一讲：学习自动化测试——用 Playwright 给代码做”体检”</p>
+</blockquote>
+<hr />
+<p><em>有问题？评论区见！如果觉得有帮助，点个赞再走~</em></p>
+<hr />
+<p><strong>标签</strong>: #Claude Code #AI编程 #代码审查 #实战教程</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/Claude-Code/" rel="tag"># Claude Code</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B/" rel="tag"># 编程助手</a>
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+              <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" rel="tag"># 代码审查</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/04/01/learn-claude-08-feature/" rel="prev" title="从头学 Claude Code（八）第一次装修——添加新功能实战">
+      <i class="fa fa-chevron-left"></i> 从头学 Claude Code（八）第一次装修——添加新功能实战
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2026/04/01/learn-claude-10-test/" rel="next" title="从头学 Claude Code（十）让机器人帮试吃——测试自动化">
+      从头学 Claude Code（十）让机器人帮试吃——测试自动化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          <script src="https://utteranc.es/client.js"
+        repo="stonejiang208/blog"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8E%E5%A4%B4%E5%AD%A6-claude-code%E4%B9%9D-%E8%AF%B7%E4%B8%AA%E7%9B%91%E7%90%86%E6%9D%A5%E6%8C%91%E6%AF%9B%E7%97%85%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5%E5%AE%9E%E6%88%98"><span class="nav-number">1.</span> <span class="nav-text">从头学 Claude
+Code（九）—— 请个监理来挑毛病：代码审查实战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E8%8A%82%E5%9B%9E%E9%A1%BE"><span class="nav-number">1.1.</span> <span class="nav-text">上节回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">1.2.</span> <span class="nav-text">1. 什么是代码审查？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A1%E6%9F%A5%E5%9C%BA%E6%99%AF%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E7%9B%91%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">2. 审查场景：什么时候需要监理？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A1%E6%9F%A5%E7%B1%BB%E5%9E%8B%E5%85%A8%E9%9D%A2%E6%A3%80%E6%9F%A5%E8%BF%98%E6%98%AF%E4%B8%93%E9%A1%B9%E6%A3%80%E6%9F%A5"><span class="nav-number">1.4.</span> <span class="nav-text">3.
+审查类型：全面检查还是专项检查？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E4%B8%80%E5%BF%AB%E9%80%9F%E5%AE%A1%E6%9F%A5%E5%B0%B1%E5%83%8F%E5%B7%A1%E9%80%BB%E4%BF%9D%E5%AE%89"><span class="nav-number">1.4.1.</span> <span class="nav-text">类型一：快速审查——就像巡逻保安</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E4%BA%8C%E5%85%A8%E9%9D%A2%E5%AE%A1%E6%9F%A5%E5%B0%B1%E5%83%8F%E9%AA%8C%E6%88%BF%E5%B8%88"><span class="nav-number">1.4.2.</span> <span class="nav-text">类型二：全面审查——就像验房师</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E4%B8%89%E4%B8%93%E9%A1%B9%E5%AE%A1%E6%9F%A5%E5%B0%B1%E5%83%8F%E8%AF%B7%E4%B8%93%E7%A7%91%E5%8C%BB%E7%94%9F"><span class="nav-number">1.4.3.</span> <span class="nav-text">类型三：专项审查——就像请专科医生</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A1%E6%9F%A5%E6%B5%81%E7%A8%8B4a%E7%9B%91%E7%90%86%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">1.5.</span> <span class="nav-text">4. 审查流程（4A）：监理的工作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5analyze---%E7%9C%8B%E5%9B%BE%E7%BA%B8"><span class="nav-number">1.5.1.</span> <span class="nav-text">第一步：Analyze - 看图纸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5architect---%E5%AE%9A%E6%A3%80%E6%9F%A5%E9%A1%B9"><span class="nav-number">1.5.2.</span> <span class="nav-text">第二步：Architect - 定检查项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5apply---%E9%80%90%E9%A1%B9%E6%A3%80%E6%9F%A5"><span class="nav-number">1.5.3.</span> <span class="nav-text">第三步：Apply - 逐项检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5assert---%E5%87%BA%E6%8A%A5%E5%91%8A"><span class="nav-number">1.5.4.</span> <span class="nav-text">第四步：Assert - 出报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%AE%A1%E6%9F%A5%E9%97%AE%E9%A2%98%E6%B8%85%E5%8D%95%E7%9B%91%E7%90%86%E9%83%BD%E5%9C%A8%E6%9F%A5%E4%BB%80%E4%B9%88"><span class="nav-number">1.6.</span> <span class="nav-text">5.
+常见审查问题清单：监理都在查什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7%E9%97%AE%E9%A2%98%E9%98%B2%E7%9B%97%E9%97%A8%E9%94%81%E5%A5%BD%E4%BA%86%E6%B2%A1"><span class="nav-number">1.6.1.</span> <span class="nav-text">🔴 安全性问题——防盗门锁好了没？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E6%9D%90%E6%96%99%E6%9C%89%E6%B2%A1%E6%9C%89%E6%B5%AA%E8%B4%B9"><span class="nav-number">1.6.2.</span> <span class="nav-text">🟠 性能问题——材料有没有浪费？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%E6%B4%BB%E5%B9%B2%E5%BE%97%E6%95%B4%E4%B8%8D%E6%95%B4%E6%B4%81"><span class="nav-number">1.6.3.</span> <span class="nav-text">🟡 代码规范——活干得整不整洁？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E5%87%BA%E4%BA%86%E9%97%AE%E9%A2%98%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="nav-number">1.6.4.</span> <span class="nav-text">🟢 错误处理——出了问题怎么办？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A1%E6%9F%A5%E6%8A%A5%E5%91%8A%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.7.</span> <span class="nav-text">6. 审查报告示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E7%AD%89%E9%97%AE%E9%A2%98-3%E4%B8%AA"><span class="nav-number">1.7.1.</span> <span class="nav-text">🟡 中等问题 (3个)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E8%AE%AE-2%E4%B8%AA"><span class="nav-number">1.7.2.</span> <span class="nav-text">🟢 建议 (2个)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E4%BD%93%E8%AF%84%E5%88%86"><span class="nav-number">1.8.</span> <span class="nav-text">总体评分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E8%AE%AE%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-number">1.9.</span> <span class="nav-text">建议优先级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E8%8A%82%E5%B0%8F%E7%BB%93"><span class="nav-number">1.10.</span> <span class="nav-text">本节小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%8A%82%E9%A2%84%E5%91%8A"><span class="nav-number">1.11.</span> <span class="nav-text">下节预告</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Stone</p>
+  <div class="site-description" itemprop="description">数学,阅读,编程和投资</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:stone@tao-studio.net" title="E-Mail → mailto:stone@tao-studio.net" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="mailto:stone@tao-studio.net" title="mailto:stone@tao-studio.net" rel="noopener" target="_blank">欢迎互粉</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://terrytao.wordpress.com/" title="https:&#x2F;&#x2F;terrytao.wordpress.com&#x2F;" rel="noopener" target="_blank">陶哲轩的博客</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stone</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">231k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:30</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+(function() {
+  'use strict';
+
+  // 配置 - 支持开发和生产环境
+  const CONFIG = {
+    // 开发环境配置（本地测试）
+    development: {
+      performanceEndpoint: 'http://localhost:3001',
+      analyticsEndpoint: 'http://localhost:3002/analytics',
+      sampleRate: 1.0, // 100%采样率用于测试
+      debug: true
+    },
+    // 生产环境配置（Railway部署）
+    production: {
+      performanceEndpoint: 'https://blog-performance-monitor.up.railway.app',
+      analyticsEndpoint: 'https://blog-analytics-server.up.railway.app/analytics',
+      sampleRate: 0.1, // 10%采样率
+      debug: false
+    },
+    // 通用配置
+    maxMetricsPerSession: 50,
+    sessionTimeout: 30 * 60 * 1000, // 30分钟
+    localStorageKey: 'performance_metrics_buffer',
+    analyticsLocalStorageKey: 'analytics_events_buffer'
+  };
+
+  // 根据当前环境选择配置
+  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const currentConfig = isDevelopment ? CONFIG.development : CONFIG.production;
+
+  // 性能指标收集器
+  class PerformanceMonitor {
+    constructor() {
+      this.metricsBuffer = [];
+      this.sessionId = this.generateSessionId();
+      this.pageLoadTime = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      if (Math.random() > currentConfig.sampleRate) return;
+
+      this.collectInitialMetrics();
+      this.setupEventListeners();
+      this.setupPeriodicSend();
+      
+      window.addEventListener('beforeunload', () => this.sendMetrics());
+    }
+
+    collectInitialMetrics() {
+      const metrics = {
+        type: 'page_load',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        referrer: document.referrer,
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        connection: this.getConnectionInfo(),
+        deviceMemory: navigator.deviceMemory || 'unknown',
+        hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
+        performance: this.getPerformanceMetrics(),
+        mathjax: this.detectMathJax(),
+        pageLoadTime: Date.now() - this.pageLoadTime
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    getConnectionInfo() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return 'unknown';
+      
+      return {
+        effectiveType: connection.effectiveType,
+        downlink: connection.downlink,
+        rtt: connection.rtt,
+        saveData: connection.saveData
+      };
+    }
+
+    getPerformanceMetrics() {
+      if (!window.performance || !window.performance.timing) return null;
+
+      const timing = window.performance.timing;
+      const navigation = window.performance.navigation || {};
+      
+      return {
+        navigationType: navigation.type || 0,
+        redirectCount: navigation.redirectCount || 0,
+        dnsLookup: timing.domainLookupEnd - timing.domainLookupStart,
+        tcpConnect: timing.connectEnd - timing.connectStart,
+        requestResponse: timing.responseEnd - timing.requestStart,
+        domInteractive: timing.domInteractive - timing.navigationStart,
+        domComplete: timing.domComplete - timing.navigationStart,
+        loadEvent: timing.loadEventEnd - timing.navigationStart,
+        firstPaint: this.getFirstPaint(),
+        firstContentfulPaint: this.getFirstContentfulPaint(),
+        largestContentfulPaint: this.getLargestContentfulPaint(),
+        cumulativeLayoutShift: this.getCumulativeLayoutShift()
+      };
+    }
+
+    getFirstPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fpEntry = entries.find(entry => entry.name === 'first-paint');
+      return fpEntry ? Math.round(fpEntry.startTime) : null;
+    }
+
+    getFirstContentfulPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fcpEntry = entries.find(entry => entry.name === 'first-contentful-paint');
+      return fcpEntry ? Math.round(fcpEntry.startTime) : null;
+    }
+
+    getLargestContentfulPaint() {
+      const entries = performance.getEntriesByType('largest-contentful-paint');
+      if (entries.length === 0) return null;
+      
+      const lcpEntry = entries[entries.length - 1];
+      return Math.round(lcpEntry.startTime);
+    }
+
+    getCumulativeLayoutShift() {
+      let cls = 0;
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (!entry.hadRecentInput) {
+            cls += entry.value;
+          }
+        }
+      });
+      
+      try {
+        observer.observe({ type: 'layout-shift', buffered: true });
+        return Math.round(cls * 100) / 100;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    detectMathJax() {
+      const scripts = Array.from(document.querySelectorAll('script'));
+      const hasMathJaxScript = scripts.some(script => 
+        script.src && script.src.includes('mathjax')
+      );
+      
+      const hasMathJaxElements = document.querySelectorAll('[class*="math"], [class*="MathJax"]').length > 0;
+      
+      return {
+        hasScript: hasMathJaxScript,
+        hasElements: hasMathJaxElements,
+        elementCount: document.querySelectorAll('[class*="math"], [class*="MathJax"]').length
+      };
+    }
+
+    setupEventListeners() {
+      window.addEventListener('error', (event) => {
+        if (event.target && event.target.tagName) {
+          this.collectResourceError(event);
+        }
+      }, true);
+
+      this.setupMathJaxMonitoring();
+      this.setupUserInteractionMonitoring();
+      this.setupNetworkMonitoring();
+    }
+
+    collectResourceError(event) {
+      const metrics = {
+        type: 'resource_error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        errorType: 'resource_load',
+        resourceType: event.target.tagName.toLowerCase(),
+        resourceSrc: event.target.src || event.target.href || 'unknown',
+        errorMessage: event.message || 'Resource load failed'
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    setupMathJaxMonitoring() {
+      if (window.MathJax && window.MathJax.Hub) {
+        window.MathJax.Hub.Register.StartupHook('End', () => {
+          const metrics = {
+            type: 'mathjax_rendered',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            renderTime: Date.now() - this.pageLoadTime,
+            mathElementCount: document.querySelectorAll('.MathJax, .math').length
+          };
+
+          this.addToBuffer(metrics);
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const metrics = {
+            type: 'math_element_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            elementType: target.tagName,
+            elementClass: target.className
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupUserInteractionMonitoring() {
+      let scrollStartTime = null;
+      let scrollTimeout = null;
+
+      window.addEventListener('scroll', () => {
+        if (!scrollStartTime) scrollStartTime = Date.now();
+        
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          if (scrollStartTime) {
+            const scrollDuration = Date.now() - scrollStartTime;
+            const metrics = {
+              type: 'scroll_session',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              url: window.location.href,
+              duration: scrollDuration,
+              scrollY: window.scrollY,
+              viewportHeight: window.innerHeight,
+              documentHeight: document.documentElement.scrollHeight
+            };
+
+            this.addToBuffer(metrics);
+            scrollStartTime = null;
+          }
+        }, 1000);
+      });
+
+      document.addEventListener('click', (event) => {
+        if (Math.random() < 0.01) {
+          const metrics = {
+            type: 'user_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            targetTag: event.target.tagName,
+            targetClass: event.target.className,
+            targetId: event.target.id,
+            x: event.clientX,
+            y: event.clientY
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupNetworkMonitoring() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return;
+
+      connection.addEventListener('change', () => {
+        const metrics = {
+          type: 'network_change',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          url: window.location.href,
+          connection: this.getConnectionInfo()
+        };
+
+        this.addToBuffer(metrics);
+      });
+    }
+
+    setupPeriodicSend() {
+      setInterval(() => {
+        if (this.metricsBuffer.length >= 10) this.sendMetrics();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.sendMetrics();
+      });
+    }
+
+    addToBuffer(metrics) {
+      this.metricsBuffer.push(metrics);
+      
+      if (this.metricsBuffer.length > CONFIG.maxMetricsPerSession) {
+        this.metricsBuffer = this.metricsBuffer.slice(-CONFIG.maxMetricsPerSession);
+      }
+      
+      this.saveToLocalStorage();
+    }
+
+    saveToLocalStorage() {
+      try {
+        const data = {
+          sessionId: this.sessionId,
+          metrics: this.metricsBuffer,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(CONFIG.localStorageKey, JSON.stringify(data));
+      } catch (e) {
+        console.warn('无法保存性能数据到 localStorage:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const data = localStorage.getItem(CONFIG.localStorageKey);
+        if (data) {
+          const parsed = JSON.parse(data);
+          if (Date.now() - parsed.timestamp < CONFIG.sessionTimeout) {
+            this.sessionId = parsed.sessionId;
+            this.metricsBuffer = parsed.metrics || [];
+          } else {
+            localStorage.removeItem(CONFIG.localStorageKey);
+          }
+        }
+      } catch (e) {}
+    }
+
+    sendMetrics() {
+      if (this.metricsBuffer.length === 0) return;
+
+      const dataToSend = [...this.metricsBuffer];
+      this.metricsBuffer = [];
+
+      if (navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(dataToSend)], { type: 'application/json' });
+        navigator.sendBeacon(currentConfig.performanceEndpoint, blob);
+      } else {
+        fetch(currentConfig.performanceEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dataToSend),
+          keepalive: true
+        }).catch(error => {
+          console.warn('性能数据发送失败:', error);
+          this.metricsBuffer = [...dataToSend, ...this.metricsBuffer];
+        });
+      }
+
+      try {
+        localStorage.removeItem(CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    getMobileSpecificMetrics() {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      return {
+        isMobile,
+        isTouchDevice,
+        devicePixelRatio: window.devicePixelRatio || 1,
+        orientation: window.screen.orientation ? window.screen.orientation.type : 'unknown',
+        battery: this.getBatteryInfo()
+      };
+    }
+
+    async getBatteryInfo() {
+      if (!navigator.getBattery) return null;
+      
+      try {
+        const battery = await navigator.getBattery();
+        return {
+          charging: battery.charging,
+          level: battery.level,
+          chargingTime: battery.chargingTime,
+          dischargingTime: battery.dischargingTime
+        };
+      } catch (e) {
+        return null;
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.performanceMonitor = new PerformanceMonitor();
+    });
+  } else {
+    window.performanceMonitor = new PerformanceMonitor();
+  }
+
+})();
+</script>
+
+
+<script>
+(function() {
+  'use strict';
+
+  // 分析配置 - 使用主配置的环境判断
+  const ANALYTICS_CONFIG = {
+    endpoint: currentConfig.analyticsEndpoint,
+    localStorageKey: CONFIG.analyticsLocalStorageKey,
+    sessionTimeout: CONFIG.sessionTimeout,
+    pageViewSampleRate: isDevelopment ? 1.0 : 0.5, // 开发环境100%，生产环境50%
+    eventSampleRate: isDevelopment ? 0.5 : 0.1 // 开发环境50%，生产环境10%
+  };
+
+  class AnalyticsCollector {
+    constructor() {
+      this.sessionId = this.generateSessionId();
+      this.pageViewId = this.generatePageViewId();
+      this.sessionStart = Date.now();
+      this.pageViewStart = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    generatePageViewId() {
+      return 'page_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      this.collectPageView();
+      this.setupEventListeners();
+      this.setupPeriodicFlush();
+      
+      window.addEventListener('beforeunload', () => this.flushData());
+    }
+
+    collectPageView() {
+      if (Math.random() > ANALYTICS_CONFIG.pageViewSampleRate) return;
+
+      const pageView = {
+        type: 'pageview',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        referrer: document.referrer,
+        title: document.title,
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        deviceType: this.getDeviceType(),
+        connectionType: this.getConnectionType(),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        prefersColorScheme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+        prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      };
+
+      this.saveToLocalStorage(pageView);
+    }
+
+    getDeviceType() {
+      const ua = navigator.userAgent;
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)) {
+        return 'mobile';
+      } else if (/Tablet|iPad/i.test(ua)) {
+        return 'tablet';
+      }
+      return 'desktop';
+    }
+
+    getConnectionType() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      return connection ? connection.effectiveType : 'unknown';
+    }
+
+    setupEventListeners() {
+      document.addEventListener('click', (event) => {
+        if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+        const target = event.target;
+        const clickData = {
+          type: 'click',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          target: {
+            tag: target.tagName,
+            id: target.id,
+            className: target.className,
+            text: target.textContent?.substring(0, 100) || '',
+            href: target.href || ''
+          },
+          position: {
+            x: event.clientX,
+            y: event.clientY
+          }
+        };
+
+        this.saveToLocalStorage(clickData);
+      });
+
+      let lastScrollReport = 0;
+      window.addEventListener('scroll', () => {
+        const now = Date.now();
+        if (now - lastScrollReport < 1000) return;
+        
+        const scrollDepth = this.calculateScrollDepth();
+        const scrollData = {
+          type: 'scroll',
+          timestamp: now,
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          scrollY: window.scrollY,
+          scrollDepth: scrollDepth,
+          viewportHeight: window.innerHeight,
+          documentHeight: document.documentElement.scrollHeight
+        };
+
+        this.saveToLocalStorage(scrollData);
+        lastScrollReport = now;
+      });
+
+      this.setupMathInteractionTracking();
+      this.setupSearchTracking();
+      this.setupExternalLinkTracking();
+    }
+
+    calculateScrollDepth() {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      const maxScroll = documentHeight - windowHeight;
+      if (maxScroll <= 0) return 0;
+      
+      return Math.min(100, Math.round((scrollY / maxScroll) * 100));
+    }
+
+    setupMathInteractionTracking() {
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const mathData = {
+            type: 'math_interaction',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            pageViewId: this.pageViewId,
+            url: window.location.href,
+            elementType: target.tagName,
+            mathType: this.getMathType(target)
+          };
+
+          this.saveToLocalStorage(mathData);
+        }
+      });
+    }
+
+    getMathType(element) {
+      const className = element.className || '';
+      if (className.includes('display')) return 'display';
+      if (className.includes('inline')) return 'inline';
+      return 'unknown';
+    }
+
+    setupSearchTracking() {
+      const searchInput = document.querySelector('input[type="search"], input[name="q"], .search-input');
+      if (searchInput) {
+        let searchStartTime = null;
+        
+        searchInput.addEventListener('focus', () => {
+          searchStartTime = Date.now();
+        });
+
+        searchInput.addEventListener('blur', () => {
+          if (searchStartTime && searchInput.value.trim()) {
+            const searchData = {
+              type: 'search',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              query: searchInput.value,
+              duration: Date.now() - searchStartTime
+            };
+
+            this.saveToLocalStorage(searchData);
+          }
+          searchStartTime = null;
+        });
+      }
+    }
+
+    setupExternalLinkTracking() {
+      document.addEventListener('click', (event) => {
+        let target = event.target;
+        while (target && target.tagName !== 'A') {
+          target = target.parentElement;
+        }
+        
+        if (target && target.tagName === 'A' && target.href) {
+          const url = new URL(target.href);
+          const currentUrl = new URL(window.location.href);
+          
+          if (url.hostname !== currentUrl.hostname) {
+            const linkData = {
+              type: 'external_link',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              externalUrl: target.href,
+              linkText: target.textContent?.substring(0, 100) || '',
+              isNewTab: target.target === '_blank'
+            };
+
+            this.saveToLocalStorage(linkData);
+          }
+        }
+      });
+    }
+
+    setupPeriodicFlush() {
+      setInterval(() => {
+        const data = this.loadFromLocalStorage();
+        if (data.length >= 20) this.flushData();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.flushData();
+      });
+    }
+
+    saveToLocalStorage(data) {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        const analyticsData = stored ? JSON.parse(stored) : [];
+        analyticsData.push(data);
+        
+        if (analyticsData.length > 100) {
+          analyticsData.splice(0, analyticsData.length - 100);
+        }
+        
+        localStorage.setItem(ANALYTICS_CONFIG.localStorageKey, JSON.stringify(analyticsData));
+      } catch (e) {
+        console.warn('无法保存分析数据:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    clearLocalStorage() {
+      try {
+        localStorage.removeItem(ANALYTICS_CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    async flushData() {
+      const data = this.loadFromLocalStorage();
+      if (data.length === 0) return;
+
+      try {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+          navigator.sendBeacon(ANALYTICS_CONFIG.endpoint, blob);
+        } else {
+          await fetch(ANALYTICS_CONFIG.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+            keepalive: true
+          });
+        }
+        
+        this.clearLocalStorage();
+      } catch (error) {
+        console.warn('发送分析数据失败:', error);
+      }
+    }
+
+    trackEvent(eventName, properties = {}) {
+      if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+      const eventData = {
+        type: 'custom_event',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        eventName: eventName,
+        properties: properties
+      };
+
+      this.saveToLocalStorage(eventData);
+    }
+
+    trackError(error, context = {}) {
+      const errorData = {
+        type: 'error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        error: {
+          message: error.message,
+          stack: error.stack,
+          name: error.name
+        },
+        context: context
+      };
+
+      this.saveToLocalStorage(errorData);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.analytics = new AnalyticsCollector();
+    });
+  } else {
+    window.analytics = new AnalyticsCollector();
+  }
+
+})();
+</script>
+</body>
+</html>

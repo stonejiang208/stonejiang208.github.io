@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.tao-studio.net","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"author":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="从头学 Claude Code（七）—— 第一次修车：Bug 修复实战  本系列适合零基础新手，手把手带你掌握 AI 编程助手   上节回顾 上一讲我们学了权限管理，知道了什么情况下需要”踩刹车”。这一讲，我们开始实战——用 Claude Code 修复 Bug。  就像有个修车师傅在旁边，车子有问题不用自己硬扛。   1. 案例背景：车子坏了 场景：你的 Node.js 项目就像一辆车，现在有个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从头学 Claude Code（七）第一次修车——修复 Bug 实战">
+<meta property="og:url" content="http://blog.tao-studio.net/2026/04/01/learn-claude-07-bugfix/index.html">
+<meta property="og:site_name" content="Stone&#39;s Blog">
+<meta property="og:description" content="从头学 Claude Code（七）—— 第一次修车：Bug 修复实战  本系列适合零基础新手，手把手带你掌握 AI 编程助手   上节回顾 上一讲我们学了权限管理，知道了什么情况下需要”踩刹车”。这一讲，我们开始实战——用 Claude Code 修复 Bug。  就像有个修车师傅在旁边，车子有问题不用自己硬扛。   1. 案例背景：车子坏了 场景：你的 Node.js 项目就像一辆车，现在有个">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-01T05:50:00.000Z">
+<meta property="article:modified_time" content="2026-04-01T08:57:18.144Z">
+<meta property="article:author" content="Stone">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Claude Code">
+<meta property="article:tag" content="编程助手">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="Bug修复">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.tao-studio.net/2026/04/01/learn-claude-07-bugfix/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>从头学 Claude Code（七）第一次修车——修复 Bug 实战 | Stone's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Stone's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">blog.tao-studio.net</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/04/01/learn-claude-07-bugfix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读,编程和投资">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从头学 Claude Code（七）第一次修车——修复 Bug 实战
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-04-01 13:50:00 / 修改时间：16:57:18" itemprop="dateCreated datePublished" datetime="2026-04-01T13:50:00+08:00">2026-04-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BC%96%E7%A8%8B%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程教程</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BC%96%E7%A8%8B%E6%95%99%E7%A8%8B/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="从头学-claude-code七-第一次修车bug-修复实战">从头学 Claude
+Code（七）—— 第一次修车：Bug 修复实战</h1>
+<blockquote>
+<p>本系列适合零基础新手，手把手带你掌握 AI 编程助手</p>
+</blockquote>
+<hr />
+<h2 id="上节回顾">上节回顾</h2>
+<p>上一讲我们学了权限管理，知道了什么情况下需要”踩刹车”。这一讲，我们开始<strong>实战</strong>——用
+Claude Code 修复 Bug。</p>
+<blockquote>
+<p>就像有个修车师傅在旁边，车子有问题不用自己硬扛。</p>
+</blockquote>
+<hr />
+<h2 id="案例背景车子坏了">1. 案例背景：车子坏了</h2>
+<p><strong>场景</strong>：你的 Node.js 项目就像一辆车，现在有个问题： -
+<strong>症状</strong>：登录页面点击”登录”按钮，车子动都不动 -
+<strong>仪表盘</strong>：控制台显示 “Cannot read property ‘token’ of
+undefined”</p>
+<hr />
+<h2 id="任务拆解用-4a-修车">2. 任务拆解：用 4A 修车</h2>
+<h3 id="第一步analyze诊断">第一步：Analyze（诊断）</h3>
+<p>首先，你得知道问题在哪：</p>
+<p><strong>你可以说</strong>： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">## 背景</span><br><span class="line">这是一个 Node.js + Express 的登录项目</span><br><span class="line"></span><br><span class="line">## 任务</span><br><span class="line">帮我分析登录功能的问题</span><br><span class="line"></span><br><span class="line">## 信息</span><br><span class="line">- 前端点击登录按钮没有反应</span><br><span class="line">- 控制台有 &quot;Cannot read property &#x27;token&#x27; of undefined&quot; 错误</span><br><span class="line"></span><br><span class="line">## 要求</span><br><span class="line">先分析项目结构，找出问题所在</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>就像你把车开到修理厂，说：“师傅，车子启动不了，你帮我看看。”</p>
+</blockquote>
+<hr />
+<h3 id="第二步architect方案">第二步：Architect（方案）</h3>
+<p>分析完成后，Claude 会告诉你： - 问题在哪个部件 - 原因是什么 -
+需要怎么修</p>
+<p><strong>你可以说</strong>： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">分析得对，请给出修复方案并执行</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>就像师傅说：“问题找到了，是火花塞松了，我帮你拧紧就行。”</p>
+</blockquote>
+<hr />
+<h3 id="第三步apply维修">第三步：Apply（维修）</h3>
+<p>Claude 会： 1. 读取相关部件（文件） 2. 更换坏掉的零件（修改代码） 3.
+告诉你改了什么</p>
+<blockquote>
+<p>就像师傅修车的时候，你可以在旁边看着学习。</p>
+</blockquote>
+<hr />
+<h3 id="第四步assert验收">第四步：Assert（验收）</h3>
+<p>最后验证： 1. 零件换对了没（代码正确） 2. 车子能不能启动（问题解决）
+3. 有没有新问题（有没有修坏其他东西）</p>
+<p><strong>你可以说</strong>： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">修复后测试一下登录功能是否正常</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>就像修完车，教练车绕一圈，看看还有没有问题。</p>
+</blockquote>
+<hr />
+<h2 id="完整对话示例修车全过程">3. 完整对话示例：修车全过程</h2>
+<h3 id="对话-1描述问题">对话 1：描述问题</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">你：帮我看看登录功能的问题。点击登录按钮没有反应，控制台报错 &quot;Cannot read property &#x27;token&#x27; of undefined&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像说：“师傅，车子启动不了，仪表盘显示这个错误”</p>
+</blockquote>
+<hr />
+<h3 id="对话-2诊断问题">对话 2：诊断问题</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Claude（检查后）：</span><br><span class="line">我找到了问题。在 src/api/auth.js 中，登录 API 返回的数据结构与你预期的不一致。</span><br><span class="line"></span><br><span class="line">当前代码：</span><br><span class="line">const token = response.data.token  // response.data 是 undefined</span><br><span class="line"></span><br><span class="line">实际返回：</span><br><span class="line">&#123; success: true, token: &quot;xxx&quot; &#125;  // 没有嵌套的 data，直接就是 token</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像师傅说：“我检查过了，是线路接错了，不是火花塞的问题”</p>
+</blockquote>
+<hr />
+<h3 id="对话-3修复问题">对话 3：修复问题</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">你：请修复这个问题</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Claude（修复完成）：</span><br><span class="line">已修复 src/api/auth.js 文件：</span><br><span class="line"></span><br><span class="line">修改前：</span><br><span class="line">const token = response.data.token</span><br><span class="line"></span><br><span class="line">修改后：</span><br><span class="line">const token = response.token</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像师傅说：“接好了，你试试看”</p>
+</blockquote>
+<hr />
+<h3 id="对话-4验证结果">对话 4：验证结果</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">你：测试一下登录功能</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Claude：</span><br><span class="line">运行测试...</span><br><span class="line">✓ 登录成功，token 正确获取</span><br><span class="line">✓ 页面正确跳转到首页</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像你说：“发动试试”，师傅说：“好了，发动机正常响了！”</p>
+</blockquote>
+<hr />
+<h2 id="关键技巧怎么更好地描述病情">4.
+关键技巧：怎么更好地”描述病情”</h2>
+<h3 id="技巧一提供错误信息">技巧一：提供错误信息</h3>
+<p>把错误信息粘贴给 Claude，它能更快定位问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error: Cannot read property &#x27;token&#x27; of undefined</span><br><span class="line">at Login.vue:45:30</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像去看病，把检查报告拿给医生看</p>
+</blockquote>
+<hr />
+<h3 id="技巧二说明复现步骤">技巧二：说明复现步骤</h3>
+<p>让 Claude 知道如何触发问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 打开登录页面</span><br><span class="line">2. 输入用户名和密码</span><br><span class="line">3. 点击登录按钮</span><br><span class="line">4. 等待 3 秒无反应</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像说：“我是这样操作才发现问题的”</p>
+</blockquote>
+<hr />
+<h3 id="技巧三指出期望行为">技巧三：指出期望行为</h3>
+<p>帮助 Claude 理解什么是对的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">期望：点击后跳转到 /dashboard</span><br><span class="line">实际：没有任何反应</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像说：“正常应该这样，但它不这样”</p>
+</blockquote>
+<hr />
+<h2 id="常见-bug-类型与处理">5. 常见 Bug 类型与处理</h2>
+<table>
+<thead>
+<tr class="header">
+<th>类型</th>
+<th>典型症状</th>
+<th>解决思路</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>拼写错误</strong></td>
+<td>变量名红色波浪线</td>
+<td>用 Grep 搜索正确名称</td>
+</tr>
+<tr class="even">
+<td><strong>类型错误</strong></td>
+<td>undefined is not a function</td>
+<td>检查变量类型</td>
+</tr>
+<tr class="odd">
+<td><strong>路径错误</strong></td>
+<td>Cannot find module</td>
+<td>用 Glob 确认文件位置</td>
+</tr>
+<tr class="even">
+<td><strong>逻辑错误</strong></td>
+<td>结果不符合预期</td>
+<td>理解代码流程，逐步排查</td>
+</tr>
+<tr class="odd">
+<td><strong>环境问题</strong></td>
+<td>启动报错</td>
+<td>检查依赖和配置</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡
+就像修车：异响可能是螺丝松了，冒烟可能是漏油了，不同症状对应不同问题</p>
+</blockquote>
+<hr />
+<h2 id="实操练习">6. 实操练习</h2>
+<h3 id="练习-1找拼写错误">练习 1：找拼写错误</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在项目中搜索 &quot;functoin&quot;（故意拼错），让它帮你找出来</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像让实习生帮你检查有没有错别字</p>
+</blockquote>
+<hr />
+<h3 id="练习-2分析错误日志">练习 2：分析错误日志</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">把一段错误日志发给 Claude，让它分析原因</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像把体检报告发给医生看</p>
+</blockquote>
+<hr />
+<h3 id="练习-3完整修复流程">练习 3：完整修复流程</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">找一个真实的小 bug，用 4A 流程完整走一遍</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像真把车开去修一遍</p>
+</blockquote>
+<hr />
+<h2 id="本节小结">本节小结</h2>
+<ul>
+<li><strong>问题描述</strong>：给错误信息 + 复现步骤 +
+期望行为（就像描述病情）</li>
+<li><strong>4A 流程</strong>：诊断 → 方案 → 修复 →
+验收（就像修车四步走）</li>
+<li><strong>关键技巧</strong>：给详细信息，让它更快定位</li>
+</ul>
+<blockquote>
+<p>💡 <strong>记住</strong>：Bug 就像车子故障——描述清楚症状，4A
+流程处理，验证修复结果！</p>
+</blockquote>
+<hr />
+<h2 id="下节预告">下节预告</h2>
+<blockquote>
+<p>下一讲：学习如何添加新功能——第一次装修</p>
+</blockquote>
+<hr />
+<p><em>有问题？评论区见！如果觉得有帮助，点个赞再走~</em></p>
+<hr />
+<p><strong>标签</strong>: #Claude Code #AI编程 #Bug修复 #实战教程</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/Claude-Code/" rel="tag"># Claude Code</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B/" rel="tag"># 编程助手</a>
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+              <a href="/tags/Bug%E4%BF%AE%E5%A4%8D/" rel="tag"># Bug修复</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/04/01/learn-claude-06-permission/" rel="prev" title="从头学 Claude Code（六）安全驾驶指南——权限管理">
+      <i class="fa fa-chevron-left"></i> 从头学 Claude Code（六）安全驾驶指南——权限管理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2026/04/01/learn-claude-08-feature/" rel="next" title="从头学 Claude Code（八）第一次装修——添加新功能实战">
+      从头学 Claude Code（八）第一次装修——添加新功能实战 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          <script src="https://utteranc.es/client.js"
+        repo="stonejiang208/blog"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8E%E5%A4%B4%E5%AD%A6-claude-code%E4%B8%83-%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BF%AE%E8%BD%A6bug-%E4%BF%AE%E5%A4%8D%E5%AE%9E%E6%88%98"><span class="nav-number">1.</span> <span class="nav-text">从头学 Claude
+Code（七）—— 第一次修车：Bug 修复实战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E8%8A%82%E5%9B%9E%E9%A1%BE"><span class="nav-number">1.1.</span> <span class="nav-text">上节回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E8%83%8C%E6%99%AF%E8%BD%A6%E5%AD%90%E5%9D%8F%E4%BA%86"><span class="nav-number">1.2.</span> <span class="nav-text">1. 案例背景：车子坏了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E6%8B%86%E8%A7%A3%E7%94%A8-4a-%E4%BF%AE%E8%BD%A6"><span class="nav-number">1.3.</span> <span class="nav-text">2. 任务拆解：用 4A 修车</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5analyze%E8%AF%8A%E6%96%AD"><span class="nav-number">1.3.1.</span> <span class="nav-text">第一步：Analyze（诊断）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5architect%E6%96%B9%E6%A1%88"><span class="nav-number">1.3.2.</span> <span class="nav-text">第二步：Architect（方案）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5apply%E7%BB%B4%E4%BF%AE"><span class="nav-number">1.3.3.</span> <span class="nav-text">第三步：Apply（维修）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5assert%E9%AA%8C%E6%94%B6"><span class="nav-number">1.3.4.</span> <span class="nav-text">第四步：Assert（验收）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E5%AF%B9%E8%AF%9D%E7%A4%BA%E4%BE%8B%E4%BF%AE%E8%BD%A6%E5%85%A8%E8%BF%87%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">3. 完整对话示例：修车全过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%AF%9D-1%E6%8F%8F%E8%BF%B0%E9%97%AE%E9%A2%98"><span class="nav-number">1.4.1.</span> <span class="nav-text">对话 1：描述问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%AF%9D-2%E8%AF%8A%E6%96%AD%E9%97%AE%E9%A2%98"><span class="nav-number">1.4.2.</span> <span class="nav-text">对话 2：诊断问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%AF%9D-3%E4%BF%AE%E5%A4%8D%E9%97%AE%E9%A2%98"><span class="nav-number">1.4.3.</span> <span class="nav-text">对话 3：修复问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%AF%9D-4%E9%AA%8C%E8%AF%81%E7%BB%93%E6%9E%9C"><span class="nav-number">1.4.4.</span> <span class="nav-text">对话 4：验证结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%8A%80%E5%B7%A7%E6%80%8E%E4%B9%88%E6%9B%B4%E5%A5%BD%E5%9C%B0%E6%8F%8F%E8%BF%B0%E7%97%85%E6%83%85"><span class="nav-number">1.5.</span> <span class="nav-text">4.
+关键技巧：怎么更好地”描述病情”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A7%E4%B8%80%E6%8F%90%E4%BE%9B%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF"><span class="nav-number">1.5.1.</span> <span class="nav-text">技巧一：提供错误信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A7%E4%BA%8C%E8%AF%B4%E6%98%8E%E5%A4%8D%E7%8E%B0%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.5.2.</span> <span class="nav-text">技巧二：说明复现步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A7%E4%B8%89%E6%8C%87%E5%87%BA%E6%9C%9F%E6%9C%9B%E8%A1%8C%E4%B8%BA"><span class="nav-number">1.5.3.</span> <span class="nav-text">技巧三：指出期望行为</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81-bug-%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%A4%84%E7%90%86"><span class="nav-number">1.6.</span> <span class="nav-text">5. 常见 Bug 类型与处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E6%93%8D%E7%BB%83%E4%B9%A0"><span class="nav-number">1.7.</span> <span class="nav-text">6. 实操练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0-1%E6%89%BE%E6%8B%BC%E5%86%99%E9%94%99%E8%AF%AF"><span class="nav-number">1.7.1.</span> <span class="nav-text">练习 1：找拼写错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0-2%E5%88%86%E6%9E%90%E9%94%99%E8%AF%AF%E6%97%A5%E5%BF%97"><span class="nav-number">1.7.2.</span> <span class="nav-text">练习 2：分析错误日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0-3%E5%AE%8C%E6%95%B4%E4%BF%AE%E5%A4%8D%E6%B5%81%E7%A8%8B"><span class="nav-number">1.7.3.</span> <span class="nav-text">练习 3：完整修复流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E8%8A%82%E5%B0%8F%E7%BB%93"><span class="nav-number">1.8.</span> <span class="nav-text">本节小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%8A%82%E9%A2%84%E5%91%8A"><span class="nav-number">1.9.</span> <span class="nav-text">下节预告</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Stone</p>
+  <div class="site-description" itemprop="description">数学,阅读,编程和投资</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:stone@tao-studio.net" title="E-Mail → mailto:stone@tao-studio.net" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="mailto:stone@tao-studio.net" title="mailto:stone@tao-studio.net" rel="noopener" target="_blank">欢迎互粉</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://terrytao.wordpress.com/" title="https:&#x2F;&#x2F;terrytao.wordpress.com&#x2F;" rel="noopener" target="_blank">陶哲轩的博客</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stone</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">231k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:30</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+(function() {
+  'use strict';
+
+  // 配置 - 支持开发和生产环境
+  const CONFIG = {
+    // 开发环境配置（本地测试）
+    development: {
+      performanceEndpoint: 'http://localhost:3001',
+      analyticsEndpoint: 'http://localhost:3002/analytics',
+      sampleRate: 1.0, // 100%采样率用于测试
+      debug: true
+    },
+    // 生产环境配置（Railway部署）
+    production: {
+      performanceEndpoint: 'https://blog-performance-monitor.up.railway.app',
+      analyticsEndpoint: 'https://blog-analytics-server.up.railway.app/analytics',
+      sampleRate: 0.1, // 10%采样率
+      debug: false
+    },
+    // 通用配置
+    maxMetricsPerSession: 50,
+    sessionTimeout: 30 * 60 * 1000, // 30分钟
+    localStorageKey: 'performance_metrics_buffer',
+    analyticsLocalStorageKey: 'analytics_events_buffer'
+  };
+
+  // 根据当前环境选择配置
+  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const currentConfig = isDevelopment ? CONFIG.development : CONFIG.production;
+
+  // 性能指标收集器
+  class PerformanceMonitor {
+    constructor() {
+      this.metricsBuffer = [];
+      this.sessionId = this.generateSessionId();
+      this.pageLoadTime = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      if (Math.random() > currentConfig.sampleRate) return;
+
+      this.collectInitialMetrics();
+      this.setupEventListeners();
+      this.setupPeriodicSend();
+      
+      window.addEventListener('beforeunload', () => this.sendMetrics());
+    }
+
+    collectInitialMetrics() {
+      const metrics = {
+        type: 'page_load',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        referrer: document.referrer,
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        connection: this.getConnectionInfo(),
+        deviceMemory: navigator.deviceMemory || 'unknown',
+        hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
+        performance: this.getPerformanceMetrics(),
+        mathjax: this.detectMathJax(),
+        pageLoadTime: Date.now() - this.pageLoadTime
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    getConnectionInfo() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return 'unknown';
+      
+      return {
+        effectiveType: connection.effectiveType,
+        downlink: connection.downlink,
+        rtt: connection.rtt,
+        saveData: connection.saveData
+      };
+    }
+
+    getPerformanceMetrics() {
+      if (!window.performance || !window.performance.timing) return null;
+
+      const timing = window.performance.timing;
+      const navigation = window.performance.navigation || {};
+      
+      return {
+        navigationType: navigation.type || 0,
+        redirectCount: navigation.redirectCount || 0,
+        dnsLookup: timing.domainLookupEnd - timing.domainLookupStart,
+        tcpConnect: timing.connectEnd - timing.connectStart,
+        requestResponse: timing.responseEnd - timing.requestStart,
+        domInteractive: timing.domInteractive - timing.navigationStart,
+        domComplete: timing.domComplete - timing.navigationStart,
+        loadEvent: timing.loadEventEnd - timing.navigationStart,
+        firstPaint: this.getFirstPaint(),
+        firstContentfulPaint: this.getFirstContentfulPaint(),
+        largestContentfulPaint: this.getLargestContentfulPaint(),
+        cumulativeLayoutShift: this.getCumulativeLayoutShift()
+      };
+    }
+
+    getFirstPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fpEntry = entries.find(entry => entry.name === 'first-paint');
+      return fpEntry ? Math.round(fpEntry.startTime) : null;
+    }
+
+    getFirstContentfulPaint() {
+      const entries = performance.getEntriesByType('paint');
+      const fcpEntry = entries.find(entry => entry.name === 'first-contentful-paint');
+      return fcpEntry ? Math.round(fcpEntry.startTime) : null;
+    }
+
+    getLargestContentfulPaint() {
+      const entries = performance.getEntriesByType('largest-contentful-paint');
+      if (entries.length === 0) return null;
+      
+      const lcpEntry = entries[entries.length - 1];
+      return Math.round(lcpEntry.startTime);
+    }
+
+    getCumulativeLayoutShift() {
+      let cls = 0;
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (!entry.hadRecentInput) {
+            cls += entry.value;
+          }
+        }
+      });
+      
+      try {
+        observer.observe({ type: 'layout-shift', buffered: true });
+        return Math.round(cls * 100) / 100;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    detectMathJax() {
+      const scripts = Array.from(document.querySelectorAll('script'));
+      const hasMathJaxScript = scripts.some(script => 
+        script.src && script.src.includes('mathjax')
+      );
+      
+      const hasMathJaxElements = document.querySelectorAll('[class*="math"], [class*="MathJax"]').length > 0;
+      
+      return {
+        hasScript: hasMathJaxScript,
+        hasElements: hasMathJaxElements,
+        elementCount: document.querySelectorAll('[class*="math"], [class*="MathJax"]').length
+      };
+    }
+
+    setupEventListeners() {
+      window.addEventListener('error', (event) => {
+        if (event.target && event.target.tagName) {
+          this.collectResourceError(event);
+        }
+      }, true);
+
+      this.setupMathJaxMonitoring();
+      this.setupUserInteractionMonitoring();
+      this.setupNetworkMonitoring();
+    }
+
+    collectResourceError(event) {
+      const metrics = {
+        type: 'resource_error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        url: window.location.href,
+        errorType: 'resource_load',
+        resourceType: event.target.tagName.toLowerCase(),
+        resourceSrc: event.target.src || event.target.href || 'unknown',
+        errorMessage: event.message || 'Resource load failed'
+      };
+
+      this.addToBuffer(metrics);
+    }
+
+    setupMathJaxMonitoring() {
+      if (window.MathJax && window.MathJax.Hub) {
+        window.MathJax.Hub.Register.StartupHook('End', () => {
+          const metrics = {
+            type: 'mathjax_rendered',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            renderTime: Date.now() - this.pageLoadTime,
+            mathElementCount: document.querySelectorAll('.MathJax, .math').length
+          };
+
+          this.addToBuffer(metrics);
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const metrics = {
+            type: 'math_element_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            elementType: target.tagName,
+            elementClass: target.className
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupUserInteractionMonitoring() {
+      let scrollStartTime = null;
+      let scrollTimeout = null;
+
+      window.addEventListener('scroll', () => {
+        if (!scrollStartTime) scrollStartTime = Date.now();
+        
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          if (scrollStartTime) {
+            const scrollDuration = Date.now() - scrollStartTime;
+            const metrics = {
+              type: 'scroll_session',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              url: window.location.href,
+              duration: scrollDuration,
+              scrollY: window.scrollY,
+              viewportHeight: window.innerHeight,
+              documentHeight: document.documentElement.scrollHeight
+            };
+
+            this.addToBuffer(metrics);
+            scrollStartTime = null;
+          }
+        }, 1000);
+      });
+
+      document.addEventListener('click', (event) => {
+        if (Math.random() < 0.01) {
+          const metrics = {
+            type: 'user_click',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            url: window.location.href,
+            targetTag: event.target.tagName,
+            targetClass: event.target.className,
+            targetId: event.target.id,
+            x: event.clientX,
+            y: event.clientY
+          };
+
+          this.addToBuffer(metrics);
+        }
+      });
+    }
+
+    setupNetworkMonitoring() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return;
+
+      connection.addEventListener('change', () => {
+        const metrics = {
+          type: 'network_change',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          url: window.location.href,
+          connection: this.getConnectionInfo()
+        };
+
+        this.addToBuffer(metrics);
+      });
+    }
+
+    setupPeriodicSend() {
+      setInterval(() => {
+        if (this.metricsBuffer.length >= 10) this.sendMetrics();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.sendMetrics();
+      });
+    }
+
+    addToBuffer(metrics) {
+      this.metricsBuffer.push(metrics);
+      
+      if (this.metricsBuffer.length > CONFIG.maxMetricsPerSession) {
+        this.metricsBuffer = this.metricsBuffer.slice(-CONFIG.maxMetricsPerSession);
+      }
+      
+      this.saveToLocalStorage();
+    }
+
+    saveToLocalStorage() {
+      try {
+        const data = {
+          sessionId: this.sessionId,
+          metrics: this.metricsBuffer,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(CONFIG.localStorageKey, JSON.stringify(data));
+      } catch (e) {
+        console.warn('无法保存性能数据到 localStorage:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const data = localStorage.getItem(CONFIG.localStorageKey);
+        if (data) {
+          const parsed = JSON.parse(data);
+          if (Date.now() - parsed.timestamp < CONFIG.sessionTimeout) {
+            this.sessionId = parsed.sessionId;
+            this.metricsBuffer = parsed.metrics || [];
+          } else {
+            localStorage.removeItem(CONFIG.localStorageKey);
+          }
+        }
+      } catch (e) {}
+    }
+
+    sendMetrics() {
+      if (this.metricsBuffer.length === 0) return;
+
+      const dataToSend = [...this.metricsBuffer];
+      this.metricsBuffer = [];
+
+      if (navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(dataToSend)], { type: 'application/json' });
+        navigator.sendBeacon(currentConfig.performanceEndpoint, blob);
+      } else {
+        fetch(currentConfig.performanceEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dataToSend),
+          keepalive: true
+        }).catch(error => {
+          console.warn('性能数据发送失败:', error);
+          this.metricsBuffer = [...dataToSend, ...this.metricsBuffer];
+        });
+      }
+
+      try {
+        localStorage.removeItem(CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    getMobileSpecificMetrics() {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      return {
+        isMobile,
+        isTouchDevice,
+        devicePixelRatio: window.devicePixelRatio || 1,
+        orientation: window.screen.orientation ? window.screen.orientation.type : 'unknown',
+        battery: this.getBatteryInfo()
+      };
+    }
+
+    async getBatteryInfo() {
+      if (!navigator.getBattery) return null;
+      
+      try {
+        const battery = await navigator.getBattery();
+        return {
+          charging: battery.charging,
+          level: battery.level,
+          chargingTime: battery.chargingTime,
+          dischargingTime: battery.dischargingTime
+        };
+      } catch (e) {
+        return null;
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.performanceMonitor = new PerformanceMonitor();
+    });
+  } else {
+    window.performanceMonitor = new PerformanceMonitor();
+  }
+
+})();
+</script>
+
+
+<script>
+(function() {
+  'use strict';
+
+  // 分析配置 - 使用主配置的环境判断
+  const ANALYTICS_CONFIG = {
+    endpoint: currentConfig.analyticsEndpoint,
+    localStorageKey: CONFIG.analyticsLocalStorageKey,
+    sessionTimeout: CONFIG.sessionTimeout,
+    pageViewSampleRate: isDevelopment ? 1.0 : 0.5, // 开发环境100%，生产环境50%
+    eventSampleRate: isDevelopment ? 0.5 : 0.1 // 开发环境50%，生产环境10%
+  };
+
+  class AnalyticsCollector {
+    constructor() {
+      this.sessionId = this.generateSessionId();
+      this.pageViewId = this.generatePageViewId();
+      this.sessionStart = Date.now();
+      this.pageViewStart = Date.now();
+      this.init();
+    }
+
+    generateSessionId() {
+      return 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    generatePageViewId() {
+      return 'page_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
+
+    init() {
+      this.collectPageView();
+      this.setupEventListeners();
+      this.setupPeriodicFlush();
+      
+      window.addEventListener('beforeunload', () => this.flushData());
+    }
+
+    collectPageView() {
+      if (Math.random() > ANALYTICS_CONFIG.pageViewSampleRate) return;
+
+      const pageView = {
+        type: 'pageview',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        referrer: document.referrer,
+        title: document.title,
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        deviceType: this.getDeviceType(),
+        connectionType: this.getConnectionType(),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        prefersColorScheme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+        prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      };
+
+      this.saveToLocalStorage(pageView);
+    }
+
+    getDeviceType() {
+      const ua = navigator.userAgent;
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)) {
+        return 'mobile';
+      } else if (/Tablet|iPad/i.test(ua)) {
+        return 'tablet';
+      }
+      return 'desktop';
+    }
+
+    getConnectionType() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      return connection ? connection.effectiveType : 'unknown';
+    }
+
+    setupEventListeners() {
+      document.addEventListener('click', (event) => {
+        if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+        const target = event.target;
+        const clickData = {
+          type: 'click',
+          timestamp: Date.now(),
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          target: {
+            tag: target.tagName,
+            id: target.id,
+            className: target.className,
+            text: target.textContent?.substring(0, 100) || '',
+            href: target.href || ''
+          },
+          position: {
+            x: event.clientX,
+            y: event.clientY
+          }
+        };
+
+        this.saveToLocalStorage(clickData);
+      });
+
+      let lastScrollReport = 0;
+      window.addEventListener('scroll', () => {
+        const now = Date.now();
+        if (now - lastScrollReport < 1000) return;
+        
+        const scrollDepth = this.calculateScrollDepth();
+        const scrollData = {
+          type: 'scroll',
+          timestamp: now,
+          sessionId: this.sessionId,
+          pageViewId: this.pageViewId,
+          url: window.location.href,
+          scrollY: window.scrollY,
+          scrollDepth: scrollDepth,
+          viewportHeight: window.innerHeight,
+          documentHeight: document.documentElement.scrollHeight
+        };
+
+        this.saveToLocalStorage(scrollData);
+        lastScrollReport = now;
+      });
+
+      this.setupMathInteractionTracking();
+      this.setupSearchTracking();
+      this.setupExternalLinkTracking();
+    }
+
+    calculateScrollDepth() {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      const maxScroll = documentHeight - windowHeight;
+      if (maxScroll <= 0) return 0;
+      
+      return Math.min(100, Math.round((scrollY / maxScroll) * 100));
+    }
+
+    setupMathInteractionTracking() {
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList && (target.classList.contains('MathJax') || target.classList.contains('math'))) {
+          const mathData = {
+            type: 'math_interaction',
+            timestamp: Date.now(),
+            sessionId: this.sessionId,
+            pageViewId: this.pageViewId,
+            url: window.location.href,
+            elementType: target.tagName,
+            mathType: this.getMathType(target)
+          };
+
+          this.saveToLocalStorage(mathData);
+        }
+      });
+    }
+
+    getMathType(element) {
+      const className = element.className || '';
+      if (className.includes('display')) return 'display';
+      if (className.includes('inline')) return 'inline';
+      return 'unknown';
+    }
+
+    setupSearchTracking() {
+      const searchInput = document.querySelector('input[type="search"], input[name="q"], .search-input');
+      if (searchInput) {
+        let searchStartTime = null;
+        
+        searchInput.addEventListener('focus', () => {
+          searchStartTime = Date.now();
+        });
+
+        searchInput.addEventListener('blur', () => {
+          if (searchStartTime && searchInput.value.trim()) {
+            const searchData = {
+              type: 'search',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              query: searchInput.value,
+              duration: Date.now() - searchStartTime
+            };
+
+            this.saveToLocalStorage(searchData);
+          }
+          searchStartTime = null;
+        });
+      }
+    }
+
+    setupExternalLinkTracking() {
+      document.addEventListener('click', (event) => {
+        let target = event.target;
+        while (target && target.tagName !== 'A') {
+          target = target.parentElement;
+        }
+        
+        if (target && target.tagName === 'A' && target.href) {
+          const url = new URL(target.href);
+          const currentUrl = new URL(window.location.href);
+          
+          if (url.hostname !== currentUrl.hostname) {
+            const linkData = {
+              type: 'external_link',
+              timestamp: Date.now(),
+              sessionId: this.sessionId,
+              pageViewId: this.pageViewId,
+              url: window.location.href,
+              externalUrl: target.href,
+              linkText: target.textContent?.substring(0, 100) || '',
+              isNewTab: target.target === '_blank'
+            };
+
+            this.saveToLocalStorage(linkData);
+          }
+        }
+      });
+    }
+
+    setupPeriodicFlush() {
+      setInterval(() => {
+        const data = this.loadFromLocalStorage();
+        if (data.length >= 20) this.flushData();
+      }, 30000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.flushData();
+      });
+    }
+
+    saveToLocalStorage(data) {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        const analyticsData = stored ? JSON.parse(stored) : [];
+        analyticsData.push(data);
+        
+        if (analyticsData.length > 100) {
+          analyticsData.splice(0, analyticsData.length - 100);
+        }
+        
+        localStorage.setItem(ANALYTICS_CONFIG.localStorageKey, JSON.stringify(analyticsData));
+      } catch (e) {
+        console.warn('无法保存分析数据:', e.message);
+      }
+    }
+
+    loadFromLocalStorage() {
+      try {
+        const stored = localStorage.getItem(ANALYTICS_CONFIG.localStorageKey);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    clearLocalStorage() {
+      try {
+        localStorage.removeItem(ANALYTICS_CONFIG.localStorageKey);
+      } catch (e) {}
+    }
+
+    async flushData() {
+      const data = this.loadFromLocalStorage();
+      if (data.length === 0) return;
+
+      try {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+          navigator.sendBeacon(ANALYTICS_CONFIG.endpoint, blob);
+        } else {
+          await fetch(ANALYTICS_CONFIG.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+            keepalive: true
+          });
+        }
+        
+        this.clearLocalStorage();
+      } catch (error) {
+        console.warn('发送分析数据失败:', error);
+      }
+    }
+
+    trackEvent(eventName, properties = {}) {
+      if (Math.random() > ANALYTICS_CONFIG.eventSampleRate) return;
+
+      const eventData = {
+        type: 'custom_event',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        eventName: eventName,
+        properties: properties
+      };
+
+      this.saveToLocalStorage(eventData);
+    }
+
+    trackError(error, context = {}) {
+      const errorData = {
+        type: 'error',
+        timestamp: Date.now(),
+        sessionId: this.sessionId,
+        pageViewId: this.pageViewId,
+        url: window.location.href,
+        error: {
+          message: error.message,
+          stack: error.stack,
+          name: error.name
+        },
+        context: context
+      };
+
+      this.saveToLocalStorage(errorData);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.analytics = new AnalyticsCollector();
+    });
+  } else {
+    window.analytics = new AnalyticsCollector();
+  }
+
+})();
+</script>
+</body>
+</html>

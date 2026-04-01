@@ -160,7 +160,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/21/dds-qos-high-availability/">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/04/01/learn-claude-01-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -174,7 +174,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2026/02/21/dds-qos-high-availability/" class="post-title-link" itemprop="url">DDS高可用行情发布QoS设计实践</a>
+            <a href="/2026/04/01/learn-claude-01-intro/" class="post-title-link" itemprop="url">从头学 Claude Code（一）它是谁？能帮你做什么？</a>
         </h2>
 
         <div class="post-meta">
@@ -183,27 +183,25 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2026-02-21 10:00:00" itemprop="dateCreated datePublished" datetime="2026-02-21T10:00:00+08:00">2026-02-21</time>
+              <time title="创建时间：2026-04-01 13:20:00 / 修改时间：16:52:06" itemprop="dateCreated datePublished" datetime="2026-04-01T13:20:00+08:00">2026-04-01</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-03-16 02:29:29" itemprop="dateModified" datetime="2026-03-16T02:29:29+08:00">2026-03-16</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BC%96%E7%A8%8B/OpenDDS/" itemprop="url" rel="index"><span itemprop="name">OpenDDS</span></a>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BC%96%E7%A8%8B%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程教程</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BC%96%E7%A8%8B%E6%95%99%E7%A8%8B/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
                 </span>
             </span>
 
@@ -213,7 +211,514 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.5k</span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="从头学-claude-code一-认识这位编程小助手">从头学 Claude
+Code（一）—— 认识这位编程小助手</h1>
+<blockquote>
+<p>本系列适合零基础新手，手把手带你掌握 AI 编程助手</p>
+</blockquote>
+<hr />
+<h2 id="想象一下这个场景">想象一下这个场景</h2>
+<p>你正在写代码，突然遇到一个
+bug，你盯着屏幕看了半小时，硬是没找出问题在哪。</p>
+<p>这时候，如果有一个<strong>超级勤快的实习生</strong>能帮你：</p>
+<ul>
+<li>一眼看穿整个项目的代码结构</li>
+<li>快速定位问题所在</li>
+<li>直接帮你修复</li>
+<li>还能陪你聊技术方案</li>
+</ul>
+<p><strong>这样的实习生，你想要吗？</strong></p>
+<blockquote>
+<p>这个”实习生”，就是 Claude Code！</p>
+</blockquote>
+<hr />
+<h2 id="claude-code-是什么">Claude Code 是什么？</h2>
+<p><strong>Claude Code</strong> 是 Anthropic（就是做 Claude AI
+的那个公司）官方推出的 <strong>AI 编程助手</strong>。</p>
+<p>通俗点说：它是一个<strong>懂编程的
+AI</strong>，专门帮开发者写代码、改代码、分析代码。</p>
+<h3 id="它不是魔法棒而是工具">它不是魔法棒，而是工具</h3>
+<p>Claude Code
+不是那种”你说一句话，它就给你变出一个完整项目”的魔法。它更像是一个：</p>
+<ul>
+<li>📚 <strong>超级图书管理员</strong> —— 帮你快速找到想要的代码</li>
+<li>✏️ <strong>打字员</strong> —— 你说需求，它帮你写代码</li>
+<li>🔍 <strong>质检员</strong> —— 帮你检查代码问题</li>
+<li>🧠 <strong>技术顾问</strong> —— 和你讨论技术方案</li>
+</ul>
+<hr />
+<h2 id="它能做什么">它能做什么？</h2>
+<h3 id="核心能力一览">核心能力一览</h3>
+<table>
+<thead>
+<tr class="header">
+<th>能力</th>
+<th>做什么</th>
+<th>就像…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>读懂代码</strong></td>
+<td>分析项目结构、理解代码逻辑</td>
+<td>图书管理员帮你找书</td>
+</tr>
+<tr class="even">
+<td><strong>写代码</strong></td>
+<td>生成新代码、修复 bug</td>
+<td>打字员帮你写</td>
+</tr>
+<tr class="odd">
+<td><strong>改代码</strong></td>
+<td>重构、优化、批量修改</td>
+<td>装修队帮你改造</td>
+</tr>
+<tr class="even">
+<td><strong>搜东西</strong></td>
+<td>全项目搜索文件/内容</td>
+<td>搜索引擎</td>
+</tr>
+<tr class="odd">
+<td><strong>跑命令</strong></td>
+<td>执行 shell 命令</td>
+<td>你的命令行助手</td>
+</tr>
+<tr class="even">
+<td><strong>查资料</strong></td>
+<td>搜索网络、获取文档</td>
+<td>百度/Google</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="四大金刚核心特性">四大金刚：核心特性</h2>
+<p>Claude Code 有四个独门绝技：</p>
+<h3 id="火眼金睛-上下文感知">🔍 火眼金睛 —— 上下文感知</h3>
+<blockquote>
+<p>它能”一眼看穿”整个项目的来龙去脉。</p>
+</blockquote>
+<p>就像你走进一个图书馆，它不是只看某一本书，而是<strong>瞬间记住整个图书馆的书架分布</strong>。任何文件在哪里，它都门儿清。</p>
+<hr />
+<h3 id="千手观音-智能工具">🖐️ 千手观音 —— 智能工具</h3>
+<blockquote>
+<p>它有一堆专用工具，一个响指就能完成一堆操作。</p>
+</blockquote>
+<p>它的工具箱里有： - <strong>Glob</strong> —— 按模式找文件 -
+<strong>Grep</strong> —— 搜索文件内容 - <strong>Read</strong> ——
+读取文件 - <strong>Edit</strong> —— 精准修改 - <strong>Write</strong> ——
+写新文件 - <strong>Bash</strong> —— 执行命令 -
+<strong>WebSearch</strong> —— 网络搜索 - <strong>WebFetch</strong> ——
+抓取网页</p>
+<hr />
+<h3 id="主动小秘-自主决策">📋 主动小秘 —— 自主决策</h3>
+<blockquote>
+<p>它不是等你下每一个命令，而是理解你的目标后，自己行动。</p>
+</blockquote>
+<p>你告诉它”帮我修一下登录 bug”，它会： 1. 自己分析问题 2.
+自己找到相关代码 3. 自己修复 4. 告诉你结果</p>
+<p>不需要你一步步指挥。</p>
+<hr />
+<h3 id="安全护盾-安全沙箱">🛡️ 安全护盾 —— 安全沙箱</h3>
+<blockquote>
+<p>在受控环境操作，闯不了大祸。</p>
+</blockquote>
+<p>就像游戏里的”安全模式”，<strong>搞砸了也能重来</strong>，不会把你的项目弄崩溃。</p>
+<hr />
+<h2 id="它不能做什么">它不能做什么？</h2>
+<p>⚠️ <strong>重要提醒</strong>：Claude Code
+不是万能的，它也有局限：</p>
+<ul>
+<li>❌ <strong>不能代替你思考</strong> —— 你得告诉它要做什么</li>
+<li>❌ <strong>不是肚子里的蛔虫</strong> —— 你不说清楚，它猜不到</li>
+<li>❌ <strong>需要正确授权</strong> —— 就像借车给你，你得在车上</li>
+</ul>
+<hr />
+<h2 id="适合谁用">适合谁用？</h2>
+<table>
+<thead>
+<tr class="header">
+<th>角色</th>
+<th>为什么适合</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>编程新手</strong></td>
+<td>相当于请了个一对一的编程老师</td>
+</tr>
+<tr class="even">
+<td><strong>初级开发者</strong></td>
+<td>帮你处理繁琐任务，专注核心逻辑</td>
+</tr>
+<tr class="odd">
+<td><strong>中级开发者</strong></td>
+<td>帮你做代码审查、重构、查资料</td>
+</tr>
+<tr class="even">
+<td><strong>技术团队</strong></td>
+<td>自动化流程、提升整体效率</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="本系列学什么">本系列学什么？</h2>
+<p>这是一个<strong>完整的 Claude Code 入门系列</strong>，共 11 讲：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">讲次</th>
+<th>内容</th>
+<th>比喻</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">01</td>
+<td>认识 Claude Code</td>
+<td>了解这个”实习生”</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">02</td>
+<td>环境安装</td>
+<td>把”实习生”请进门</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">03</td>
+<td>核心工具</td>
+<td>熟悉它的工具箱</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">04</td>
+<td>交互技巧</td>
+<td>怎么和”实习生”说话</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">05</td>
+<td>4A 工作流</td>
+<td>考试答题套路</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">06</td>
+<td>权限管理</td>
+<td>实习期的规则</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">07</td>
+<td>修 Bug 实战</td>
+<td>第一次修车</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">08</td>
+<td>加功能实战</td>
+<td>第一次装修</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">09</td>
+<td>代码审查</td>
+<td>请监理检查</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td>测试自动化</td>
+<td>装检测机器人</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">11</td>
+<td>总结与进阶</td>
+<td>从入门到出师</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="下节预告">下节预告</h2>
+<blockquote>
+<p>下一讲：我们把它”请进门”——安装和环境配置</p>
+</blockquote>
+<hr />
+<p><em>有问题？评论区见！如果觉得有帮助，点个赞再走~</em></p>
+<hr />
+<p><strong>标签</strong>: #Claude Code #AI编程 #编程助手 #教程</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/04/01/open-sets-learning-guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读,编程和投资">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2026/04/01/open-sets-learning-guide/" class="post-title-link" itemprop="url">开集完全图鉴：从"小泡泡"到拓扑宇宙的奇幻之旅</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-04-01 09:00:00 / 修改时间：10:43:50" itemprop="dateCreated datePublished" datetime="2026-04-01T09:00:00+08:00">2026-04-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E6%8B%93%E6%89%91%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">拓扑学</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1
+id="开集完全图鉴从小泡泡到拓扑宇宙的奇幻之旅">开集完全图鉴：从”小泡泡”到拓扑宇宙的奇幻之旅</h1>
+<blockquote>
+<p>你知道吗？在数学的世界里，有一种神奇的东西叫”开集”。它就像空间里的一个个小泡泡，定义了什么是”内部”，什么是”边界”，什么是”连续”。整个拓扑学的宏伟大厦，就是从这几个”小泡泡”开始的。</p>
+</blockquote>
+<p>今天，让我们一起来探索这个看似简单、实则蕴含无限奥妙的概念。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/04/01/open-sets-learning-guide/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/03/30/suspecting-the-neighbor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读,编程和投资">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2026/03/30/suspecting-the-neighbor/" class="post-title-link" itemprop="url">智子疑邻</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-03-30 10:00:00 / 修改时间：12:16:44" itemprop="dateCreated datePublished" datetime="2026-03-30T10:00:00+08:00">2026-03-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%98%85%E8%AF%BB/%E5%AF%93%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">寓言</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>202</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>智子疑邻的故事 出自《韩非子·说难》，揭示了人际与权力场中，客观事实往往让位于主观立场和关系亲疏。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/03/30/suspecting-the-neighbor/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/03/22/coding-agent-two-weeks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读,编程和投资">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2026/03/22/coding-agent-two-weeks/" class="post-title-link" itemprop="url">小龙虾打开的那扇门：AI编程代理两周手记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-03-22 10:00:00 / 修改时间：11:40:09" itemprop="dateCreated datePublished" datetime="2026-03-22T10:00:00+08:00">2026-03-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9A%8F%E7%AC%94/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9A%8F%E7%AC%94/%E6%8A%80%E6%9C%AF/%E7%94%9F%E6%B4%BB/" itemprop="url" rel="index"><span itemprop="name">生活</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -232,128 +737,27 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="dds高可用行情发布qos设计实践">DDS高可用行情发布QoS设计实践</h1>
+          <h1
+id="和小龙虾以及它的朋友们两周相处的感受">和小龙虾以及它的朋友们两周相处的感受</h1>
 <blockquote>
-<p>用DDS内置机制实现主备切换，不用自己写故障检测，它不香吗？</p>
-</blockquote>
-<h2 id="背景">背景</h2>
-<p>金融行情系统最怕什么？——<strong>宕机</strong>！传统方案要自己写主备切换、故障检测，代码写得头皮发麻。</p>
-<p>其实，DDS自带了一套”主备切换”机制，配置几个QoS就能搞定的事儿，干嘛非要自己造轮子？</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/21/dds-qos-high-availability/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/21/combinatorics-fundamentals/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Stone">
-      <meta itemprop="description" content="数学,阅读,编程和投资">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Stone's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2026/02/21/combinatorics-fundamentals/" class="post-title-link" itemprop="url">组合数学：概率论的第一块基石</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2026-02-21 08:20:00" itemprop="dateCreated datePublished" datetime="2026-02-21T08:20:00+08:00">2026-02-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-03-16 02:29:29" itemprop="dateModified" datetime="2026-03-16T02:29:29+08:00">2026-03-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E6%A6%82%E7%8E%87%E5%92%8C%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">概率和统计</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>6.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>6 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p><em>如果你想攀登概率论的高峰，组合数学就是你脚下的山路。它不华丽，却是一切的基础。</em></p>
+<p>“真香。” —— 用过 AI 编程代理的人如是说。</p>
 </blockquote>
 <hr />
-<h2 id="引言为什么要学组合数学">引言：为什么要学组合数学？</h2>
-<p>想象一下：你面前有一副扑克牌，随机抽5张，恰好是同花顺的概率是多少？</p>
-<p>要回答这个问题，你需要知道： - 一副牌有多少种可能的5张组合？ -
-同花顺有多少种？ - 两个数字一除，就是答案</p>
-<p><strong>这就是组合数学的魔法——它教我们数数。</strong></p>
-<p>数数谁不会？但这里的关键是：<strong>在复杂的情况下，如何不重不漏地数清楚所有可能性</strong>。这不是简单的1+1=2，而是一种精妙的思维艺术。</p>
-<p>概率论的本质是<strong>计数</strong>：<span class="math inline">\(P(A)
-= \frac{\text{事件A的情况数}}{\text{所有可能情况数}}\)</span></p>
-<p>所以我说：组合数学是概率论的第一块基石。</p>
+<h2 id="新时代的门">新时代的门</h2>
+<p><strong>小龙虾（OpenClaw）是什么？</strong> 简单说，它是一个 AI
+网关，把各种聊天软件（QQ、Telegram、飞书等）和 AI 编程代理连接起来。你在
+QQ 发消息，AI 就能收到、能干活、能回复。</p>
+<p><strong>它开启了新时代，是我们通往 AI 时代的门。</strong></p>
+<p>以前的 AI 是”你问我答”，顶多帮你写段代码。但小龙虾把 AI
+真正融入了你的工作流——通过它，AI
+能读你的消息、能操作你的文件、能调用各种服务。</p>
+<p>就像当年浏览器是互联网的入口，小龙虾正在成为 <strong>AI
+时代的入口</strong>。</p>
+<p>理解这一点，比学会用它更重要。</p>
 <h2 id="section">
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2026/02/21/combinatorics-fundamentals/#more" rel="contents">
+              <a class="btn" href="/2026/03/22/coding-agent-two-weeks/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -377,7 +781,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/20/wasteland-lamplighter-maugham-notes/">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/03/16/coding-agent-universe/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -391,7 +795,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2026/02/20/wasteland-lamplighter-maugham-notes/" class="post-title-link" itemprop="url">荒原上的点灯人——读毛姆笔记</a>
+            <a href="/2026/03/16/coding-agent-universe/" class="post-title-link" itemprop="url">AI 编程助手宇宙 - 一张图搞懂它们的关系</a>
         </h2>
 
         <div class="post-meta">
@@ -400,27 +804,21 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2026-02-20 08:30:00" itemprop="dateCreated datePublished" datetime="2026-02-20T08:30:00+08:00">2026-02-20</time>
+              <time title="创建时间：2026-03-16 03:17:00 / 修改时间：03:18:38" itemprop="dateCreated datePublished" datetime="2026-03-16T03:17:00+08:00">2026-03-16</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-03-16 02:29:29" itemprop="dateModified" datetime="2026-03-16T02:29:29+08:00">2026-03-16</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/%E6%96%87%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">文学</span></a>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%A7%91%E6%99%AE/" itemprop="url" rel="index"><span itemprop="name">科普</span></a>
                 </span>
             </span>
 
@@ -430,14 +828,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.2k</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -449,258 +847,125 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="荒原上的点灯人读毛姆笔记">荒原上的点灯人——读毛姆笔记</h1>
+          <h1 id="ai-编程助手宇宙">AI 编程助手宇宙</h1>
+<h2 id="一张图搞懂它们的关系">一张图搞懂它们的关系</h2>
 <blockquote>
-<p>毛姆笔下没有世俗意义上的”正常人”，因为他根本不相信那种扁平化的、符合一切社会期待的形象是真实的。阅读毛姆，不是在看一群怪胎的故事，而是在一面哈哈镜中，更清晰地辨认出自己人性中那些被日常所掩盖的褶皱与暗影。</p>
+<p>“世间的相遇，都是久别重逢。” —— 用来形容 AI
+和程序员的关系，或许再合适不过。</p>
 </blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/20/wasteland-lamplighter-maugham-notes/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/19/counting-principles-permutations-combinations/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Stone">
-      <meta itemprop="description" content="数学,阅读,编程和投资">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Stone's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2026/02/19/counting-principles-permutations-combinations/" class="post-title-link" itemprop="url">计数法则：组合数学的第一步</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2026-02-19 08:20:00" itemprop="dateCreated datePublished" datetime="2026-02-19T08:20:00+08:00">2026-02-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-03-16 02:29:29" itemprop="dateModified" datetime="2026-03-16T02:29:29+08:00">2026-03-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E6%A6%82%E7%8E%87%E5%92%8C%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">概率和统计</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>6.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>6 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="计数法则组合数学的第一步">计数法则：组合数学的第一步</h1>
+<hr />
+<h2 id="openclaw你的私人-ai-接线员">🦞 OpenClaw：你的私人 AI
+“接线员”</h2>
+<p>想象一下，你有一间<strong>万能通讯室</strong>。</p>
+<p>QQ 来消息了，转发给 AI。Telegram 来消息了，转发给
+AI。飞书来消息了，还是转发给 AI。</p>
+<p><strong>OpenClaw</strong>
+就是这个通讯室的<strong>接线员</strong>。它帮你把各种聊天软件和 AI
+连接起来，你只需在 QQ 上发个消息，AI 就能收到并回复。</p>
+<p>它是一个<strong>网关</strong>，一座<strong>桥</strong>，让你的 AI
+助手可以在多个平台同时为你服务。</p>
+<hr />
+<h2 id="llm大模型的大脑">🧠 LLM：大模型的”大脑”</h2>
+<p><strong>LLM</strong> (Large Language Model，大语言模型)
+是整个故事的<strong>主角</strong>。</p>
+<p>如果说 AI 是一座工厂，那 LLM
+就是<strong>核心发动机</strong>。它读过海量的文本，学会了”说话”——不是机械地回答问题，而是真的”理解”你在问什么。</p>
+<p><strong>DeepSeek</strong> 就是这样一台强大的发动机。它是中国出品的
+LLM，性能强劲，价格实惠，被誉为”AI 界的小米”。</p>
 <blockquote>
-<p>如果说数学是一座大厦，那么组合数学就是砌第一块砖的地方。
-而计数法则，就是这块砖上的纹路——看似简单，却是整个结构的根基。</p>
+<p>你对 Deepseek 说：“帮我写首诗。” Deepseek 回复：“好的，以下是…”
+这就是 LLM 在工作。</p>
 </blockquote>
-<h2 id="引言从数数说起">引言：从数数说起</h2>
-<p>你可能觉得”数数”谁不会？从一数到十，简直是幼儿园小朋友的技能。但今天我们要聊的”计数”，可不仅仅是”一、二、三、四、五”这么简单。</p>
-<p>想象一下这样的场景：今天是你的生日，你邀请了 10
-位朋友来参加聚会。餐厅有一道招牌菜，你可以选择要么吃鱼，要么吃素食。现在的问题是：你有多少种方式从这两道菜中选择一道？</p>
-<p>简单，2 种。</p>
-<p>但如果菜单变成了：鱼、素食、牛排三种主菜任选其一呢？3 种。</p>
-<p>那如果现在告诉你：第一道菜你可以选鱼或素食，第二道菜你可以选咖啡、茶或果汁，而且两道菜都必须选呢？</p>
-<p>这就从简单的”一个接一个”变成了”组合选择”。而这，正是组合数学要解决的问题。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/19/counting-principles-permutations-combinations/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/18/column-space-null-space-rank-nullity/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Stone">
-      <meta itemprop="description" content="数学,阅读,编程和投资">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Stone's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2026/02/18/column-space-null-space-rank-nullity/" class="post-title-link" itemprop="url">列空间、零空间与零-秩定理：分析线性系统的"三叉戟"</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2026-02-18 12:00:00" itemprop="dateCreated datePublished" datetime="2026-02-18T12:00:00+08:00">2026-02-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-03-16 02:29:29" itemprop="dateModified" datetime="2026-03-16T02:29:29+08:00">2026-03-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" itemprop="url" rel="index"><span itemprop="name">线性代数</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>11k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1
-id="列空间零空间与零-秩定理分析线性系统的三叉戟">列空间、零空间与零-秩定理：分析线性系统的”三叉戟”</h1>
-<blockquote>
-<p>如果说线性方程组是一片迷雾森林，那么列空间和零空间就是照亮前路的双灯塔。而零-秩定理，则是连接这两座灯塔的坚固桥梁。它们共同构成了一个”铁三角”，让你能够游刃有余地分析任何线性系统。</p>
-</blockquote>
-<h2
-id="引言面对线性系统你需要一个导航仪">引言：面对线性系统，你需要一个”导航仪”</h2>
-<p>想象你是一个城市规划师，面前有一张复杂的交通网络图。你需要回答几个关键问题：</p>
+<hr />
+<h2 id="coding-agent编程的实习生">🤖 Coding Agent：编程的”实习生”</h2>
+<p><strong>Coding Agent</strong>（编程代理）是专门帮程序员写代码的
+AI。</p>
+<p>它不只是回答”这个函数怎么写”，而是会： - 打开文件 - 写下代码 -
+运行测试 - 告诉你哪里报错了</p>
+<p>就像一个<strong>实习生</strong>，你分配任务给它，它去干活，干完了给你结果。</p>
+<hr />
+<h2 id="claude-code-opencode-codex-pi不同的实习生">🛠️ Claude Code /
+OpenCode / Codex / Pi：不同的”实习生”</h2>
+<p>这些都是在 LLM
+基础上打造的<strong>编程实习生</strong>，各有性格：</p>
+<h3 id="claude-code">Claude Code</h3>
 <ul>
-<li><strong>可达性</strong>：从某个地点出发，能到达哪些区域？</li>
-<li><strong>冗余性</strong>：哪些道路是多余的？去掉它们会不会影响连通性？</li>
-<li><strong>盲区</strong>：有哪些区域是永远无法到达的？</li>
+<li><strong>性格</strong>：严谨、可靠、像老牌工程师</li>
+<li><strong>特长</strong>：代码审查、安全分析、长文本处理</li>
+<li><strong>来自</strong>：Anthropic（ChatGPT 对手）</li>
 </ul>
-<p>这些问题，看起来是交通问题，实际上——<strong>它们完全可以映射为线性代数问题！</strong></p>
-<p><strong>线性系统</strong> <span class="math inline">\(A\mathbf{x} =
-\mathbf{b}\)</span> 就是你的交通网络： - <span
-class="math inline">\(A\)</span>
-是<strong>道路网络图</strong>（系数矩阵） - <span
-class="math inline">\(\mathbf{x}\)</span>
-是<strong>车流方向和流量</strong>（未知变量） - <span
-class="math inline">\(\mathbf{b}\)</span>
-是<strong>起点的车流</strong>（右侧常数向量） - <span
-class="math inline">\(A\mathbf{x} = \mathbf{b}\)</span>
-问的是：给定起点车流，终点会是怎样的？</p>
-<p>而<strong>列空间</strong>和<strong>零空间</strong>，就是你分析这个网络的”导航仪”！</p>
+<h3 id="opencode">OpenCode</h3>
+<ul>
+<li><strong>性格</strong>：接地气、务实、像本土工程师</li>
+<li><strong>特长</strong>：中文语境友好、免费开源</li>
+<li><strong>来自</strong>：中国团队</li>
+</ul>
+<h3 id="codex">Codex</h3>
+<ul>
+<li><strong>性格</strong>：极客、激进、像创新者</li>
+<li><strong>特长</strong>：前沿技术、实验性功能</li>
+<li><strong>来自</strong>：OpenAI</li>
+</ul>
+<h3 id="pi">Pi</h3>
+<ul>
+<li><strong>性格</strong>：友好、温和、像助手</li>
+<li><strong>特长</strong>：对话流畅、解释清晰</li>
+<li><strong>来自</strong>：Inflection AI</li>
+</ul>
 <blockquote>
-<p>列空间告诉你：<strong>哪些终点是可以到达的</strong>（解的存在性）。
-零空间告诉你：<strong>有多少种方式可以到达</strong>（解的结构）。
-零-秩定理则告诉你：<strong>这两者之间有什么必然联系</strong>。</p>
+<p>想象一下，它们是<strong>同一家公司</strong>的实习生，只是<strong>性格迥异</strong>。你根据任务需求选择合适的那个。</p>
 </blockquote>
-<p>这就是线性代数的”三叉戟”——列空间、零空间、零-秩定理。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/18/column-space-null-space-rank-nullity/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<hr />
+<h2 id="mcp让-ai-能动手的接口">🔌 MCP：让 AI 能”动手”的接口</h2>
+<p><strong>MCP</strong> (Model Context Protocol，模型上下文协议)
+是<strong>工具的插座</strong>。</p>
+<p>AI
+本身只会”动嘴”（生成文字），但它需要”动手”（操作文件、运行命令、访问数据库）。</p>
+<p>MCP 就是给 AI
+装上<strong>双手</strong>的<strong>接口标准</strong>。就像 USB-C
+接口，无论什么设备，插上就能用。</p>
+<ul>
+<li>AI 想读文件？MCP 有文件读取技能</li>
+<li>AI 想执行命令？MCP 有终端技能</li>
+<li>AI 想查数据库？MCP 有数据库技能</li>
+</ul>
+<hr />
+<h2 id="skillsai-的技能包">📦 Skills：AI 的”技能包”</h2>
+<p><strong>Skills</strong>（技能）是 AI 的<strong>百宝箱</strong>。</p>
+<p>一个 Skill 就是一个<strong>预设好的工具</strong>。比如： - “发送邮件”
+技能 - “查天气” 技能 - “操作数据库” 技能</p>
+<p>OpenClaw 有一个<strong>技能市场</strong> (Skill
+Store)，你可以安装各种技能，让 AI 瞬间获得新能力。</p>
+<blockquote>
+<p>就像<strong>手机 App</strong>：你想要什么功能，下载一个 App
+就行。Skill 就是 AI 的 App。</p>
+</blockquote>
+<hr />
+<h2 id="总结它们的关系">🎯 总结：它们的关系</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">       用户 (你)</span><br><span class="line">          │</span><br><span class="line">          ▼</span><br><span class="line">    ┌─────────────┐</span><br><span class="line">    │  OpenClaw  │  ← 接线员 (网关)</span><br><span class="line">    └─────────────┘</span><br><span class="line">          │</span><br><span class="line">   ┌──────┼──────┐</span><br><span class="line">   ▼      ▼      ▼</span><br><span class="line"> QQ   Telegram  飞书  ← 各种聊天平台</span><br><span class="line">   │      │      │</span><br><span class="line">   └──────┴──────┘</span><br><span class="line">          │</span><br><span class="line">          ▼</span><br><span class="line">    ┌─────────────┐</span><br><span class="line">    │ Coding Agent│  ← 编程实习生</span><br><span class="line">    │(Claude Code │</span><br><span class="line">    │ OpenCode   │</span><br><span class="line">    │ Codex      │</span><br><span class="line">    │ Pi         │)</span><br><span class="line">    └─────────────┘</span><br><span class="line">          │</span><br><span class="line">          ▼</span><br><span class="line">    ┌─────────────┐</span><br><span class="line">    │    LLM      │  ← 大脑 (DeepSeek)</span><br><span class="line">    │(DeepSeek   │</span><br><span class="line">    │ GPT-4      │</span><br><span class="line">    │ Claude     │)</span><br><span class="line">    └─────────────┘</span><br><span class="line">          │</span><br><span class="line">   ┌──────┴──────┐</span><br><span class="line">   ▼             ▼</span><br><span class="line"> MCP           Skills</span><br><span class="line">(双手)        (技能包)</span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="一句话解释">💡 一句话解释</h2>
+<ul>
+<li><strong>LLM</strong>：会”思考”的大脑</li>
+<li><strong>DeepSeek</strong>：大脑的一种，性能强</li>
+<li><strong>Coding Agent</strong>：会”干活”的实习生</li>
+<li><strong>Claude Code</strong>：实习生 A，老牌工程师</li>
+<li><strong>OpenCode</strong>：实习生 B，本土接地气</li>
+<li><strong>MCP</strong>：让实习生能动手的接口</li>
+<li><strong>Skills</strong>：实习生的工具箱</li>
+<li><strong>OpenClaw</strong>：帮你管理所有实习生的接线员</li>
+</ul>
+<hr />
+<h2 id="写在最后">🎉 写在最后</h2>
+<p>AI 工具链就像一个<strong>生态系统</strong>： - <strong>LLM</strong>
+是土壤（基础） - <strong>Coding Agent</strong> 是植物（应用） -
+<strong>MCP</strong> 是根系（连接） - <strong>Skills</strong>
+是叶子（功能） - <strong>OpenClaw</strong> 是园丁（管理）</p>
+<p>找到适合自己的工具，让 AI
+成为你的<strong>得力助手</strong>，而不是负担。</p>
+<hr />
+<p><em>本文由 OpenClaw AI 助手生成</em></p>
+
       
     </div>
 
@@ -719,7 +984,7 @@ class="math inline">\(A\mathbf{x} = \mathbf{b}\)</span>
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/14/moon-and-sixpence/">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/03/16/openclaw-tutorial/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -733,7 +998,7 @@ class="math inline">\(A\mathbf{x} = \mathbf{b}\)</span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2026/02/14/moon-and-sixpence/" class="post-title-link" itemprop="url">月亮与六便士：斯特里克兰德与李叔同——两种"出走"的哲学</a>
+            <a href="/2026/03/16/openclaw-tutorial/" class="post-title-link" itemprop="url">OpenClaw 使用指南 - AI 助手新体验</a>
         </h2>
 
         <div class="post-meta">
@@ -742,27 +1007,21 @@ class="math inline">\(A\mathbf{x} = \mathbf{b}\)</span>
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2026-02-14 13:00:00" itemprop="dateCreated datePublished" datetime="2026-02-14T13:00:00+08:00">2026-02-14</time>
+              <time title="创建时间：2026-03-16 03:05:00 / 修改时间：03:05:15" itemprop="dateCreated datePublished" datetime="2026-03-16T03:05:00+08:00">2026-03-16</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-03-16 02:29:30" itemprop="dateModified" datetime="2026-03-16T02:29:30+08:00">2026-03-16</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/%E6%96%87%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">文学</span></a>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%B7%A5%E5%85%B7%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工具教程</span></a>
                 </span>
             </span>
 
@@ -772,14 +1031,14 @@ class="math inline">\(A\mathbf{x} = \mathbf{b}\)</span>
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
+              <span>422</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -791,26 +1050,39 @@ class="math inline">\(A\mathbf{x} = \mathbf{b}\)</span>
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1
-id="月亮与六便士斯特里克兰德与李叔同两种出走的哲学">月亮与六便士：斯特里克兰德与李叔同——两种”出走”的哲学</h1>
-<blockquote>
-<p>这世上有一种人，他们不是”选择”了某种生活，而是”不得不”那样活。斯特里克兰德选择了画画，李叔同选择了出家。表面上看，都是抛弃世俗、追寻内心的故事。但仔细一瞧，这两人的”出走”，完全是两种截然不同的姿势。</p>
-</blockquote>
-<h2 id="引言两个叛逆者的故事">引言：两个”叛逆者”的故事</h2>
-<p>1919年，毛姆发表了《月亮与六便士》。一个英国证券交易所的经纪人，突然有一天抛妻弃子，跑到巴黎去画画。他说：“我必须画画，就像溺水的人必须挣扎一样。”</p>
-<p>无独有偶。1942年，弘一法师李叔同在泉州圆寂。他是那个时代最杰出的艺术家、音乐家、美术教育家，却在39岁那年遁入空门，从此青灯古佛，了却残生。</p>
-<p><strong>🎯
-这两个人，看似在做同样的事情——抛弃世俗的枷锁，追寻灵魂的自由。</strong></p>
-<p>但如果我们仔细审视，会发现他们”出走”的动机、方式、结局，乃至底层逻辑，简直天差地别。</p>
-<p>今天，我们就来聊聊这两个人的故事，以及他们背后两种截然不同的人生哲学。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/14/moon-and-sixpence/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <h1 id="openclaw-使用指南">OpenClaw 使用指南</h1>
+<h2 id="什么是-openclaw">什么是 OpenClaw？</h2>
+<p>OpenClaw 是一个开源的 AI
+网关工具，可以连接多种聊天平台（QQ、Telegram、Discord、飞书等）到 AI
+编程代理，让你可以随时随地通过消息应用与 AI 助手交互。</p>
+<h2 id="主要特性">主要特性</h2>
+<ul>
+<li><strong>多平台支持</strong>:
+QQ、Telegram、Discord、飞书、Webchat</li>
+<li><strong>多代理集成</strong>: 支持 Codex、Claude Code、OpenCode
+等</li>
+<li><strong>自托管</strong>: 完全掌控你的数据和 AI API</li>
+<li><strong>插件系统</strong>: 丰富的插件生态</li>
+</ul>
+<h2 id="快速开始">快速开始</h2>
+<h3 id="安装">1. 安装</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g openclaw@latest</span><br></pre></td></tr></table></figure>
+<h3 id="配置">2. 配置</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw configure</span><br></pre></td></tr></table></figure>
+<h3 id="启动网关">3. 启动网关</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw gateway</span><br></pre></td></tr></table></figure>
+<h2 id="使用技巧">使用技巧</h2>
+<ol type="1">
+<li><strong>通过 QQ 发送消息</strong>: 直接@你的机器人</li>
+<li><strong>文件操作</strong>: 发送文件路径，AI 可以读取和编辑</li>
+<li><strong>代码开发</strong>: 可以直接让 AI 编写和执行代码</li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>OpenClaw 为开发者提供了一个灵活的 AI
+助手解决方案，特别适合需要自托管和多平台集成的用户。</p>
+<hr />
+<p><em>本文由 OpenClaw AI 助手生成</em></p>
+
       
     </div>
 
@@ -829,7 +1101,7 @@ id="月亮与六便士斯特里克兰德与李叔同两种出走的哲学">月�
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/13/eigenvalues-eigenvectors/">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/03/06/abstract-algebra-guide/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -843,7 +1115,7 @@ id="月亮与六便士斯特里克兰德与李叔同两种出走的哲学">月�
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2026/02/13/eigenvalues-eigenvectors/" class="post-title-link" itemprop="url">特征值与特征向量：矩阵世界的"基因密码"</a>
+            <a href="/2026/03/06/abstract-algebra-guide/" class="post-title-link" itemprop="url">抽象代数通关指南：从"魔方"到"方程可解性"的奇幻之旅</a>
         </h2>
 
         <div class="post-meta">
@@ -853,119 +1125,7 @@ id="月亮与六便士斯特里克兰德与李叔同两种出走的哲学">月�
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2026-02-13 13:00:00" itemprop="dateCreated datePublished" datetime="2026-02-13T13:00:00+08:00">2026-02-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-03-16 02:29:30" itemprop="dateModified" datetime="2026-03-16T02:29:30+08:00">2026-03-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" itemprop="url" rel="index"><span itemprop="name">线性代数</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>7.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1
-id="特征值与特征向量矩阵世界的基因密码">特征值与特征向量：矩阵世界的”基因密码”</h1>
-<blockquote>
-<p>如果说矩阵是线性代数的”心脏”，那么特征值和特征向量就是这颗心脏跳动的”基因密码”。它们揭示了矩阵最本质的特性——在纷繁复杂的线性变换背后，那些不变的方向和纯粹的强度。</p>
-</blockquote>
-<h2 id="引言从改变中寻找不变">引言：从”改变”中寻找”不变”</h2>
-<p>想象你面前有一面哈哈镜。当你站在镜前时，你的形象被彻底改变了——身材拉长、比例扭曲、面目全非。但在这看似混乱的变形中，总有一些点保持不变：比如镜子上的某个钉子，它的位置永远固定。</p>
-<p><strong>矩阵的线性变换正是如此。</strong></p>
-<p>大多数向量在矩阵的作用下都会”面目全非”——方向改变，长度也改变。但总有一些特殊的向量，它们”初心不改”——方向不变，只是长度被缩放。</p>
-<blockquote>
-<p>这些特殊的向量，就叫<strong>特征向量</strong>。
-缩放的比例，就叫<strong>特征值</strong>。</p>
-</blockquote>
-<p>这就是特征值与特征向量的直观定义。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/13/eigenvalues-eigenvectors/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/12/su-dongpo-reading-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Stone">
-      <meta itemprop="description" content="数学,阅读,编程和投资">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Stone's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2026/02/12/su-dongpo-reading-notes/" class="post-title-link" itemprop="url">从澄迈到赤壁：苏东坡的"永恒之旅"</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2026-02-12 13:00:00" itemprop="dateCreated datePublished" datetime="2026-02-12T13:00:00+08:00">2026-02-12</time>
+              <time title="创建时间：2026-03-06 10:00:00" itemprop="dateCreated datePublished" datetime="2026-03-06T10:00:00+08:00">2026-03-06</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -980,114 +1140,11 @@ id="特征值与特征向量矩阵世界的基因密码">特征值与特征向�
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/%E6%96%87%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">文学</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1
-id="从澄迈到赤壁苏东坡的永恒之旅">从澄迈到赤壁：苏东坡的”永恒之旅”</h1>
-<blockquote>
-<p>如果说人生是一场修行，那么苏东坡的词就是这条路上一盏盏明灯。有的灯照见的是迷茫，有的灯照见的是彻悟。而从黄州到海南，正是从迷茫走向彻悟的那段最艰辛、也最动人的路程。</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/12/su-dongpo-reading-notes/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/11/the-story-of-unitary-translation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Stone">
-      <meta itemprop="description" content="数学,阅读,编程和投资">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Stone's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2026/02/11/the-story-of-unitary-translation/" class="post-title-link" itemprop="url">"酉"字的故事：华罗庚与数学翻译的"神来之笔"</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2026-02-11 13:00:00" itemprop="dateCreated datePublished" datetime="2026-02-11T13:00:00+08:00">2026-02-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-03-16 02:29:30" itemprop="dateModified" datetime="2026-03-16T02:29:30+08:00">2026-03-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E7%A7%91%E6%99%AE/" itemprop="url" rel="index"><span itemprop="name">科普</span></a>
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E6%8A%BD%E8%B1%A1%E4%BB%A3%E6%95%B0/" itemprop="url" rel="index"><span itemprop="name">抽象代数</span></a>
                 </span>
             </span>
 
@@ -1117,13 +1174,15 @@ id="从澄迈到赤壁苏东坡的永恒之旅">从澄迈到赤壁：苏东坡�
 
       
           <h1
-id="酉字的故事华罗庚与数学翻译的神来之笔">“酉”字的故事：华罗庚与数学翻译的”神来之笔”</h1>
+id="抽象代数通关指南从魔方到方程可解性的奇幻之旅">抽象代数通关指南：从”魔方”到”方程可解性”的奇幻之旅</h1>
 <blockquote>
-<p>一个汉字，一个数学难题，一次跨越千年的灵魂相遇。</p>
+<p>你有没有想过：为什么有的方程能求根公式，有的不能？三次方程有求根公式，五次方程凭啥没有？这背后藏着一个关于”对称性”的惊天秘密，而解开它的，是一个20岁就去世的天才。</p>
 </blockquote>
+<p>准备好了吗？让我们一起进入抽象代数的世界！</p>
+<h2 id="section">
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2026/02/11/the-story-of-unitary-translation/#more" rel="contents">
+              <a class="btn" href="/2026/03/06/abstract-algebra-guide/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1147,7 +1206,7 @@ id="酉字的故事华罗庚与数学翻译的神来之笔">“酉”字的故�
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/10/fortresssiege-grapes-philosophy/">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/03/03/least-squares-method/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1161,7 +1220,7 @@ id="酉字的故事华罗庚与数学翻译的神来之笔">“酉”字的故�
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2026/02/10/fortresssiege-grapes-philosophy/" class="post-title-link" itemprop="url">围城的葡萄哲学：乐观者的悲伤，悲观者的希望</a>
+            <a href="/2026/03/03/least-squares-method/" class="post-title-link" itemprop="url">最小二乘法：200年不过时的"穿糖葫芦"智慧</a>
         </h2>
 
         <div class="post-meta">
@@ -1171,7 +1230,121 @@ id="酉字的故事华罗庚与数学翻译的神来之笔">“酉”字的故�
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2026-02-10 19:06:00" itemprop="dateCreated datePublished" datetime="2026-02-10T19:06:00+08:00">2026-02-10</time>
+              <time title="创建时间：2026-03-03 14:00:00" itemprop="dateCreated datePublished" datetime="2026-03-03T14:00:00+08:00">2026-03-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-03-16 02:29:29" itemprop="dateModified" datetime="2026-03-16T02:29:29+08:00">2026-03-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">统计学</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1
+id="最小二乘法200年不过时的穿糖葫芦智慧">最小二乘法：200年不过时的”穿糖葫芦”智慧</h1>
+<blockquote>
+<p>1801年，一个24岁的年轻人仅用100小时的手算，就预测出了一颗刚发现又丢失的行星位置。天文学家将望远镜对准他指出的方向——那颗行星果然在那里！这个年轻人就是高斯，他用的方法叫做”最小二乘法”。</p>
+</blockquote>
+<h2 id="引言从失踪的行星说起">引言：从”失踪”的行星说起</h2>
+<p>1801年1月1日，意大利天文学家皮亚齐发现了一颗新行星谷神星。这是人类发现的第一颗小行星，全世界的天文学家和数学家都为之兴奋。</p>
+<p>然而，兴奋只持续了40天。由于谷神星运行到太阳附近，天文学家失去了它的追踪。如果找不到它的轨道，这颗刚发现的行星可能永远消失。</p>
+<p>就在这时，一位24岁的年轻人站了出来。他花了整整100个小时，完全靠手算，竟然准确预测出了谷神星的位置。当天文学家将望远镜对准他指出的方向时，谷神星果然在那里！</p>
+<p>这个年轻人就是<strong>卡尔·弗里德里希·高斯</strong>，数学史上最强的天才之一。他用的方法，就是我们今天要讲的<strong>最小二乘法</strong>（Method
+of Least Squares）。</p>
+<blockquote>
+<p><em>“这是统计学历史上接受最快的一项技术，从发表到成为标准工具只
+——用了十年。”</em> 历史学家斯蒂格勒</p>
+</blockquote>
+<h2 id="section">
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/03/03/least-squares-method/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/25/zi-gong-shi-ji-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读,编程和投资">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2026/02/25/zi-gong-shi-ji-note/" class="post-title-link" itemprop="url">子贡一出，五国变色</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2026-02-25 20:30:00" itemprop="dateCreated datePublished" datetime="2026-02-25T20:30:00+08:00">2026-02-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -1190,7 +1363,7 @@ id="酉字的故事华罗庚与数学翻译的神来之笔">“酉”字的故�
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/%E6%96%87%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">文学</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/%E5%8E%86%E5%8F%B2/" itemprop="url" rel="index"><span itemprop="name">历史</span></a>
                 </span>
             </span>
 
@@ -1200,7 +1373,7 @@ id="酉字的故事华罗庚与数学翻译的神来之笔">“酉”字的故�
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>713</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1219,17 +1392,131 @@ id="酉字的故事华罗庚与数学翻译的神来之笔">“酉”字的故�
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1
-id="围城的葡萄哲学乐观者的悲伤悲观者的希望">围城的葡萄哲学：乐观者的悲伤，悲观者的希望</h1>
-<h2 id="一个关于吃葡萄的深刻洞见">一个关于吃葡萄的深刻洞见</h2>
-<p>钱钟书先生在《围城》里借方鸿渐之口，讲了这么一个段子：</p>
+          <p>读《史记·仲尼弟子列传》，看到太史公评价子贡的一段话，我差点从椅子上跳起来——</p>
 <blockquote>
-<p>天下只有两种人。譬如一串葡萄到手，一种人挑最好的先吃，另一种人把最好的留在最后吃。照例第一种人应该乐观，因为他每吃一颗都是吃剩的葡萄里最好的；第二种人应该悲观，因为他每吃一颗都是吃剩的葡萄里最坏的。不过事实上适得其反，缘故是第二种人还有希望，第一种人只有回忆。</p>
+<p>子贡一出，存鲁，乱齐，破吴，强晋而霸越。子贡一使，使势相破，十年之中，五国各有变。</p>
 </blockquote>
-<p>这段话初读让人发笑，再读让人沉默，细品则让人拍案叫绝。钱老用吃葡萄这么一件小事，把人生的两大活法给说透了。
+<p>啥？一个搞销售的儒生，出门溜达了一圈，竟然把五个国家的命运安排得明明白白？这也太卷了吧！</p>
+<p>事情是这样的。</p>
+<p>那年头，齐国有个叫田常的权臣，想搞事情又怕国内几个大家族反对，怎么办呢？简单粗暴——打鲁国！一来可以转移矛盾，二来还能捞点军功。</p>
+<p>鲁国可是孔子的老家，父母都葬在那儿。孔子一听这消息，急得直搓手，把徒弟们叫来：“谁愿意去拯救咱们祖国？”</p>
+<p>子路第一个跳出来：“老师，让我去！”孔子摆摆手：“你？不合适。”</p>
+<p>子张、子石也先后请缨，全部被拒。</p>
+<p>这时，子贡站了出来：“老师，让我试试。”</p>
+<p>孔子打量了他一眼，点头同意了。——看来这事儿，只有子贡能搞定。</p>
+<p>子贡到了齐国，找到田常，上来就是一波操作：“田总，您别打鲁国啊，鲁国那是出了名的硬骨头，吴国才是软柿子！”</p>
+<p>田常当场就懵了：“你当我傻？吴国比鲁国强那么多！”</p>
+<p>子贡微微一笑：“您的目标是夺权啊！打鲁国赢了，国内那些世族还是稳稳的；打吴国要是赢了，他们元气大伤，您正好上位。实在不行，您先按兵不动，我去把吴王叫来攻齐，您再出击，这不就成了？”</p>
+<p>田常一想：好像…有点道理？</p>
+<p>于是子贡马不停蹄地跑吴国、跑越国、跑晋国，一顿输出，把五个国家安排得明明白白。</p>
+<p>结局我们都知道了：吴齐干了一架，吴晋干了一架，越国偷偷发育，最后一波推了吴国，勾践成了春秋最后一位霸主。</p>
+<p>当然，这事儿真实性存疑。宋代苏辙就跳出来打脸：“别闹了，齐国打鲁国是因为齐悼公和季姬吵架，关田常什么事？”</p>
+<p>但管他呢！这故事读起来就是一个字：爽！</p>
+<p>你说子贡这算不算古代版的外交天才？我反正服了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.tao-studio.net/2026/02/25/linear-algebra-linear-programming/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Stone">
+      <meta itemprop="description" content="数学,阅读,编程和投资">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stone's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2026/02/25/linear-algebra-linear-programming/" class="post-title-link" itemprop="url">线性代数与线性规划：一场跨越数学王国的梦幻联动</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2026-02-25 15:00:00" itemprop="dateCreated datePublished" datetime="2026-02-25T15:00:00+08:00">2026-02-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-03-16 02:29:29" itemprop="dateModified" datetime="2026-03-16T02:29:29+08:00">2026-03-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" itemprop="url" rel="index"><span itemprop="name">线性代数</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">优化理论</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1
+id="线性代数与线性规划一场跨越数学王国的梦幻联动">线性代数与线性规划：一场跨越数学王国的梦幻联动</h1>
+<blockquote>
+<p>你有没有想过，为什么数学课本上那些看似”抽象得发慌”的概念——矩阵、向量、基、秩——实际上可能是你工作中每天都在用的工具？</p>
+<p>今天，让我们用一场”跨学科对话”的方式，把线性代数和线性规划这两位”数学界的扛把子”拉到一起聊聊。相信我，它们之间的关系，比你想的还要精彩。</p>
+</blockquote>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2026/02/10/fortresssiege-grapes-philosophy/#more" rel="contents">
+              <a class="btn" href="/2026/02/25/linear-algebra-linear-programming/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1252,7 +1539,7 @@ id="围城的葡萄哲学乐观者的悲伤悲观者的希望">围城的葡萄�
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1302,18 +1589,18 @@ id="围城的葡萄哲学乐观者的悲伤悲观者的希望">围城的葡萄�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">101</span>
+        <span class="site-state-item-count">113</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -1368,12 +1655,12 @@ id="围城的葡萄哲学乐观者的悲伤悲观者的希望">围城的葡萄�
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">231k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:07</span>
+    <span title="站点阅读时长">3:30</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
